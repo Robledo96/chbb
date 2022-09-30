@@ -1,6 +1,6 @@
 import 'cypress-iframe'
 import { person, address_ec } from '../../../support/objects_mobile'
-var env = 'prod'
+var env = 'prod'//tst
 
 describe('Mobile diners EC-uat', () => {
     //Page 1
