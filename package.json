@@ -1,0 +1,23 @@
+{
+  "name": "mobile_autamation_chuub",
+  "version": "1.0.0",
+  "description": "e2e Framework Testing Cypress ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:open": "cypress open"
+  },
+  "keywords": [
+    "qa",
+    "automation"
+  ],
+  "author": "Lidibet Escobar",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^10.9.0",
+    "cypress-slow-down": "^1.2.1"
+  },
+  "dependencies": {
+    "cypress-iframe": "^1.0.1"
+  }
+}
