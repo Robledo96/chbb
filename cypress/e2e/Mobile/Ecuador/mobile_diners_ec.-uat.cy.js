@@ -6,7 +6,7 @@ var env = 'uat'
 
 
 
-describe('Mobile diners EC-uat', () => {
+describe('Mobile diners EC', () => {
     //Page 1
     it('Quote', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/diners/mobile/ECBK200001/es-EC')

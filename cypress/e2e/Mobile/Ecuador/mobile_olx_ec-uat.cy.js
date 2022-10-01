@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { person, address_ec } from '../../../support/objects_mobile'
 var env = 'uat'
 
-describe('Mobile OLX EC-uat', () => {
+describe('Mobile OLX EC', () => {
     //Page 1
     it('Quote and Select Plan', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/olx/mobile/ECE5200001/es-EC')
