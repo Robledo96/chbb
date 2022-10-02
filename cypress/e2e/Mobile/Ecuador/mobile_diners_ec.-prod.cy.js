@@ -5,8 +5,8 @@ var env = 'prod'//tst
 describe('Mobile diners EC', () => {
     //Page 1
     it('Quote', () => {
-        cy.visit('https://la.studio-uat.chubb.com/ec/diners/mobile/ECBK200001/es-EC')
-        cy.quote_ec()
+        cy.visit('https://la.studio.chubb.com/ec/diners/mobile/ECBK200001/es-EC')
+        cy.quote_()
     })
     //Page 2
     it('Select Plan', () => {
@@ -50,7 +50,7 @@ describe('Mobile diners EC', () => {
     it('Payment page', () => {
         cy.wait(500)
         cy.payment_page_diners_ec(env)
-            .wait(5000)
+            .wait(500)
 
     })
 

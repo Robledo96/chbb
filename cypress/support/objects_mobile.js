@@ -14,20 +14,14 @@ var payment = {
     cvv1: "777",
     card_holder: "Test Case",
     expiration_date: "0139",
-    
+
 }
 
-var mobile_ec = {
-    tac: "35777175",
+var mobile = {
+    tac: "35006042",
     model: "Apple iPhone 12 Pro Max",
 
 }
-var mobile_mx = {
-    tac: "35001708",
-    model: "Apple iPhone 13 Pro",
-
-}
-
 var address_ec = {
     line1: "calle 1 y 2 ",
     line2: "calle 3 y 4",
@@ -43,8 +37,7 @@ var address_mx = {
 }
 export {
     person,
-    mobile_ec,
-    mobile_mx,
+    mobile,
     payment,
     address_ec,
     address_mx

@@ -6,7 +6,7 @@ describe('Mobile OLX EC', () => {
     //Page 1
     it('Quote and Select Plan', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/olx/mobile/ECE5200001/es-EC')
-        cy.quote_ec()
+        cy.quote()
     })
     //Page 2
     it('Select Plan', () => {
@@ -26,19 +26,19 @@ describe('Mobile OLX EC', () => {
         cy.fixture('locators_mobile').then((x) => {
             //checking insured details
             cy.get(x.review_value).first()
-                .find('.review__value-text').should('contain.text', person.name)
+                .find(x.review__value_text).should('contain.text', person.name)
             cy.get(x.review_value).eq(1)
-                .find('.review__value-text').should('contain.text', person.last_name)
+                .find(x.review__value_text).should('contain.text', person.last_name)
             cy.get(x.review_value).eq(5)
-                .find('.review__value-text').should('contain.text', person.phone)
+                .find(x.review__value_text).should('contain.text', person.phone)
             cy.get(x.review_value).eq(6)
-                .find('.review__value-text').should('contain.text', person.email)
+                .find(x.review__value_text).should('contain.text', person.email)
             cy.get(x.review_value).eq(7)
-                .find('.review__value-text').should('contain.text', address_ec.line1)
+                .find(x.review__value_text).should('contain.text', address_ec.line1)
             cy.get(x.review_value).eq(9)
-                .find('.review__value-text').should('contain.text', address_ec.city)
+                .find(x.review__value_text).should('contain.text', address_ec.city)
             cy.get(x.review_value).eq(10)
-                .find('.review__value-text').should('contain.text', address_ec.province)
+                .find(x.review__value_text).should('contain.text', address_ec.province)
 
         })
     })

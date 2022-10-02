@@ -10,7 +10,7 @@ describe('Mobile diners EC', () => {
     //Page 1
     it('Quote', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/diners/mobile/ECBK200001/es-EC')
-        cy.quote_ec()
+        cy.quote()
     })
     //Page 2
     it('Select Plan', () => {

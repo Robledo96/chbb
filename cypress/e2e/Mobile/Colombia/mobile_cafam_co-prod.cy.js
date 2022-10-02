@@ -1,13 +1,13 @@
 
 import 'cypress-iframe'
 import { person, address_mx } from '../../../support/objects_mobile';
-var env = 'uat'
+var env = 'prod'
 
 
 describe('Mobile rappi MX', () => {
     //Page 1
     it('Quote', () => {
-        cy.visit('https://la.studio-uat.chubb.com/mx/rappi/mobile/launchstage/es-MX')
+        cy.visit('https://la.studio.chubb.com/co/cafam/mobile/COAS600001/es-CO')
         cy.quote()
     })
     //Page 2
@@ -27,20 +27,21 @@ describe('Mobile rappi MX', () => {
         cy.fixture('locators_mobile').then((x) => {
             //checking insured details
             cy.get(x.collapsable_bar).click()
+                .get('.review__item')
             cy.get(x.review_value).first()
-                .find(x.review__value_text).should('contain.text', person.name)
+                .find('.review__value-text').should('contain.text', person.name)
             cy.get(x.review_value).eq(1)
-                .find(x.review__value_text).should('contain.text', person.last_name)
+                .find('.review__value-text').should('contain.text', person.last_name)
             cy.get(x.review_value).eq(6)
-                .find(x.review__value_text).should('contain.text', person.phone_1)
+                .find('.review__value-text').should('contain.text', person.phone_1)
             cy.get(x.review_value).eq(7)
-                .find(x.review__value_text).should('contain.text', person.email)
+                .find('.review__value-text').should('contain.text', person.email)
             cy.get(x.review_value).eq(8)
-                .find(x.review__value_text).should('contain.text', address_mx.zipcode)
+                .find('.review__value-text').should('contain.text', address_mx.zipcode)
             cy.get(x.review_value).eq(9)
-                .find(x.review__value_text).should('contain.text', address_mx.colonia)
+                .find('.review__value-text').should('contain.text', address_mx.colonia)
             cy.get(x.review_value).eq(10)
-                .find(x.review__value_text).should('contain.text', address_mx.line1)
+                .find('.review__value-text').should('contain.text', address_mx.line1)
 
         })
     })
@@ -50,9 +51,9 @@ describe('Mobile rappi MX', () => {
         cy.fixture('locators_mobile').then((x) => {
             cy.get(x.edit_button).click() //edit button
                 .wait(5000)
-                .get(x.input_colonia).click({ force: true })
+                .get("[placeholder='Ingresa tu Colonia']").click({ force: true })
                 .wait(1000)
-                .get(x.colonia_option_text).first().click({ force: true })
+                .get('.mat-option-text>.crux-autocomplete__option-title').first().click({ force: true })
                 .wait(1000)
             cy.get(x.input_address).clear()
                 .type(address_mx.line2)
@@ -61,22 +62,19 @@ describe('Mobile rappi MX', () => {
             cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
                 .get(x.review_value).eq(10)
-                .find(x.review__value_text).should('contain.text', address_mx.line2)
+                .find('.review__value-text').should('contain.text', address_mx.line2)
         })
     })
     it('Payment page', () => {
-        cy.fixture('locators_mobile').then((x) => {
-            let n = 0
-            cy.get(x.radio_group)
-                .find(x.check_outer_circle).should('have.length.greaterThan', 0)
-                .its('length')
-                .then(cy.log)
-                .then(() => {
-                    n = Cypress._.random(0, 1)
-                    cy.log(n)
-                    cy.get(x.check_outer_circle).eq(n).click({ force: true })
-                })
-        })
+        cy.get('.mat-radio-group')
+            .find('.mat-radio-outer-circle').should('have.length.greaterThan', 0)
+            .its('length').then(cy.log)
+            .then((n) => Cypress._.random(0, n - 1))
+            .then((k) => {
+                cy.log(k)
+                cy.get('.mat-radio-outer-circle').eq(k).click({ force: true })
+
+            })
         cy.payment_page_diners_mx(env)
 
     })

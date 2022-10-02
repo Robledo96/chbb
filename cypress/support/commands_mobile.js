@@ -1,11 +1,11 @@
-import { getRandomArbitrary, dob, randomId, randomRFC,} from './utils'
-import { person, payment, mobile_ec, mobile_mx, address_ec, address_mx } from '../support/objects_mobile'
+import { getRandomArbitrary, dob, randomId, randomRFC, } from './utils'
+import { person, payment, mobile, address_ec, address_mx } from '../support/objects_mobile'
 
 // Quote-EC
-Cypress.Commands.add('quote_ec', () => {
+Cypress.Commands.add('quote', () => {
     cy.fixture('locators_mobile').then((x) => {
         cy.get(x.button_1).click()
-            .get(x.input_imei).type(mobile_ec.tac + randomId(1000000, 9999999).toString())
+            .get(x.input_imei).type(mobile.tac + randomId(1000000, 9999999).toString())
             .get(x.quote_button).click()
             .wait(500)
     })
@@ -97,24 +97,27 @@ Cypress.Commands.add('quote_mx', () => {
 })
 // Personal Details-MX
 Cypress.Commands.add('personal_details_mx', () => {
+    let n = 0
     cy.fixture('locators_mobile').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
             .get(x.input_id).type(randomRFC())//'ANML891018J47'
-        cy.get('#mat-select-1 > .mat-select-trigger > .mat-select-value > .mat-select-placeholder').click()
-        cy.get('.mat-option-text').should('have.length.greaterThan', 0)
-            .its('length').then(cy.log)
-            .then((n) => Cypress._.random(0, n - 19))
-            .then((k) => {
-                cy.log(k)
-                cy.get('.mat-option-text').eq(k).click()
+        cy.get(x.select_regimen).click()
+        cy.get(x.option_text_regimen).should('have.length.greaterThan', 0)
+            .its('length')
+            .then(cy.log)
+            .then(() => {
+                n = Cypress._.random(0, 18)
+                cy.log(n)
+                cy.get(x.option_text_regimen).eq(n).click()
+
             })
         cy.get(x.input_mobile).type(person.phone_1)
             .get(x.input_email).type(person.email)
-            .get("[name='postalCode']").type(address_mx.zipcode).wait(50000)
-            .get("[placeholder='Ingresa tu Colonia']").type(address_mx.colonia)
-            .get("[name='address1']").type(address_mx.line1)
+            .get(x.input_postal_Code).type(address_mx.zipcode).wait(50000)
+            .get(x.input_colonia).type(address_mx.colonia)
+            .get(x.input_address).type(address_mx.line1)
             .get(x.forward_button).click()
             .wait(10000)
         cy.get(x.errors).then(($error) => {
