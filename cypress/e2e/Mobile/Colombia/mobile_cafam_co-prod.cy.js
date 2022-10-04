@@ -18,7 +18,7 @@ describe('Mobile rappi MX', () => {
     })
     // Page 3    
     it('Personal Details ', () => {
-        cy.personal_details_mx()
+        cy.personal_details_co()
 
     })
     //Page 4
