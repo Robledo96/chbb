@@ -25,11 +25,10 @@ function randomRFC() {
     return "ANML" + year2 + month + day + "J47"
 }
 
-
 export {
     getRandomArbitrary,
     dob,
     randomId,
-    randomRFC,
+    randomRFC
+}
 
-};

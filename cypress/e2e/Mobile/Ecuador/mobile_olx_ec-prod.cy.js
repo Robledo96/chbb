@@ -1,5 +1,6 @@
 import 'cypress-iframe'
-import { person, address_ec } from '../../../support/objects_mobile'
+import { person, address, address_ec } from '../../../support/objects_mobile'
+import { Id } from '../../../support/commands_mobile'
 var env = 'prod'
 
 describe('Mobile OLX EC', () => {
@@ -25,31 +26,26 @@ describe('Mobile OLX EC', () => {
     it('Pyment page - Checking personal details information', () => {
         cy.fixture('locators_mobile').then((x) => {
             //checking insured details
-            cy.get(x.review_value).first()
-                .find(x.review__value_text).should('contain.text', person.name)
-            cy.get(x.review_value).eq(1)
-                .find(x.review__value_text).should('contain.text', person.last_name)
-            cy.get(x.review_value).eq(5)
-                .find(x.review__value_text).should('contain.text', person.phone)
-            cy.get(x.review_value).eq(6)
-                .find(x.review__value_text).should('contain.text', person.email)
-            cy.get(x.review_value).eq(7)
-                .find(x.review__value_text).should('contain.text', address_ec.line1)
-            cy.get(x.review_value).eq(9)
-                .find(x.review__value_text).should('contain.text', address_ec.city)
-            cy.get(x.review_value).eq(10)
-                .find(x.review__value_text).should('contain.text', address_ec.province)
-
+            cy.get(x.review_items)
+                .should('contain.text', person.name)
+                .and('contain.text', person.last_name)
+                .and('contain.text', 'Masculino')
+                .and('contain.text', Id)
+                .and('contain.text', person.phone)
+                .and('contain.text', person.email)
+                .and('contain.text', address.line1)
+                .and('contain.text', address_ec.city)
+                .and('contain.text', address_ec.province)
         })
     })
     it('Pyment page -  Testing to edit personal data', () => {
         cy.fixture('locators_mobile').then((x) => {
             cy.get(x.edit_button).click()
             cy.get(x.input_address).clear()
-                .type(address_ec.line2)
+                .type(address.line2)
                 .get(x.forward_button).click()
             cy.get(x.review_items)
-                .should('contain.text', address_ec.line2)
+                .should('contain.text', address.line2)
                 .wait(1000)
         })
     })
@@ -58,16 +54,16 @@ describe('Mobile OLX EC', () => {
         cy.payment_page_olx_ec(env)
             .wait(500)
     })
-//     // Page 5 Thank you
-//     it('Should text Congratulations', () => {
-//         cy.fixture('locators_mobile').then((x) => {
-//             cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-//                 .and('contain.text', 'Leonel')
-//                 .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-//                 .get(x.thank_you_email_text).should('contain.text', person.email)
-//             cy.get(x.thankyou__button).click()
-//         })
-//     })
+    //     // Page 5 Thank you
+    //     it('Should text Congratulations', () => {
+    //         cy.fixture('locators_mobile').then((x) => {
+    //             cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+    //                 .and('contain.text', 'Leonel')
+    //                 .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+    //                 .get(x.thank_you_email_text).should('contain.text', person.email)
+    //             cy.get(x.thankyou__button).click()
+    //         })
+    //     })
 })
 
 

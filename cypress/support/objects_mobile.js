@@ -3,7 +3,7 @@ var person = {
     last_name: "Andres Messi",
     phone: "(685) 676-6757",
     phone_1: "3452736757",
-    phone_co:"(316) 621-4030",
+    phone_co: "(316) 621-4030",
     email: "leonel333@gamil.com"
 }
 
@@ -23,30 +23,31 @@ var mobile = {
     model: "Apple iPhone 12 Pro Max",
 
 }
-var address_ec = {
+var address = {
     line1: "calle 1 y 2 ",
-    line2: "calle 3 y 4",
+    line2: "calle 3 y 4"
+}
+var address_ec = {
     city: "Guayaquil",
-    province: "Pichincha",
+    province: "Pichincha"
 }
 
 var address_mx = {
     zipcode: "50000",
-    colonia: "Toluca De Lerdo Centro",
-    line1: "calle 1 y 2",
-    line2: "calle 3 y 4"
+    colonia: "Toluca De Lerdo Centro"
 }
 var address_co = {
     line1: "calle 1 y 2 ",
     line2: "calle 3 y 4",
     city: "Leticia",
-    province: "Amazonas",
+    departamento: "Amazonas"
 }
 
 export {
     person,
     mobile,
     payment,
+    address,
     address_ec,
     address_mx,
     address_co

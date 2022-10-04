@@ -1,12 +1,13 @@
 import 'cypress-iframe'
-import { person, address_ec } from '../../../support/objects_mobile'
+import { person, address, address_ec } from '../../../support/objects_mobile'
+import { Id } from '../../../support/commands_mobile'
 var env = 'prod'//tst
 
 describe('Mobile diners EC', () => {
     //Page 1
     it('Quote', () => {
         cy.visit('https://la.studio.chubb.com/ec/diners/mobile/ECBK200001/es-EC')
-        cy.quote_()
+        cy.quote()
     })
     //Page 2
     it('Select Plan', () => {
@@ -28,22 +29,24 @@ describe('Mobile diners EC', () => {
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', 'Masculino')
+                .and('contain.text', Id)
                 .and('contain.text', person.phone)
                 .and('contain.text', person.email)
-                .and('contain.text', address_ec.line1)
+                .and('contain.text', address.line1)
                 .and('contain.text', address_ec.city)
                 .and('contain.text', address_ec.province)
+
         })
     })
     it('Pyment page - Testing to edit personal data', () => {
         cy.fixture('locators_mobile').then((x) => {
             cy.get(x.edit_button).click()
             cy.get(x.input_address).clear()
-                .type(address_ec.line2)
+                .type(address.line2)
                 .get(x.forward_button).click()
             cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
-                .should('contain.text', address_ec.line2)
+                .should('contain.text', address.line2)
 
         })
     })

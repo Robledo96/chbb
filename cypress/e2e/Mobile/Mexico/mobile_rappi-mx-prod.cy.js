@@ -1,6 +1,7 @@
 
 import 'cypress-iframe'
-import { person, address_mx } from '../../../support/objects_mobile';
+import { person, address, address_mx } from '../../../support/objects_mobile';
+import { rfc } from '../../../support/commands_mobile'
 var env = 'prod'
 
 
@@ -18,7 +19,7 @@ describe('Mobile rappi MX', () => {
     })
     // Page 3    
     it('Personal Details ', () => {
-        cy.personal_details_mx()
+        cy.personal_details_rappi_mx()
 
     })
     //Page 4
@@ -27,21 +28,15 @@ describe('Mobile rappi MX', () => {
         cy.fixture('locators_mobile').then((x) => {
             //checking insured details
             cy.get(x.collapsable_bar).click()
-            cy.get(x.review_value).first()
-                .find(x.review__value_text).should('contain.text', person.name)
-            cy.get(x.review_value).eq(1)
-                .find(x.review__value_text).should('contain.text', person.last_name)
-            cy.get(x.review_value).eq(6)
-                .find(x.review__value_text).should('contain.text', person.phone_1)
-            cy.get(x.review_value).eq(7)
-                .find(x.review__value_text).should('contain.text', person.email)
-            cy.get(x.review_value).eq(8)
-                .find(x.review__value_text).should('contain.text', address_mx.zipcode)
-            cy.get(x.review_value).eq(9)
-                .find(x.review__value_text).should('contain.text', address_mx.colonia)
-            cy.get(x.review_value).eq(10)
-                .find(x.review__value_text).should('contain.text', address_mx.line1)
-
+            cy.get(x.review_items)
+                .should('contain.text', person.name)
+                .and('contain.text', person.last_name)
+                .and('contain.text', rfc)
+                .and('contain.text', person.phone_1)
+                .and('contain.text', person.email)
+                .and('contain.text', address_mx.zipcode)
+                .and('contain.text', address_mx.colonia)
+                .and('contain.text', address.line1)
         })
     })
 
@@ -55,13 +50,12 @@ describe('Mobile rappi MX', () => {
                 .get(x.colonia_option_text).first().click({ force: true })
                 .wait(1000)
             cy.get(x.input_address).clear()
-                .type(address_mx.line2)
+                .type(address.line2)
             cy.get(x.forward_button).click()
                 .wait(5000)
             cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
-                .get(x.review_value).eq(10)
-                .find(x.review__value_text).should('contain.text', address_mx.line2)
+                .should('contain.text', address.line2)
         })
     })
     it('Payment page', () => {
@@ -77,7 +71,7 @@ describe('Mobile rappi MX', () => {
                     cy.get(x.check_outer_circle).eq(n).click({ force: true })
                 })
         })
-        cy.payment_page_diners_mx(env)
+        cy.payment_page_rappi_mx(env)
 
     })
     // Page 5 Thank you
