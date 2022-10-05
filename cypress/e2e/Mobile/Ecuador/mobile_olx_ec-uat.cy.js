@@ -27,15 +27,14 @@ describe('Mobile OLX EC', () => {
         cy.fixture('locators_mobile').then((x) => {
             //checking insured details
             cy.get(x.review_items)
-            .should('contain.text', person.name)
-            .and('contain.text', person.last_name)
-            .and('contain.text', 'Masculino')
-            .and('contain.text', Id)
-            .and('contain.text', person.phone)
-            .and('contain.text', person.email)
-            .and('contain.text', address.line1)
-            .and('contain.text', address_ec.city)
-            .and('contain.text', address_ec.province)
+                .should('contain.text', person.name)
+                .and('contain.text', person.last_name)
+                .and('contain.text', Id)
+                .and('contain.text', person.phone)
+                .and('contain.text', person.email)
+                .and('contain.text', address.line1)
+                .and('contain.text', address_ec.city)
+                .and('contain.text', address_ec.province)
         })
     })
     it('Pyment page -  Testing to edit personal data', () => {
@@ -50,8 +49,13 @@ describe('Mobile OLX EC', () => {
     })
     it('Payment page', () => {
         cy.wait(500)
-        cy.payment_page_olx_ec(env)
+        cy.payment_page_olx_ec()
             .wait(5000)
+        if (env != 'prod') {
+            cy.wait(1000)
+            cy.get(x.forward_button).click()
+
+        }
     })
     // Page 5 Thank you
     it('Should text Congratulations', () => {

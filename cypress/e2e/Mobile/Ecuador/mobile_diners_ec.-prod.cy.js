@@ -1,7 +1,7 @@
 import 'cypress-iframe'
 import { person, address, address_ec } from '../../../support/objects_mobile'
 import { Id } from '../../../support/commands_mobile'
-var env = 'prod'//tst
+var env = 'prod'
 
 describe('Mobile diners EC', () => {
     //Page 1
@@ -28,7 +28,6 @@ describe('Mobile diners EC', () => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
-                .and('contain.text', 'Masculino')
                 .and('contain.text', Id)
                 .and('contain.text', person.phone)
                 .and('contain.text', person.email)
@@ -52,21 +51,26 @@ describe('Mobile diners EC', () => {
     })
     it('Payment page', () => {
         cy.wait(500)
-        cy.payment_page_diners_ec(env)
+        cy.payment_page_diners_ec()
             .wait(500)
+        if (env != 'prod') {
+            cy.wait(1000)
+            cy.get(x.forward_button).click()
+
+        }
 
     })
 
-    // Page 5 Thank you
-    // it('Should text Congratulations', () => {
-    //     cy.fixture('locators_mobile').then((x) => {
-    //         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-    //             .and('contain.text', 'Leonel')
-    //             .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-    //             .get(x.thank_you_email_text).should('contain.text', person.email)
-    //         cy.get(x.thankyou__button).click()
-    //     })
-    // })
+    //Page 5 Thank you
+    it('Should text Congratulations', () => {
+        cy.fixture('locators_mobile').then((x) => {
+            cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+                .and('contain.text', 'Leonel')
+                .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+                .get(x.thank_you_email_text).should('contain.text', person.email)
+            cy.get(x.thankyou__button).click()
+        })
+    })
 })
 
 

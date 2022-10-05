@@ -72,7 +72,13 @@ describe('Mobile rappi MX', () => {
                     cy.get(x.check_outer_circle).eq(n).click({ force: true })
                 })
         })
-        cy.payment_page_rappi_mx(env)
+        cy.payment_page_rappi_mx()
+
+        if (env != 'prod') {
+            cy.wait(1000)
+            cy.get(x.forward_button).click()
+
+        }
 
     })
     // Page 5 Thank you

@@ -4,6 +4,7 @@ var person = {
     phone: "(685) 676-6757",
     phone_1: "3452736757",
     phone_co: "(316) 621-4030",
+    phone_cl: "364874875",
     email: "leonel333@gamil.com"
 }
 
@@ -37,8 +38,6 @@ var address_mx = {
     colonia: "Toluca De Lerdo Centro"
 }
 var address_co = {
-    line1: "calle 1 y 2 ",
-    line2: "calle 3 y 4",
     city: "Leticia",
     departamento: "Amazonas"
 }
@@ -50,5 +49,5 @@ export {
     address,
     address_ec,
     address_mx,
-    address_co
+    address_co,
 };

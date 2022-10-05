@@ -4,9 +4,6 @@ import { person, address, address_ec } from '../../../support/objects_mobile'
 import { Id } from '../../../support/commands_mobile'
 var env = 'uat'
 
-
-
-
 describe('Mobile diners EC', () => {
     //Page 1
     it('Quote', () => {
@@ -32,7 +29,6 @@ describe('Mobile diners EC', () => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
-                .and('contain.text', 'Masculino')
                 .and('contain.text', Id)
                 .and('contain.text', person.phone)
                 .and('contain.text', person.email)
@@ -56,8 +52,13 @@ describe('Mobile diners EC', () => {
     })
     it('Payment page', () => {
         cy.wait(500)
-        cy.payment_page_diners_ec(env)
+        cy.payment_page_diners_ec()
             .wait(5000)
+        if (env != 'prod') {
+            cy.wait(1000)
+            cy.get(x.forward_button).click()
+
+        }
 
     })
 

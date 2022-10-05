@@ -31,7 +31,7 @@
     "check_outer_circle": ".mat-radio-outer-circle",
     "checkboxes": ".mat-checkbox-inner-container",
     "review_items": ".review__item",
-    "collapsable_bar": "app-review > .collapsable-wrapper > .collapsable-bar",
+    "collapsable_bar": "app-review.ng-star-inserted > .ng-star-inserted > .collapsable-wrapper > .collapsable-bar",
     "select_value_1": "#mat-select-1 > .mat-select-trigger > .mat-select-value > .mat-select-placeholder",
     "select_value": ".mat-select-value",
     "select_option": ".mat-option-text",

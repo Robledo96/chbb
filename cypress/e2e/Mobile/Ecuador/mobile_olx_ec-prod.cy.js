@@ -29,7 +29,6 @@ describe('Mobile OLX EC', () => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
-                .and('contain.text', 'Masculino')
                 .and('contain.text', Id)
                 .and('contain.text', person.phone)
                 .and('contain.text', person.email)
@@ -51,8 +50,13 @@ describe('Mobile OLX EC', () => {
     })
     it('Payment page', () => {
         cy.wait(500)
-        cy.payment_page_olx_ec(env)
+        cy.payment_page_olx_ec()
             .wait(500)
+        if (env != 'prod') {
+            cy.wait(1000)
+            cy.get(x.forward_button).click()
+
+        }
     })
     //     // Page 5 Thank you
     //     it('Should text Congratulations', () => {
