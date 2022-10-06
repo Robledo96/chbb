@@ -1,6 +1,5 @@
 import 'cypress-iframe'
 import { person, address, address_co } from '../../../support/objects_mobile'
-import { Id } from '../../../support/commands_mobile'
 var env = 'prod'
 
 describe('Mobile CAFAM-CO', () => {
@@ -28,8 +27,7 @@ describe('Mobile CAFAM-CO', () => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
-                .and('contain.text', Id)
-                .and('contain.text', person.phone_co)
+                .and('contain.text', person.phone_3)
                 .and('contain.text', person.email)
                 .and('contain.text', address.line1)
                 .and('contain.text', address_co.departamento)
@@ -42,8 +40,8 @@ describe('Mobile CAFAM-CO', () => {
         cy.fixture('locators_mobile').then((x) => {
             cy.get(x.edit_button).click() //edit button
                 .wait(5000)
-            cy.get(x.input_address).clear()
-                .type(address_co.line2)
+            cy.get(x.input_address_1).clear()
+                .type(address.line2)
             cy.get(x.forward_button).click()
                 .wait(5000)
             cy.get(x.review_items)
@@ -51,25 +49,17 @@ describe('Mobile CAFAM-CO', () => {
         })
     })
     it('Payment page', () => {
-        cy.payment_page_cafam_co()
-        
-        if (env != 'prod') {
-            cy.wait(1000)
-            cy.get(x.forward_button).click()
+        cy.fixture('locators_mobile').then((x) => {
+            cy.payment_page_cafam_co()
 
-        }
+            if (env != 'prod') {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+            }
+        })
     })
 
-    // Page 5 Thank you
-    // it('Should text Congratulations', () => {
-    //     cy.fixture('locators_mobile').then((x) => {
-    //         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-    //             .and('contain.text', 'Leonel')
-    //             .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-    //             .get(x.thank_you_email_text).should('contain.text', person.email)
-    //         cy.get(x.thankyou__button).click()
-    //     })
-    // })
 })
 
 

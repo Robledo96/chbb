@@ -1,6 +1,5 @@
 import 'cypress-iframe'
 import { person, address, address_ec } from '../../../support/objects_mobile'
-import { Id } from '../../../support/commands_mobile'
 var env = 'prod'
 
 describe('Mobile OLX EC', () => {
@@ -29,7 +28,6 @@ describe('Mobile OLX EC', () => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
-                .and('contain.text', Id)
                 .and('contain.text', person.phone)
                 .and('contain.text', person.email)
                 .and('contain.text', address.line1)
@@ -40,7 +38,7 @@ describe('Mobile OLX EC', () => {
     it('Pyment page -  Testing to edit personal data', () => {
         cy.fixture('locators_mobile').then((x) => {
             cy.get(x.edit_button).click()
-            cy.get(x.input_address).clear()
+            cy.get(x.input_address_1).clear()
                 .type(address.line2)
                 .get(x.forward_button).click()
             cy.get(x.review_items)
@@ -49,25 +47,14 @@ describe('Mobile OLX EC', () => {
         })
     })
     it('Payment page', () => {
-        cy.wait(500)
-        cy.payment_page_olx_ec()
-            .wait(500)
-        if (env != 'prod') {
-            cy.wait(1000)
-            cy.get(x.forward_button).click()
+        cy.fixture('locators_mobile').then((x) => {
+            cy.wait(500)
+            cy.payment_page_ec()
+            if (env != 'prod') {
+                cy.get(x.forward_button).click()
 
-        }
+            }
+        })
     })
-    //     // Page 5 Thank you
-    //     it('Should text Congratulations', () => {
-    //         cy.fixture('locators_mobile').then((x) => {
-    //             cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-    //                 .and('contain.text', 'Leonel')
-    //                 .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-    //                 .get(x.thank_you_email_text).should('contain.text', person.email)
-    //             cy.get(x.thankyou__button).click()
-    //         })
-    //     })
 })
-
 

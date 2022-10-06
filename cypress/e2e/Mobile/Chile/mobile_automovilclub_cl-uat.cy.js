@@ -1,11 +1,10 @@
 
 import 'cypress-iframe'
 import { person, address } from '../../../support/objects_mobile';
-import { rut } from '../../../support/commands_mobile'
 var env = 'uat'
 
 
-describe('Mobile automovilclub CL', () => {
+describe('Mobile CHILE', () => {
     //Page 1
     it('Quote', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/automovilclub/mobile/launchstage/es-CL')
@@ -19,7 +18,7 @@ describe('Mobile automovilclub CL', () => {
     })
     // Page 3    
     it('Personal Details ', () => {
-        cy.personal_details_automovilclub_cl()
+        cy.personal_details_cl()
 
     })
     //Page 4
@@ -31,8 +30,7 @@ describe('Mobile automovilclub CL', () => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
-                .and('contain.text', rut)
-                .and('contain.text', person.phone_cl)
+                .and('contain.text', person.phone_4)
                 .and('contain.text', person.email)
                 .and('contain.text', address.line1)
 
@@ -44,7 +42,7 @@ describe('Mobile automovilclub CL', () => {
         cy.fixture('locators_mobile').then((x) => {
             cy.get(x.edit_button).click() //edit button
                 .wait(5000)
-            cy.get(x.input_address).clear()
+            cy.get(x.input_address_1).clear()
                 .type(address.line2)
             cy.get(x.forward_button).click()
                 .wait(5000)
@@ -56,7 +54,7 @@ describe('Mobile automovilclub CL', () => {
     it('Payment page', () => {
         cy.fixture('locators_mobile').then((x) => {
 
-            cy.payment_page_rappi_mx()
+            cy.payment_page_cl()
 
             if (env != 'prod') {
                 cy.wait(1000)
@@ -67,15 +65,15 @@ describe('Mobile automovilclub CL', () => {
 
     })
     // Page 5 Thank you
-    // it('Should text Congratulations', () => {
-    //     cy.fixture('locators_mobile').then((x) => {
-    //         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-    //             .and('contain.text', 'Leonel')
-    //             .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-    //             .get(x.thank_you_email_text).should('contain.text', person.email)
-    //         cy.get(x.thankyou__button).click()
-    //     })
-    // })
+    it('Should text Congratulations', () => {
+        cy.fixture('locators_mobile').then((x) => {
+            cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+                .and('contain.text', 'Leonel')
+                .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+                .get(x.thank_you_email_text).should('contain.text', person.email)
+            cy.get(x.thankyou__button).click()
+        })
+    })
 })
 
 

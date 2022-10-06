@@ -7,7 +7,7 @@ var env = 'prod'
 describe('Mobile CHILE', () => {
     //Page 1
     it('Quote', () => {
-        cy.visit('https://la.studio.chubb.com/cl/automovilclub/mobile/launchstage/es-CL')
+        cy.visit('https://la.studio.chubb.com/cl/unired/mobile/launchstage/es-CL')
         cy.quote()
     })
     //Page 2
@@ -64,8 +64,6 @@ describe('Mobile CHILE', () => {
         })
 
     })
-    // Page 5 Thank you
-
 })
 
 

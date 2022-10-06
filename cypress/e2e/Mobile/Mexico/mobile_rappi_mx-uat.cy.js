@@ -1,7 +1,6 @@
 
 import 'cypress-iframe'
 import { person, address, address_mx } from '../../../support/objects_mobile';
-import { rfc } from '../../../support/commands_mobile'
 var env = 'uat'
 
 
@@ -19,7 +18,7 @@ describe('Mobile rappi MX', () => {
     })
     // Page 3    
     it('Personal Details ', () => {
-        cy.personal_details_rappi_mx()
+        cy.personal_details_mx()
 
     })
     //Page 4
@@ -31,7 +30,6 @@ describe('Mobile rappi MX', () => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
-                .and('contain.text', rfc)
                 .and('contain.text', person.phone_1)
                 .and('contain.text', person.email)
                 .and('contain.text', address_mx.zipcode)
@@ -50,7 +48,7 @@ describe('Mobile rappi MX', () => {
                 .wait(1000)
                 .get(x.colonia_option_text).first().click({ force: true })
                 .wait(1000)
-            cy.get(x.input_address).clear()
+            cy.get(x.input_address_1).clear()
                 .type(address.line2)
             cy.get(x.forward_button).click()
                 .wait(5000)
@@ -71,15 +69,15 @@ describe('Mobile rappi MX', () => {
                     cy.log(n)
                     cy.get(x.check_outer_circle).eq(n).click({ force: true })
                 })
+
+            cy.payment_page_mx()
+
+            if (env != 'prod') {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+            }
         })
-        cy.payment_page_rappi_mx()
-
-        if (env != 'prod') {
-            cy.wait(1000)
-            cy.get(x.forward_button).click()
-
-        }
-
     })
     // Page 5 Thank you
     it('Should text Congratulations', () => {

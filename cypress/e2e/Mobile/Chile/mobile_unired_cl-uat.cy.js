@@ -1,13 +1,13 @@
 
 import 'cypress-iframe'
 import { person, address } from '../../../support/objects_mobile';
-var env = 'prod'
+var env = 'uat'
 
 
 describe('Mobile CHILE', () => {
     //Page 1
     it('Quote', () => {
-        cy.visit('https://la.studio.chubb.com/cl/automovilclub/mobile/launchstage/es-CL')
+        cy.visit('https://la.studio-uat.chubb.com/cl/unired/mobile/launchstage/es-CL')
         cy.quote()
     })
     //Page 2
@@ -65,7 +65,15 @@ describe('Mobile CHILE', () => {
 
     })
     // Page 5 Thank you
-
+    it('Should text Congratulations', () => {
+        cy.fixture('locators_mobile').then((x) => {
+            cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+                .and('contain.text', 'Leonel')
+                .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+                .get(x.thank_you_email_text).should('contain.text', person.email)
+            cy.get(x.thankyou__button).click()
+        })
+    })
 })
 
 
