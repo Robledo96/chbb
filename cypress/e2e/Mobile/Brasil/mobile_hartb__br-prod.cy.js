@@ -1,20 +1,21 @@
 import 'cypress-iframe'
 import { person, address, address_br } from '../../../support/objects_mobile';
-var env = 'uat'
+var env = 'prod'
 
-describe('Mobile amex AR', () => {
+describe('Mobile BRASIL', () => {
     //Page 1
     it('Quote', () => {
-        cy.visit('https://la.studio-uat.chubb.com/br/hartb/mobile/launchstage/pt-BR')
-        
+        cy.visit('https://la.studio.chubb.com/br/hartb/mobile/launchstage/pt-BR')
         cy.quote()
     })
+    
     //Page 2
     it('Select Plan', () => {
         cy.fixture('locators_mobile').then((x) => {
             cy.get(x.plans_select_button).click()
         }).wait(500)
     })
+    
     // Page 3    
     it('Personal Details ', () => {
         cy.personal_details_br()
@@ -80,16 +81,7 @@ describe('Mobile amex AR', () => {
         })
 
     })
-    // Page 5 Thank you
-    it('Should text Congratulations', () => {
-        cy.fixture('locators_mobile').then((x) => {
-            cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-                .and('contain.text', 'Leonel')
-                .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-                .get(x.thank_you_email_text).should('contain.text', person.email)
-            cy.get(x.thankyou__button).click()
-        })
-    })
+
 })
 
 

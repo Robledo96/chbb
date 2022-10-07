@@ -51,20 +51,77 @@ function randomRUT() {
         digit = "K";
     }
 
-    numbers = "" + n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8+'-'
+    numbers = "" + n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + '-'
     return numbers + digit;
 
 }
+
 //Function generate random RFC
 function randomRFC() {
     var year2 = (year.toString()).substr(-2);
     return "ANML" + year2 + month + day + "J47"
 }
+//Function generate random DNI
+var num = 0;
+var sNum = 0
+function formatNumberLength(num, length) {
+    var r = "" + num;
+    while (r.length < length) {
+        r = "0" + r;
+    }
+    return r;
+}
+
+function charDNI(dni) {
+    var chain = "TRWAGMYFPDXBNJZSQVHLCKET";
+    var pos = dni % 23;
+    var letter = chain.substring(pos, pos + 1);
+    return letter;
+}
+
+function randomDNI() {
+    num = Math.floor((Math.random() * 100000000));
+    sNum = formatNumberLength(num, 8);
+    return sNum + charDNI(sNum);
+}
+
+//Function generate random DNI
+function randomCPF() {
+    const num1 = aleatorio();
+    const num2 = aleatorio();
+    const num3 = aleatorio();
+    const dig1 = dig(num1, num2, num3);
+    const dig2 = dig(num1, num2, num3, dig1);
+    return `${num1}.${num2}.${num3}-${dig1}${dig2}`;
+}
+
+function dig(n1, n2, n3, n4) {
+    const nums = n1.split("").concat(n2.split(""), n3.split(""));
+    if (n4 !== undefined) {
+        nums[9] = n4;
+    }
+
+    let x = 0;
+    for (let i = (n4 !== undefined ? 11 : 10), j = 0; i >= 2; i--, j++) {
+        x += parseInt(nums[j]) * i;
+    }
+
+    const y = x % 11;
+    return y < 2 ? 0 : 11 - y;
+}
+
+function aleatorio() {
+    const aleat = Math.floor(Math.random() * 999);
+    return ("" + aleat).padStart(3, '0');
+}
+
 
 export {
     dob,
     Random,
     randomRFC,
-    randomRUT
+    randomRUT,
+    randomDNI,
+    randomCPF
 }
 

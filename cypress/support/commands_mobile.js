@@ -1,5 +1,5 @@
 
-import { Random, dob, randomRFC, randomRUT } from './utils'
+import { Random, dob, randomRFC, randomRUT, randomDNI, randomCPF} from './utils'
 import { person, payment, mobile, address, address_ec, address_mx, address_co, address_ar, address_br } from '../support/objects_mobile'
 let n = 0
 let date = dob()
@@ -318,7 +318,7 @@ Cypress.Commands.add('personal_details_amex_ar', () => {
                 cy.log(n)
                 cy.get(x.select_option).eq(n).click()
             })
-        cy.get(x.input_id).type(Id)
+        cy.get(x.input_id).type(randomDNI())
         cy.get(x.input_mobile).type(person.phone_1)
             .get(x.input_email).type(person.email)
             .get(x.input_address_1).type(address.line1)
@@ -331,7 +331,7 @@ Cypress.Commands.add('personal_details_amex_ar', () => {
             .wait(10000)
         cy.get(x.errors).then(($error) => {
             if ($error.is(':visible')) {
-                cy.get(x.input_id).type(Random(1000000000, 1999999999))
+                cy.get(x.input_id).type(randomDNI())
                     .get(x.forward_button).click()
                     .wait(500)
             }
@@ -363,8 +363,8 @@ Cypress.Commands.add('payment_page_amex_ar', () => {
     })
 })
 
-// Personal Details HARTB-BR
-Cypress.Commands.add('personal_details_hartb_br', () => {
+// Personal Details BRASIL
+Cypress.Commands.add('personal_details_br', () => {
     cy.fixture('locators_mobile').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
@@ -380,27 +380,56 @@ Cypress.Commands.add('personal_details_hartb_br', () => {
             })
             .get(x.input_mobile).type(person.phone_2)
             .get(x.input_email).type(person.email)
-            .get(x.input_id).type(Id)////cpf
+            .get(x.input_id).type(randomCPF())
+            .wait(1000)
             .get(x.input_postal_Code).type(address_br.zipcode)
+            .wait(1000)
             .get(x.input_address_1).type(address.line1)
             .get(x.input_ext_number).type(address_br.ext_num)
-            .get(x.input_address_2).type(address.line1)//complemento
+            .wait(1000)
+            .get(x.input_address_2).type(address.line1)
+            .wait(1000)
             .get(x.input_address_3).type(address_br.barrio)
+            .wait(1000)
             .get(x.input_city).type(address_br.city)
+            .wait(1000)
             .get(x.input_province).type(address_br.province)
-            .wait(500)
+            .wait(1000)
             .get(x.checkboxes).click({ multiple: true })
-            .wait(500)
+            .wait(1000)
             .get(x.forward_button).click()
             .wait(10000)
         cy.get(x.errors).then(($error) => {
             if ($error.is(':visible')) {
-                cy.get(x.input_id).type(Random(1000000000, 1999999999))////
+                cy.get(x.input_id).type(randomCPF())
                     .get(x.forward_button).click()
                     .wait(500)
             }
         })
     })
 })
+// Payment Page BARSIL
+Cypress.Commands.add('payment_page_br', () => {
+    cy.fixture('locators_mobile').then((x) => {
+        cy.iframe(x.card_iframe).then($ => {
+            cy.wrap($[0])
+                .find(x.input_card)
+                .type(payment.visa_card_num_3)
+                .wait(500)
+                .get(x.input_card_name).type(payment.card_holder)
+                .get(x.input_expiry_date).type(payment.expiration_date_5)
+        })
+        cy.iframe(x.cvv_iframe).then($iframes => {
+            cy.wrap($iframes[0])
+                .find(x.input_cvv)
+                .type(payment.cvv4)
+                .wait(500)
+                .get(x.checkboxes).click({ multiple: true })
+                .wait(500)
+                .get(x.input_expiry_date).click()
+                .get(x.forward_button).should('be.enabled')
 
+        })
+    })
+})
 
