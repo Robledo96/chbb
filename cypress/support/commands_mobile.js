@@ -36,8 +36,8 @@ Cypress.Commands.add('personal_details_ec', () => {
             .get(x.input_city).type(address_ec.city)
             .get(x.input_province).type(address_ec.province)
             .get(x.forward_button).click()
-            .wait(10000)
-        cy.get(x.errors).then(($error) => {
+            .wait(20000)
+        cy.get(x.errors, { timeout: 90000 }).then(($error) => {
             if ($error.is(':visible')) {
                 cy.get(x.input_id).type(Random(1000000000, 1999999999))
                     .get(x.forward_button).click()
@@ -52,7 +52,7 @@ Cypress.Commands.add('payment_page_ec', () => {
 
         cy.url().then((url) => {
             if (url.includes('/diners/')) {
-                                    //Diners
+                //Diners
                 cy.iframe(x.card_iframe).then($iframes => {
                     cy.wrap($iframes[0])
                         .find(x.input_card)
@@ -60,35 +60,37 @@ Cypress.Commands.add('payment_page_ec', () => {
                         .type(payment.dinersClub_card_num)
                         .wait(500)
                         .get(x.input_card_name).type(payment.card_holder)
-                        .get(x.input_expiry_date).type(payment.expiration_date_1)
+                        .get(x.input_expiry_date).type(payment.expiration_date)
 
                         .get(x.checkboxes).click({ multiple: true })
                         .wait(500)
                         .get(x.input_expiry_date).click({ multiple: true })
                         .get(x.forward_button).should('be.enabled')
-                })
-            } else {
-                                    //OLX
-                cy.iframe(x.card_iframe).then($ => {
-                    cy.wrap($[0])
-                        .find(x.input_card)
-                        .type(payment.visa_card_num_1)
-                        .wait(500)
-                        .get(x.input_card_name).type(payment.card_holder)
-                        .get(x.input_expiry_date).type(payment.expiration_date_2)
-                })
-                cy.iframe(x.cvv_iframe).then($iframes => {
-                    cy.wrap($iframes[0])
-                        .find(x.input_cvv)
-                        .type(payment.cvv1)
-                        .wait(500)
-                        .get(x.checkboxes).click({ multiple: true })
-                        .wait(500)
-                        .get(x.input_expiry_date).click({ multiple: true })
-                        .get(x.forward_button).should('be.enabled')
-
                 })
             }
+            cy.url().then((url) => {
+                if (url.includes('/olx/')) {
+                    //OLX
+                    cy.iframe(x.card_iframe).then($ => {
+                        cy.wrap($[0])
+                            .find(x.input_card).click()
+                            .type(payment.visa_card_num)
+                            .wait(500)
+                            .get(x.input_card_name).click().type(payment.card_holder)
+                            .get(x.input_expiry_date).click().type(payment.expiration_date_1)
+                    })
+                    cy.iframe(x.cvv_iframe).then($iframes => {
+                        cy.wrap($iframes[0])
+                            .find(x.input_cvv).click()
+                            .type(payment.cvv)
+                            .wait(500)
+                            .get(x.checkboxes).click({ multiple: true })
+                            .wait(500)
+                            .get(x.forward_button).should('be.enabled')
+
+                    })
+                }
+            })
         })
 
     })
@@ -148,15 +150,15 @@ Cypress.Commands.add('payment_page_mx', () => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
-                .type(payment.visa_card_num_2)
+                .type(payment.visa_card_num_1)
                 .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
-                .get(x.input_expiry_date).type(payment.expiration_date_3)
+                .get(x.input_expiry_date).type(payment.expiration_date_2)
         })
         cy.iframe(x.cvv_iframe).then($iframes => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
-                .type(payment.cvv2)
+                .type(payment.cvv_1)
                 .wait(500)
                 .get(x.checkboxes).click({ multiple: true })
                 .wait(500)
@@ -188,7 +190,7 @@ Cypress.Commands.add('personal_details_co', () => {
             .get(x.input_mobile).type(person.phone_3)
             .get(x.input_email).type(person.email)
             .get(x.input_address_1).type(address.line1)
-            .get(x.input_province).type(address_co.departamento)
+            .get(x.input_province).type(address_co.department)
             .get(x.input_city).type(address_co.city)
         cy.get(x.select_value).eq(1).click()
             .get(x.select_option).should('have.length.greaterThan', 0)
@@ -220,12 +222,12 @@ Cypress.Commands.add('payment_page_co', () => {
                 .type(payment.amex_card_num)
                 .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
-                .get(x.input_expiry_date).type(payment.expiration_date_4)
+                .get(x.input_expiry_date).type(payment.expiration_date)
         })
         cy.iframe(x.cvv_iframe).then($iframes => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
-                .type(payment.cvv3)
+                .type(payment.cvv_2)
                 .wait(500)
                 .get(x.checkboxes).click({ multiple: true })
                 .wait(500)
@@ -284,15 +286,15 @@ Cypress.Commands.add('payment_page_cl', () => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
-                .type(payment.visa_card_num_2)
+                .type(payment.visa_card_num_1)
                 .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
-                .get(x.input_expiry_date).type(payment.expiration_date_3)
+                .get(x.input_expiry_date).type(payment.expiration_date_2)
         })
         cy.iframe(x.cvv_iframe).then($iframes => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
-                .type(payment.cvv2)
+                .type(payment.cvv_1)
                 .wait(500)
                 .get(x.checkboxes).click({ multiple: true })
                 .wait(500)
@@ -303,7 +305,7 @@ Cypress.Commands.add('payment_page_cl', () => {
     })
 })
 
-// Quote AMEX-AR
+// Quote ARGENTINA
 Cypress.Commands.add('quote_ar', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.button_1).click()
@@ -347,13 +349,13 @@ Cypress.Commands.add('personal_details_ar', () => {
         })
     })
 })
-// Payment Page ARGENTINA
+// Payment Page ARGENTINA //falta tarjeta cvv y exp.date
 Cypress.Commands.add('payment_page_ar', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
-                .type(payment.visa_card_num)
+                .type(payment.visa_card_num_1)
                 .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
                 .get(x.input_expiry_date).type(payment.expiration_date)
@@ -423,15 +425,15 @@ Cypress.Commands.add('payment_page_br', () => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
-                .type(payment.visa_card_num_3)
+                .type(payment.visa_card_num_1)
                 .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
-                .get(x.input_expiry_date).type(payment.expiration_date_5)
+                .get(x.input_expiry_date).type(payment.expiration_date)
         })
         cy.iframe(x.cvv_iframe).then($iframes => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
-                .type(payment.cvv4)
+                .type(payment.cvv_1)
                 .wait(500)
                 .get(x.checkboxes).click({ multiple: true })
                 .wait(500)
@@ -477,7 +479,7 @@ Cypress.Commands.add('personal_detail_pe', () => {
         })
     })
 })
-// Payment Page PERU
+// Payment Page PERU  //falta tarjeta cvv y exp.date
 Cypress.Commands.add('payment_page_pe', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {

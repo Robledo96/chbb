@@ -32,7 +32,7 @@ describe('Mobile CAFAM-CO', () => {
                 .and('contain.text', person.phone_3)
                 .and('contain.text', person.email)
                 .and('contain.text', address.line1)
-                .and('contain.text', address_co.departamento)
+                .and('contain.text', address_co.department)
                 .and('contain.text', address_co.city)
 
 

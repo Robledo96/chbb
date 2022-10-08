@@ -9,14 +9,14 @@ describe('Residential MEXICO', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/rappi/residential/launchstage/es-MX')
 
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_2).click()
-                .wait(500)
+            cy.get(x.button_1).click()
+                .wait(1000)
             cy.get(x.plans_select_button).click()
                 .wait(500)
         })
     })
     it('Personal Details ', () => {
-        cy.residential_mx()
+        cy.details_residential_mx()
 
     })
 
@@ -63,7 +63,7 @@ describe('Residential MEXICO', () => {
                     cy.log(n)
                     cy.get(x.check_outer_circle).eq(n).click({ force: true })
                 })
-            cy.payment_page_mx()
+            cy.payment_residential_mx()
 
             if (env != 'prod') {
                 cy.wait(1000)
