@@ -9,7 +9,7 @@ function Random(min, max) {
 
     return Math.floor(Math.random() * (max - min) + min)
 }
-// Function generates date of birth
+// Function generates date of birth random
 function dob() {
     month = Random(10, 12);
     day = month === 11 ? Random(10, 30) : Random(10, 31);

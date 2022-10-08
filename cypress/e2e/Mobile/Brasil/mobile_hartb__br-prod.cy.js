@@ -11,7 +11,7 @@ describe('Mobile BRASIL', () => {
     
     //Page 2
     it('Select Plan', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.plans_select_button).click()
         }).wait(500)
     })
@@ -24,7 +24,7 @@ describe('Mobile BRASIL', () => {
    
     //Page 4
     it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items)
                 .should('contain.text', person.name)
@@ -44,7 +44,7 @@ describe('Mobile BRASIL', () => {
 
 
     it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click()
                 .wait(5000)
                 .get(x.input_address_1).type(address.line2)
@@ -69,7 +69,7 @@ describe('Mobile BRASIL', () => {
     })
 
     it('Payment page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
 
             cy.payment_page_br()
 

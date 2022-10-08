@@ -36,6 +36,13 @@ var payment = {
      visa_card_num_3: 4111111111111111,
      cvv4: "777",
      expiration_date_5: "0525",
+
+
+     //Residential RAPPI-MX
+     mc_card_num: 5388545961306102,
+     cvv_5: "777",
+     expiration_date_5:"0126"
+
 }
 
 var mobile = {

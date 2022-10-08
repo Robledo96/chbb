@@ -12,19 +12,19 @@ describe('Mobile CAFAM-CO', () => {
     })
     //Page 2
     it('Select Plan', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.plans_select_button).click()
         }).wait(500)
     })
     // Page 3    
     it('Personal Details ', () => {
-        cy.personal_details_cafam_co()
+        cy.personal_details_co()
 
     })
     //Page 4
 
     it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items)
                 .should('contain.text', person.name)
@@ -41,7 +41,7 @@ describe('Mobile CAFAM-CO', () => {
 
 
     it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click() //edit button
                 .wait(5000)
             cy.get(x.input_address_1).clear()
@@ -53,8 +53,8 @@ describe('Mobile CAFAM-CO', () => {
         })
     })
     it('Payment page', () => {
-        cy.fixture('locators_mobile').then((x) => {
-            cy.payment_page_cafam_co()
+        cy.fixture('locators').then((x) => {
+            cy.payment_page_co()
 
             if (env != 'prod') {
                 cy.wait(1000)
@@ -67,7 +67,7 @@ describe('Mobile CAFAM-CO', () => {
 
     // Page 5 Thank you
     it('Should text Congratulations', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
                 .and('contain.text', 'Leonel')
                 .and('contain.text', ', ya cuentas con tu póliza de seguro!')

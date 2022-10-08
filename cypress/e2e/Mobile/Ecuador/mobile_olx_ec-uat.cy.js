@@ -10,20 +10,19 @@ describe('Mobile OLX EC', () => {
     })
     //Page 2
     it('Select Plan', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.plans_select_button).click()
                 .wait(500)
         })
     })
     // Page 3    
     it('Personal Details ', () => {
-        cy.fixture('locators_mobile').then((x) => {
             cy.personal_details_ec()
-        })
+        
     })
     //Page 4
     it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items)
                 .should('contain.text', person.name)
@@ -36,7 +35,7 @@ describe('Mobile OLX EC', () => {
         })
     })
     it('Pyment page -  Testing to edit personal data', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click()
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
@@ -46,7 +45,7 @@ describe('Mobile OLX EC', () => {
         })
     })
     it('Payment page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.wait(500)
             cy.payment_page_ec()
                 .wait(5000)
@@ -58,7 +57,7 @@ describe('Mobile OLX EC', () => {
 
     // Page 5 Thank you
     it('Should text Congratulations', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
                 .and('contain.text', 'Leonel')
                 .and('contain.text', ', ya cuentas con tu póliza de seguro!')

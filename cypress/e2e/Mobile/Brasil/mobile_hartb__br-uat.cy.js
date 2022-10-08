@@ -2,19 +2,20 @@ import 'cypress-iframe'
 import { person, address, address_br } from '../../../support/objects_mobile';
 var env = 'uat'
 
-describe('Mobile amex AR', () => {
+describe('Mobile BRASIL', () => {
     //Page 1
     it('Quote', () => {
         cy.visit('https://la.studio-uat.chubb.com/br/hartb/mobile/launchstage/pt-BR')
-        
         cy.quote()
     })
+    
     //Page 2
     it('Select Plan', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.plans_select_button).click()
         }).wait(500)
     })
+    
     // Page 3    
     it('Personal Details ', () => {
         cy.personal_details_br()
@@ -23,7 +24,7 @@ describe('Mobile amex AR', () => {
    
     //Page 4
     it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items)
                 .should('contain.text', person.name)
@@ -43,7 +44,7 @@ describe('Mobile amex AR', () => {
 
 
     it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click()
                 .wait(5000)
                 .get(x.input_address_1).type(address.line2)
@@ -68,7 +69,7 @@ describe('Mobile amex AR', () => {
     })
 
     it('Payment page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
 
             cy.payment_page_br()
 
@@ -82,7 +83,7 @@ describe('Mobile amex AR', () => {
     })
     // Page 5 Thank you
     it('Should text Congratulations', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
                 .and('contain.text', 'Leonel')
                 .and('contain.text', ', ya cuentas con tu póliza de seguro!')

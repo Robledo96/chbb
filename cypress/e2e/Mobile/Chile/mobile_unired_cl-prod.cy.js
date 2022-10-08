@@ -12,7 +12,7 @@ describe('Mobile CHILE', () => {
     })
     //Page 2
     it('Select Plan', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.plans_select_button).click()
         }).wait(500)
     })
@@ -24,7 +24,7 @@ describe('Mobile CHILE', () => {
     //Page 4
 
     it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
@@ -39,7 +39,7 @@ describe('Mobile CHILE', () => {
 
 
     it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click() //edit button
                 .wait(5000)
             cy.get(x.input_address_1).clear()
@@ -52,7 +52,7 @@ describe('Mobile CHILE', () => {
         })
     })
     it('Payment page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
 
             cy.payment_page_cl()
 

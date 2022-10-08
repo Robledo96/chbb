@@ -12,7 +12,7 @@ describe('Mobile rappi MX', () => {
     })
     //Page 2
     it('Select Plan', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.plans_select_button).click()
         }).wait(500)
     })
@@ -24,7 +24,7 @@ describe('Mobile rappi MX', () => {
     //Page 4
 
     it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
@@ -41,7 +41,7 @@ describe('Mobile rappi MX', () => {
 
 
     it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click() //edit button
                 .wait(5000)
                 .get(x.input_colonia).click({ force: true })
@@ -58,7 +58,7 @@ describe('Mobile rappi MX', () => {
         })
     })
     it('Payment page', () => {
-        cy.fixture('locators_mobile').then((x) => {
+        cy.fixture('locators').then((x) => {
             let n = 0
             cy.get(x.radio_group)
                 .find(x.check_outer_circle).should('have.length.greaterThan', 0)

@@ -1,12 +1,12 @@
 
-import { Random, dob, randomRFC, randomRUT, randomDNI, randomCPF} from './utils'
+import { Random, dob, randomRFC, randomRUT, randomDNI, randomCPF } from './utils'
 import { person, payment, mobile, address, address_ec, address_mx, address_co, address_ar, address_br } from '../support/objects_mobile'
 let n = 0
 let date = dob()
 
 // Quote
 Cypress.Commands.add('quote', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.button_1).click()
             .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
             .get(x.quote_button).click()
@@ -16,7 +16,7 @@ Cypress.Commands.add('quote', () => {
 
 // Personal Details ECUADOR
 Cypress.Commands.add('personal_details_ec', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -48,11 +48,11 @@ Cypress.Commands.add('personal_details_ec', () => {
 })
 // Payment Page ECUADOR
 Cypress.Commands.add('payment_page_ec', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
 
         cy.url().then((url) => {
             if (url.includes('/diners/')) {
-
+                                    //Diners
                 cy.iframe(x.card_iframe).then($iframes => {
                     cy.wrap($iframes[0])
                         .find(x.input_card)
@@ -68,7 +68,7 @@ Cypress.Commands.add('payment_page_ec', () => {
                         .get(x.forward_button).should('be.enabled')
                 })
             } else {
-
+                                    //OLX
                 cy.iframe(x.card_iframe).then($ => {
                     cy.wrap($[0])
                         .find(x.input_card)
@@ -96,7 +96,7 @@ Cypress.Commands.add('payment_page_ec', () => {
 
 // Personal Details MEXICO
 Cypress.Commands.add('personal_details_mx', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -112,8 +112,16 @@ Cypress.Commands.add('personal_details_mx', () => {
             })
         cy.get(x.input_mobile).type(person.phone_1)
             .get(x.input_email).type(person.email)
-            .get(x.input_postal_Code).type(address_mx.zipcode).wait(50000)
-            .get(x.input_colonia).type(address_mx.colonia)
+            .get(x.input_postal_Code).type(address_mx.zipcode)
+        cy.url().then((url) => {
+            if (url.includes('/la.studio-uat.chubb.com/')) {
+                cy.wait(50000)
+            } else {
+                cy.wait(10000)
+            }
+        })
+
+        cy.get(x.input_colonia).type(address_mx.colonia)
             .get(x.input_address_1).type(address.line1)
         cy.url().then((url) => {
             if (url.includes('/marsh/')) {
@@ -136,7 +144,7 @@ Cypress.Commands.add('personal_details_mx', () => {
 })
 // Payment Page MEXICO
 Cypress.Commands.add('payment_page_mx', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
@@ -153,6 +161,7 @@ Cypress.Commands.add('payment_page_mx', () => {
                 .get(x.checkboxes).click({ multiple: true })
                 .wait(500)
                 .get(x.input_expiry_date).click()
+                .get(x.input_card_name).click()
                 .get(x.forward_button).should('be.enabled')
 
         })
@@ -161,7 +170,7 @@ Cypress.Commands.add('payment_page_mx', () => {
 
 // Personal Details COLOMBIA
 Cypress.Commands.add('personal_details_co', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).first().type(date)
@@ -204,7 +213,7 @@ Cypress.Commands.add('personal_details_co', () => {
 
 // Payment Page COLOMBIA
 Cypress.Commands.add('payment_page_co', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
@@ -229,7 +238,7 @@ Cypress.Commands.add('payment_page_co', () => {
 
 // Personal Details CHILE
 Cypress.Commands.add('personal_details_cl', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -271,7 +280,7 @@ Cypress.Commands.add('personal_details_cl', () => {
 })
 // Payment Page CHILE
 Cypress.Commands.add('payment_page_cl', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
@@ -296,16 +305,16 @@ Cypress.Commands.add('payment_page_cl', () => {
 
 // Quote AMEX-AR
 Cypress.Commands.add('quote_ar', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.button_1).click()
             .get(x.input_imei).type(mobile.tac_1 + Random(1000000, 9999999).toString())
             .get(x.quote_button).click()
             .wait(500)
     })
 })
-// Personal Details AMEX-AR
-Cypress.Commands.add('personal_details_amex_ar', () => {
-    cy.fixture('locators_mobile').then((x) => {
+// Personal Details ARGENTINA
+Cypress.Commands.add('personal_details_ar', () => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -338,9 +347,9 @@ Cypress.Commands.add('personal_details_amex_ar', () => {
         })
     })
 })
-// Payment Page AMEX-AR
-Cypress.Commands.add('payment_page_amex_ar', () => {
-    cy.fixture('locators_mobile').then((x) => {
+// Payment Page ARGENTINA
+Cypress.Commands.add('payment_page_ar', () => {
+    cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
@@ -365,7 +374,7 @@ Cypress.Commands.add('payment_page_amex_ar', () => {
 
 // Personal Details BRASIL
 Cypress.Commands.add('personal_details_br', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -410,7 +419,67 @@ Cypress.Commands.add('personal_details_br', () => {
 })
 // Payment Page BARSIL
 Cypress.Commands.add('payment_page_br', () => {
-    cy.fixture('locators_mobile').then((x) => {
+    cy.fixture('locators').then((x) => {
+        cy.iframe(x.card_iframe).then($ => {
+            cy.wrap($[0])
+                .find(x.input_card)
+                .type(payment.visa_card_num_3)
+                .wait(500)
+                .get(x.input_card_name).type(payment.card_holder)
+                .get(x.input_expiry_date).type(payment.expiration_date_5)
+        })
+        cy.iframe(x.cvv_iframe).then($iframes => {
+            cy.wrap($iframes[0])
+                .find(x.input_cvv)
+                .type(payment.cvv4)
+                .wait(500)
+                .get(x.checkboxes).click({ multiple: true })
+                .wait(500)
+                .get(x.input_expiry_date).click()
+                .get(x.forward_button).should('be.enabled')
+
+        })
+    })
+})
+
+// Personal Details PREU
+Cypress.Commands.add('personal_detail_pe', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.input_name).type(person.name)
+            .get(x.input_last_name).type(person.last_name)
+            .get(x.input_birth_date).type(dob())
+        cy.get(x.select_value).first().click()//gender
+            .get(x.select_option).should('have.length.greaterThan', 0)
+            .its('length')
+            .then(cy.log)
+            .then(() => {
+                n = Cypress._.random(0, 1)
+                cy.log(n)
+                cy.get(x.select_option).eq(n).click()
+            })
+        cy.get(x.input_id).type(randomDNI())
+        cy.get(x.input_mobile).type(person.phone_1)
+            .get(x.input_email).type(person.email)
+            .get(x.input_address_1).type(address.line1)
+            .get(x.input_address_2).type(address.line1)
+            .get(x.input_address_3).type(address_ar.localidad)
+            .get(x.input_city).type(address_ar.city)
+            .get(x.input_province).type(address_ar.province)
+            .get(x.input_postal_Code).type(address_ar.zipcode)
+            .get(x.forward_button).click()
+            .wait(10000)
+        cy.get(x.errors).then(($error) => {
+            if ($error.is(':visible')) {
+                cy.get(x.input_id).type(randomDNI())
+                    .get(x.forward_button).click()
+                    .wait(500)
+            }
+        })
+    })
+})
+// Payment Page PERU
+Cypress.Commands.add('payment_page_pe', () => {
+    cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)

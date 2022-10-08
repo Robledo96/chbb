@@ -1,32 +1,28 @@
-
 import 'cypress-iframe'
 import { person, address, address_mx } from '../../../support/objects_mobile';
 var env = 'prod'
 
 
-describe('Mobile rappi MX', () => {
+describe('Residential MEXICO', () => {
     //Page 1
-    it('Quote', () => {
-        cy.visit('https://la.studio.chubb.com/mx/rappi/mobile/launchstage/es-MX')
-        cy.quote()
-    })
-    //Page 2
-    it('Select Plan', () => {
+    it('Quote and Select Plan', () => {
+        cy.visit('https://la.studio.chubb.com/mx/rappi/residential/launchstage/es-MX')
+
         cy.fixture('locators').then((x) => {
+            cy.get(x.button_1).click()
+                .wait(500)
             cy.get(x.plans_select_button).click()
-        }).wait(500)
+                .wait(500)
+        })
     })
-    // Page 3    
     it('Personal Details ', () => {
-        cy.personal_details_mx()
+        cy.residential_mx()
 
     })
-    //Page 4
 
     it('Pyment page - Checking personal details information', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
@@ -43,7 +39,7 @@ describe('Mobile rappi MX', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click() //edit button
                 .wait(5000)
-                .get(x.input_colonia).click({ force: true })
+                .get(x.input_colonia_1).click({ force: true })
                 .wait(1000)
                 .get(x.colonia_option_text).first().click({ force: true })
                 .wait(1000)
@@ -51,7 +47,6 @@ describe('Mobile rappi MX', () => {
                 .type(address.line2)
             cy.get(x.forward_button).click()
                 .wait(5000)
-            cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
         })
@@ -68,21 +63,16 @@ describe('Mobile rappi MX', () => {
                     cy.log(n)
                     cy.get(x.check_outer_circle).eq(n).click({ force: true })
                 })
+            cy.payment_page_mx()
+
+            if (env != 'prod') {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+            }
         })
-        cy.payment_page_mx()
 
-        if (env != 'prod') {
-            cy.wait(1000)
-            cy.get(x.forward_button).click()
-
-        }
 
     })
 })
-
-
-
-
-
-
 
