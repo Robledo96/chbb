@@ -102,7 +102,7 @@ Cypress.Commands.add('personal_details_mx', () => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
-            .get(x.input_id).type(randomRFC())//'ANML891018J47'
+            .get(x.input_id).type(randomRFC())//'ANML891018J47' 
         cy.get(x.select_value_1).click()
             .get(x.select_option).should('have.length.greaterThan', 0)
             .its('length')
@@ -115,22 +115,19 @@ Cypress.Commands.add('personal_details_mx', () => {
         cy.get(x.input_mobile).type(person.phone_1)
             .get(x.input_email).type(person.email)
             .get(x.input_postal_Code).type(address_mx.zipcode)
-        cy.url().then((url) => {
-            if (url.includes('/la.studio-uat.chubb.com/')) {
-                cy.wait(50000)
-            } else {
-                cy.wait(10000)
-            }
-        })
 
-        cy.get(x.input_colonia).type(address_mx.colonia)
+        cy.intercept('POST', '/api/data/locations').as('getLocation')
+            .wait('@getLocation', { timeout: 80000 })
+
+            .get(x.input_colonia).type(address_mx.colonia)
             .get(x.input_address_1).type(address.line1)
+
         cy.url().then((url) => {
             if (url.includes('/marsh/')) {
                 cy.get(x.input_company).type('América Móvil')
             }
         })
-
+            .wait(1000)
         cy.get(x.forward_button).click()
             .wait(10000)
         cy.get(x.errors).then(($error) => {
@@ -139,9 +136,10 @@ Cypress.Commands.add('personal_details_mx', () => {
                     .get(x.input_birth_date).type(dob())
                     .get(x.input_id).type(randomRFC())
                     .get(x.forward_button).click()
-                    .wait(500)
+                    .wait(1000)
             }
         })
+
     })
 })
 // Payment Page MEXICO

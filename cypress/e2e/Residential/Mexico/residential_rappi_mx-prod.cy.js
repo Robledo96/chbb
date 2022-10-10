@@ -3,7 +3,7 @@ import { person, address, address_mx } from '../../../support/objects_mobile';
 var env = 'prod'
 
 
-describe('Residential MEXICO', () => {
+describe('Residential rappi MEXICO', () => {
     //Page 1
     it('Quote and Select Plan', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/residential/launchstage/es-MX')
@@ -16,7 +16,7 @@ describe('Residential MEXICO', () => {
         })
     })
     it('Personal Details ', () => {
-        cy.residential_mx()
+        cy.details_residential_mx()
 
     })
 
@@ -63,7 +63,7 @@ describe('Residential MEXICO', () => {
                     cy.log(n)
                     cy.get(x.check_outer_circle).eq(n).click({ force: true })
                 })
-            cy.payment_page_mx()
+            cy.payment_residential_mx()
 
             if (env != 'prod') {
                 cy.wait(1000)

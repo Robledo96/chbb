@@ -5,7 +5,7 @@ var env = 'prod'
 let n = 0
 
 
-describe('Residential COLOMBIA', () => {
+describe('Residential cafam COLOMBIA', () => {
     //Page 1
     it('Quote and Select Plan', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/cafam/residential/COAS600002/es-CO')
