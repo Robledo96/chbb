@@ -36,9 +36,10 @@ Cypress.Commands.add('personal_details_ec', () => {
             .get(x.input_city).type(address_ec.city)
             .get(x.input_province).type(address_ec.province)
             .get(x.forward_button).click()
-            .wait(20000)
-        cy.get(x.errors, { timeout: 90000 }).then(($error) => {
-            if ($error.is(':visible')) {
+            .wait(10000)
+
+        cy.get('form').then(($form) => {
+            if ($form.find(x.errors).is(':visible')) {
                 cy.get(x.input_id).type(Random(1000000000, 1999999999))
                     .get(x.forward_button).click()
                     .wait(500)
@@ -114,7 +115,7 @@ Cypress.Commands.add('personal_details_mx', () => {
             })
         cy.get(x.input_mobile).type(person.phone_1)
             .get(x.input_email).type(person.email)
-            .get(x.input_postal_Code).type(address_mx.zipcode)
+            .get(x.input_zipcode).type(address_mx.zipcode)
 
         cy.intercept('POST', '/api/data/locations').as('getLocation')
             .wait('@getLocation', { timeout: 80000 })
@@ -130,8 +131,9 @@ Cypress.Commands.add('personal_details_mx', () => {
             .wait(1000)
         cy.get(x.forward_button).click()
             .wait(10000)
-        cy.get(x.errors).then(($error) => {
-            if ($error.is(':visible')) {
+
+        cy.get('form').then(($form) => {
+            if ($form.find(x.errors).is(':visible')) {
                 cy.get(x.input_birth_date).clear()
                     .get(x.input_birth_date).type(dob())
                     .get(x.input_id).type(randomRFC())
@@ -201,8 +203,9 @@ Cypress.Commands.add('personal_details_co', () => {
             })
             .get(x.forward_button).click()
             .wait(10000)
-        cy.get(x.errors).then(($error) => {
-            if ($error.is(':visible')) {
+
+        cy.get('form').then(($form) => {
+            if ($form.find(x.errors).is(':visible')) {
                 cy.get(x.input_id).type(Random(1000000000, 1999999999))
                     .get(x.forward_button).click()
                     .wait(500)
@@ -267,8 +270,9 @@ Cypress.Commands.add('personal_details_cl', () => {
             .wait(1000)
             .get(x.forward_button).click()
             .wait(10000)
-        cy.get(x.errors).then(($error) => {
-            if ($error.is(':visible')) {
+
+        cy.get('form').then(($form) => {
+            if ($form.find(x.errors).is(':visible')) {
                 cy.get(x.input_birth_date).clear()
                     .get(x.input_birth_date).type(dob())
                     .get(x.input_id).type(randomRUT(1000000, 40000000))
@@ -338,8 +342,9 @@ Cypress.Commands.add('personal_details_ar', () => {
             .get(x.input_postal_Code).type(address_ar.zipcode)
             .get(x.forward_button).click()
             .wait(10000)
-        cy.get(x.errors).then(($error) => {
-            if ($error.is(':visible')) {
+
+        cy.get('form').then(($form) => {
+            if ($form.find(x.errors).is(':visible')) {
                 cy.get(x.input_id).type(randomDNI())
                     .get(x.forward_button).click()
                     .wait(500)
@@ -408,8 +413,9 @@ Cypress.Commands.add('personal_details_br', () => {
             .wait(1000)
             .get(x.forward_button).click()
             .wait(10000)
-        cy.get(x.errors).then(($error) => {
-            if ($error.is(':visible')) {
+
+        cy.get('form').then(($form) => {
+            if ($form.find(x.errors).is(':visible')) {
                 cy.get(x.input_id).type(randomCPF())
                     .get(x.forward_button).click()
                     .wait(500)
@@ -468,8 +474,9 @@ Cypress.Commands.add('personal_detail_pe', () => {
             .get(x.input_postal_Code).type(address_ar.zipcode)
             .get(x.forward_button).click()
             .wait(10000)
-        cy.get(x.errors).then(($error) => {
-            if ($error.is(':visible')) {
+
+        cy.get('form').then(($form) => {
+            if ($form.find(x.errors).is(':visible')) {
                 cy.get(x.input_id).type(randomDNI())
                     .get(x.forward_button).click()
                     .wait(500)

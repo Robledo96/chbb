@@ -64,10 +64,12 @@ var address_ar = {
 }
 var address_br = {
     zipcode: "22050-000",
+    zipcode_1: "69932-000",
     ext_num: "196",
     barrio: "Gamboa",
+    barrio_1: "Eldorado",
     city: "Rio de Janeiro",
-    province: "RJ"
+    province: "RJ",
 
 }
 
