@@ -36,7 +36,7 @@ Cypress.Commands.add('personal_details_ec', () => {
             .get(x.input_city).type(address_ec.city)
             .get(x.input_province).type(address_ec.province)
             .get(x.forward_button).click()
-            .wait(10000)
+            .wait(15000)
 
         cy.get('form').then(($form) => {
             if ($form.find(x.errors).is(':visible')) {
@@ -130,7 +130,7 @@ Cypress.Commands.add('personal_details_mx', () => {
         })
             .wait(1000)
         cy.get(x.forward_button).click()
-            .wait(10000)
+            .wait(15000)
 
         cy.get('form').then(($form) => {
             if ($form.find(x.errors).is(':visible')) {
@@ -202,7 +202,7 @@ Cypress.Commands.add('personal_details_co', () => {
                 cy.get(x.select_option).eq(n).click()
             })
             .get(x.forward_button).click()
-            .wait(10000)
+            .wait(15000)
 
         cy.get('form').then(($form) => {
             if ($form.find(x.errors).is(':visible')) {
@@ -269,7 +269,7 @@ Cypress.Commands.add('personal_details_cl', () => {
             })
             .wait(1000)
             .get(x.forward_button).click()
-            .wait(10000)
+            .wait(15000)
 
         cy.get('form').then(($form) => {
             if ($form.find(x.errors).is(':visible')) {
@@ -339,9 +339,9 @@ Cypress.Commands.add('personal_details_ar', () => {
             .get(x.input_address_3).type(address_ar.localidad)
             .get(x.input_city).type(address_ar.city)
             .get(x.input_province).type(address_ar.province)
-            .get(x.input_postal_Code).type(address_ar.zipcode)
+            .get(x.input_zipcode).type(address_ar.zipcode)
             .get(x.forward_button).click()
-            .wait(10000)
+            .wait(15000)
 
         cy.get('form').then(($form) => {
             if ($form.find(x.errors).is(':visible')) {
@@ -396,23 +396,19 @@ Cypress.Commands.add('personal_details_br', () => {
             .get(x.input_email).type(person.email)
             .get(x.input_id).type(randomCPF())
             .wait(1000)
-            .get(x.input_postal_Code).type(address_br.zipcode)
-            .wait(1000)
+            .get(x.input_zipcode).type(address_br.zipcode)
+            .intercept('https://viacep.com.br/ws/22050000/json').as('Location')
+            .wait('@Location')
             .get(x.input_address_1).type(address.line1)
             .get(x.input_ext_number).type(address_br.ext_num)
-            .wait(1000)
             .get(x.input_address_2).type(address.line1)
-            .wait(1000)
             .get(x.input_address_3).type(address_br.barrio)
-            .wait(1000)
             .get(x.input_city).type(address_br.city)
-            .wait(1000)
             .get(x.input_province).type(address_br.province)
-            .wait(1000)
             .get(x.checkboxes).click({ multiple: true })
             .wait(1000)
             .get(x.forward_button).click()
-            .wait(10000)
+            .wait(15000)
 
         cy.get('form').then(($form) => {
             if ($form.find(x.errors).is(':visible')) {
@@ -473,7 +469,7 @@ Cypress.Commands.add('personal_detail_pe', () => {
             .get(x.input_province).type(address_ar.province)
             .get(x.input_postal_Code).type(address_ar.zipcode)
             .get(x.forward_button).click()
-            .wait(10000)
+            .wait(15000)
 
         cy.get('form').then(($form) => {
             if ($form.find(x.errors).is(':visible')) {
