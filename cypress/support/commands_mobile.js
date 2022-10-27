@@ -1,59 +1,72 @@
 
 import { Random, dob, randomRFC, randomRUT, randomDNI, randomCPF } from './utils'
 import { person, payment, mobile, address, address_ec, address_mx, address_co, address_ar, address_br } from '../support/objects_mobile'
-let n = 0
 let date = dob()
 
 // Quote
 Cypress.Commands.add('quote', () => {
     cy.fixture('locators').then((x) => {
+        cy.log('////// Quote /////')
         cy.get(x.button_1).click()
             .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
             .get(x.quote_button).click()
-            .wait(1000)
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.log('////// Select PLan /////')
+        cy.get(x.plans_select_button).click()
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
     })
 })
 
-// Personal Details ECUADOR
+// ECUADOR
+// Personal Details 
 Cypress.Commands.add('personal_details_ec', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
-        cy.get(x.select_value).click()//gender
+        cy.log('/////// Gener //////')
+        cy.get(x.select_value).click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 1)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then(($length) => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
-            .get(x.input_id).type(Random(1000000000, 1999999999))//'1896297523'
+            .get(x.input_id).type(1896297523)//'1896297523'
             .get(x.input_mobile).type(person.phone)
             .get(x.input_email).type(person.email)
             .get(x.input_address_1).type(address.line1)
             .get(x.input_city).type(address_ec.city)
             .get(x.input_province).type(address_ec.province)
             .get(x.forward_button).click()
-            .wait(15000)
-
-        cy.get('form').then(($form) => {
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
-                cy.get(x.input_id).type(Random(1000000000, 1999999999))
-                    .get(x.forward_button).click()
-                    .wait(500)
+                cy.log('///// Bug Found /////')
+                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                    cy.log('////// Changing ID /////')
+                    cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                        .get(x.forward_button).click()
+                }
             }
+        })
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
         })
     })
 })
-// Payment Page ECUADOR
+// Payment Page 
 Cypress.Commands.add('payment_page_ec', () => {
     cy.fixture('locators').then((x) => {
-
+        cy.log('/////// Checking url for Conditions ///////')
         cy.url().then((url) => {
             if (url.includes('/diners/')) {
-                //Diners
+                cy.log('//////// URL contains " Diners " //////')
                 cy.iframe(x.card_iframe).then($iframes => {
                     cy.wrap($iframes[0])
                         .find(x.input_card)
@@ -71,12 +84,11 @@ Cypress.Commands.add('payment_page_ec', () => {
             }
             cy.url().then((url) => {
                 if (url.includes('/olx/')) {
-                    //OLX
+                    cy.log('//////// URL contains " Olx " //////')
                     cy.iframe(x.card_iframe).then($ => {
                         cy.wrap($[0])
                             .find(x.input_card).click()
                             .type(payment.visa_card_num)
-                            .wait(500)
                             .get(x.input_card_name).click().type(payment.card_holder)
                             .get(x.input_expiry_date).click().type(payment.expiration_date_1)
                     })
@@ -84,11 +96,19 @@ Cypress.Commands.add('payment_page_ec', () => {
                         cy.wrap($iframes[0])
                             .find(x.input_cvv).click()
                             .type(payment.cvv)
-                            .wait(500)
-                            .get(x.checkboxes).click({ multiple: true })
-                            .wait(500)
+                            .get(x.checkboxes).check({ force: true }).should('be.checked')
                             .get(x.forward_button).should('be.enabled')
 
+                    })
+                }
+            })
+            cy.url().then((url) => {
+                if (url.includes('https://la.studio-uat.chubb.com/')) {
+                    cy.wait(1000)
+                    cy.get(x.forward_button).click()
+
+                    cy.get('.loading-indicator__container').should(($loading) => {
+                        expect($loading).not.to.exist
                     })
                 }
             })
@@ -97,7 +117,8 @@ Cypress.Commands.add('payment_page_ec', () => {
     })
 })
 
-// Personal Details MEXICO
+// MEXICO
+// Personal Details 
 Cypress.Commands.add('personal_details_mx', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
@@ -106,52 +127,61 @@ Cypress.Commands.add('personal_details_mx', () => {
             .get(x.input_id).type(randomRFC())//'ANML891018J47' 
         cy.get(x.select_value_1).click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 18)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
         cy.get(x.input_mobile).type(person.phone_1)
             .get(x.input_email).type(person.email)
             .get(x.input_zipcode).type(address_mx.zipcode)
 
         cy.intercept('POST', '/api/data/locations').as('getLocation')
-            .wait('@getLocation', { timeout: 80000 })
+            .wait('@getLocation', { timeout: 60000 })
 
             .get(x.input_colonia).type(address_mx.colonia)
             .get(x.input_address_1).type(address.line1)
 
         cy.url().then((url) => {
             if (url.includes('/marsh/')) {
+                cy.log('////// URL contains " marsh " ///////')
                 cy.get(x.input_company).type('América Móvil')
             }
         })
             .wait(1000)
         cy.get(x.forward_button).click()
-            .wait(15000)
-
-        cy.get('form').then(($form) => {
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
-                cy.get(x.input_birth_date).clear()
-                    .get(x.input_birth_date).type(dob())
-                    .get(x.input_id).type(randomRFC())
-                    .get(x.forward_button).click()
-                    .wait(1000)
+                cy.log('///// Bug Found /////')
+                if (cy.get(x.errors).should('contain.text', "  RFC Inválido  ")) {
+                    cy.log('////// Changing ID /////')
+                    cy.get(x.input_id).type(randomRFC()).wait(1000)
+                        .get(x.forward_button).click()
+                }
             }
+        })
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
         })
 
     })
 })
-// Payment Page MEXICO
+// Payment Page 
 Cypress.Commands.add('payment_page_mx', () => {
     cy.fixture('locators').then((x) => {
+        cy.log('/////// Radio Group - 1 ///////')
+        cy.get(x.radio_group)
+            .find(x.check_outer_circle).should('have.length.greaterThan', 0)
+            .its('length').then($length => {
+                cy.get(x.check_outer_circle).eq(Cypress._.random($length - 1)).click({ force: true })
+            })
+
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
                 .type(payment.visa_card_num_1)
-                .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
                 .get(x.input_expiry_date).type(payment.expiration_date_2)
         })
@@ -159,69 +189,76 @@ Cypress.Commands.add('payment_page_mx', () => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
                 .type(payment.cvv_1)
-                .wait(500)
-                .get(x.checkboxes).click({ multiple: true })
-                .wait(500)
-                .get(x.input_expiry_date).click()
-                .get(x.input_card_name).click()
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
                 .get(x.forward_button).should('be.enabled')
 
+        })
+        cy.url().then((url) => {
+            if (url.includes('https://la.studio-uat.chubb.com/')) {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+                cy.get('.loading-indicator__container').should(($loading) => {
+                    expect($loading).not.to.exist
+                })
+            }
         })
     })
 })
 
-// Personal Details COLOMBIA
+// COLOMBIA
+// Personal Details 
 Cypress.Commands.add('personal_details_co', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).first().type(date)
+        cy.log('/////// Gener ///////')
         cy.get(x.select_value).first().click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 1)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
-            .get(x.input_id).type(Random(1000000000, 1999999999))//'1896297523'
+            .get(x.input_id).type(Random(1000000000, 1999999999))
             .get(x.input_birth_date).eq(1).type(date)
             .get(x.input_mobile).type(person.phone_3)
             .get(x.input_email).type(person.email)
             .get(x.input_address_1).type(address.line1)
             .get(x.input_province).type(address_co.department)
             .get(x.input_city).type(address_co.city)
+        cy.log('/////// Question ///////')
         cy.get(x.select_value).eq(1).click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 1)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
             .get(x.forward_button).click()
-            .wait(15000)
-
-        cy.get('form').then(($form) => {
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
-                cy.get(x.input_id).type(Random(1000000000, 1999999999))
-                    .get(x.forward_button).click()
-                    .wait(500)
+                cy.log('///// Bug Found /////')
+                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                    cy.log('////// Changing ID /////')
+                    cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                        .get(x.forward_button).click()
+                }
             }
+        })
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
         })
     })
 })
-
-// Payment Page COLOMBIA
+// Payment Page 
 Cypress.Commands.add('payment_page_co', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
                 .type(payment.amex_card_num)
-                .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
                 .get(x.input_expiry_date).type(payment.expiration_date)
         })
@@ -229,30 +266,35 @@ Cypress.Commands.add('payment_page_co', () => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
                 .type(payment.cvv_2)
-                .wait(500)
-                .get(x.checkboxes).click({ multiple: true })
-                .wait(500)
-                .get(x.input_expiry_date).click()
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
                 .get(x.forward_button).should('be.enabled')
 
+        })
+        cy.url().then((url) => {
+            if (url.includes('https://la.studio-uat.chubb.com/')) {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+                cy.get('.loading-indicator__container').should(($loading) => {
+                    expect($loading).not.to.exist
+                })
+            }
         })
     })
 })
 
-// Personal Details CHILE
+// CHILE
+// Personal Details 
 Cypress.Commands.add('personal_details_cl', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
-        cy.get(x.select_value).first().click()//gender
+        cy.log('/////// Gener ///////')
+        cy.get(x.select_value).first().click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 1)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
         cy.get(x.input_id).type(randomRUT(10000000, 40000000))
         cy.get(x.input_mobile).type(person.phone_4)
@@ -260,36 +302,37 @@ Cypress.Commands.add('personal_details_cl', () => {
             .get(x.input_address_1).type(address.line1)
         cy.get(x.select_value).last().click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 346)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
             .wait(1000)
             .get(x.forward_button).click()
-            .wait(15000)
-
-        cy.get('form').then(($form) => {
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
-                cy.get(x.input_birth_date).clear()
-                    .get(x.input_birth_date).type(dob())
-                    .get(x.input_id).type(randomRUT(1000000, 40000000))
-                    .get(x.forward_button).click()
-                    .wait(500)
+                cy.log('///// Bug Found /////')
+                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                    cy.log('////// Changing ID /////')
+                    cy.get(x.input_id).type(randomRUT(10000000, 40000000)).wait(1000)
+                        .get(x.forward_button).click()
+                }
             }
+        })
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
         })
     })
 })
-// Payment Page CHILE
+// Payment Page 
 Cypress.Commands.add('payment_page_cl', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
                 .type(payment.visa_card_num_1)
-                .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
                 .get(x.input_expiry_date).type(payment.expiration_date_2)
         })
@@ -297,41 +340,54 @@ Cypress.Commands.add('payment_page_cl', () => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
                 .type(payment.cvv_1)
-                .wait(500)
-                .get(x.checkboxes).click({ multiple: true })
-                .wait(500)
-                .get(x.input_expiry_date).click()
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
                 .get(x.forward_button).should('be.enabled')
 
+        })
+        cy.url().then((url) => {
+            if (url.includes('https://la.studio-uat.chubb.com/')) {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+                cy.get('.loading-indicator__container').should(($loading) => {
+                    expect($loading).not.to.exist
+                })
+            }
         })
     })
 })
 
-// Quote ARGENTINA
+// ARGENTINA
+// Quote 
 Cypress.Commands.add('quote_ar', () => {
     cy.fixture('locators').then((x) => {
+        cy.log('////// Quote /////')
         cy.get(x.button_1).click()
             .get(x.input_imei).type(mobile.tac_1 + Random(1000000, 9999999).toString())
             .get(x.quote_button).click()
-            .wait(500)
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.log('////// Select PLan /////')
+        cy.get(x.plans_select_button).click()
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
     })
 })
-// Personal Details ARGENTINA
+// Personal Details 
 Cypress.Commands.add('personal_details_ar', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
-        cy.get(x.select_value).first().click()//gender
+        cy.log('/////// Gener ///////')
+        cy.get(x.select_value).first().click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 1)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
-        cy.get(x.input_id).type(randomDNI())
+        cy.get(x.input_id).type(randomDNI())//
         cy.get(x.input_mobile).type(person.phone_1)
             .get(x.input_email).type(person.email)
             .get(x.input_address_1).type(address.line1)
@@ -341,56 +397,68 @@ Cypress.Commands.add('personal_details_ar', () => {
             .get(x.input_province).type(address_ar.province)
             .get(x.input_zipcode).type(address_ar.zipcode)
             .get(x.forward_button).click()
-            .wait(15000)
-
-        cy.get('form').then(($form) => {
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
-                cy.get(x.input_id).type(randomDNI())
-                    .get(x.forward_button).click()
-                    .wait(500)
+                cy.log('///// Bug Found /////')
+                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                    cy.log('////// Changing ID /////')
+                    cy.get(x.input_id).type(randomDNI()).wait(1000)
+                        .get(x.forward_button).click()
+                }
             }
+        })
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
         })
     })
 })
-// Payment Page ARGENTINA //falta tarjeta cvv y exp.date
+// Payment Page  
 Cypress.Commands.add('payment_page_ar', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
                 .type(payment.visa_card_num_1)
-                .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
-                .get(x.input_expiry_date).type(payment.expiration_date)
+                .get(x.input_expiry_date).type(payment.expiration_date_2)
         })
         cy.iframe(x.cvv_iframe).then($iframes => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
-                .type(payment.cvv1)
-                .wait(500)
-                .get(x.checkboxes).click({ multiple: true })
-                .wait(500)
-                .get(x.input_expiry_date).click()
+                .type(payment.cvv_1)
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
                 .get(x.forward_button).should('be.enabled')
 
+        })
+        cy.url().then((url) => {
+            if (url.includes('https://la.studio-uat.chubb.com/')) {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+                cy.get('.loading-indicator__container').should(($loading) => {
+                    expect($loading).not.to.exist
+                })
+            }
         })
     })
 })
 
-// Personal Details BRASIL
+// BRASIL
+// Personal Details 
 Cypress.Commands.add('personal_details_br', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
-        cy.get(x.select_value).first().click()//gender
+        cy.log('/////// Gener ///////')
+        cy.get(x.select_value).first().click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 1)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
             .get(x.input_mobile).type(person.phone_2)
             .get(x.input_email).type(person.email)
@@ -408,56 +476,69 @@ Cypress.Commands.add('personal_details_br', () => {
             .get(x.checkboxes).click({ multiple: true })
             .wait(1000)
             .get(x.forward_button).click()
-            .wait(15000)
-
-        cy.get('form').then(($form) => {
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
-                cy.get(x.input_id).type(randomCPF())
-                    .get(x.forward_button).click()
-                    .wait(500)
+                cy.log('///// Bug Found /////')
+                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                    cy.log('////// Changing ID /////')
+                    cy.get(x.input_id).type(randomCPF()).wait(1000)
+                        .get(x.forward_button).click()
+                }
             }
+        })
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
         })
     })
 })
-// Payment Page BARSIL
+// Payment Page 
 Cypress.Commands.add('payment_page_br', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
-                .find(x.input_card)
+                .find(x.input_card).click()
                 .type(payment.visa_card_num_1)
-                .wait(500)
-                .get(x.input_card_name).type(payment.card_holder)
+                .get(x.input_card_name)
+                .type(payment.card_holder)
                 .get(x.input_expiry_date).type(payment.expiration_date)
         })
         cy.iframe(x.cvv_iframe).then($iframes => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
                 .type(payment.cvv_1)
-                .wait(500)
-                .get(x.checkboxes).click({ multiple: true })
-                .wait(500)
-                .get(x.input_expiry_date).click()
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
                 .get(x.forward_button).should('be.enabled')
 
+        })
+        cy.url().then((url) => {
+            if (url.includes('https://la.studio-uat.chubb.com/')) {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+                cy.get('.loading-indicator__container').should(($loading) => {
+                    expect($loading).not.to.exist
+                })
+            }
         })
     })
 })
 
-// Personal Details PREU
+// PERU
+// Personal Details 
 Cypress.Commands.add('personal_detail_pe', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
-        cy.get(x.select_value).first().click()//gender
+        cy.log('/////// Gener ///////')
+        cy.get(x.select_value).first().click()
             .get(x.select_option).should('have.length.greaterThan', 0)
-            .its('length')
-            .then(cy.log)
-            .then(() => {
-                n = Cypress._.random(0, 1)
-                cy.log(n)
-                cy.get(x.select_option).eq(n).click()
+            .its('length').then($length => {
+                cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
         cy.get(x.input_id).type(randomDNI())
         cy.get(x.input_mobile).type(person.phone_1)
@@ -469,25 +550,32 @@ Cypress.Commands.add('personal_detail_pe', () => {
             .get(x.input_province).type(address_ar.province)
             .get(x.input_postal_Code).type(address_ar.zipcode)
             .get(x.forward_button).click()
-            .wait(15000)
-
-        cy.get('form').then(($form) => {
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
-                cy.get(x.input_id).type(randomDNI())
-                    .get(x.forward_button).click()
-                    .wait(500)
+                cy.log('///// Bug Found /////')
+                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                    cy.log('////// Changing ID /////')
+                    cy.get(x.input_id).type(randomDNI()).wait(1000)
+                        .get(x.forward_button).click()
+                }
             }
+        })
+        cy.get('.loading-indicator__container').should(($loading) => {
+            expect($loading).not.to.exist
         })
     })
 })
-// Payment Page PERU  //falta tarjeta cvv y exp.date
+// Payment Page PERU  
 Cypress.Commands.add('payment_page_pe', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
                 .find(x.input_card)
                 .type(payment.visa_card_num_3)
-                .wait(500)
                 .get(x.input_card_name).type(payment.card_holder)
                 .get(x.input_expiry_date).type(payment.expiration_date_5)
         })
@@ -495,12 +583,19 @@ Cypress.Commands.add('payment_page_pe', () => {
             cy.wrap($iframes[0])
                 .find(x.input_cvv)
                 .type(payment.cvv4)
-                .wait(500)
-                .get(x.checkboxes).click({ multiple: true })
-                .wait(500)
-                .get(x.input_expiry_date).click()
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
                 .get(x.forward_button).should('be.enabled')
 
+        })
+        cy.url().then((url) => {
+            if (url.includes('https://la.studio-uat.chubb.com/')) {
+                cy.wait(1000)
+                cy.get(x.forward_button).click()
+
+                cy.get('.loading-indicator__container').should(($loading) => {
+                    expect($loading).not.to.exist
+                })
+            }
         })
     })
 })

@@ -1,8 +1,7 @@
 
 import 'cypress-iframe'
 import { person, address, address_ec } from '../../../support/objects_mobile'
-var env = 'uat'
-let n = 0
+
 
 describe('Residential diners EC', () => {
     //Page 1
@@ -12,27 +11,25 @@ describe('Residential diners EC', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.button_1).click()
                 .wait(500)
-
+            cy.log('////// Radio Group //////')
             cy.get(x.radio_group)
                 .find(x.check_outer_circle).should('have.length.greaterThan', 0)
-                .its('length')
-                .then(cy.log)
-                .then(() => {
-                    n = Cypress._.random(0, 1)
-                    cy.log(n)
-                    cy.get(x.check_outer_circle).eq(n).click({ force: true })
-                        .get(x.button_2).click()
-                        .wait(1000)
+                .its('length').then(($length) => {
+                    cy.get(x.check_outer_circle).eq(Cypress._.random($length - 1)).click({ force: true })
+                        .get(x.quote_button).click()
                 })
+            cy.get('.loading-indicator__container').should(($loading) => {
+                expect($loading).not.to.exist
+            })
+
+            cy.log('////// Select Plan //////')
             cy.get(x.plans_select_button).should('have.length.greaterThan', 0)
-                .its('length')
-                .then(cy.log)
-                .then(() => {
-                    n = Cypress._.random(0, 2)
-                    cy.log(n)
-                    cy.get(x.plans_select_button).eq(n).click()
+                .its('length').then(($length) => {
+                    cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
-                .wait(500)
+            cy.get('.loading-indicator__container').should(($loading) => {
+                expect($loading).not.to.exist
+            })
         })
     })
     // Page 3    
@@ -57,24 +54,24 @@ describe('Residential diners EC', () => {
     it('Pyment page - Testing to edit personal data', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).click()
+            cy.get('.loading-indicator__container').should(($loading) => {
+                expect($loading).not.to.exist
+            })
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
                 .get(x.forward_button).click()
+            cy.get('.loading-indicator__container').should(($loading) => {
+                expect($loading).not.to.exist
+            })
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
 
         })
     })
     it('Payment page', () => {
-        cy.fixture('locators').then((x) => {
-            cy.payment_residential_ec()
-            
-            if (env != 'prod') {
-                cy.get(x.forward_button).click()
-                cy.wait(10000)
+        cy.payment_residential_ec()
 
-            }
-        })
+
     })
 
     // Page 5 Thank you

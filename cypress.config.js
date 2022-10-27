@@ -8,7 +8,7 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   defaultCommandTimeout: 60000,
   viewportWidth: 1920,
-  viewportHeight: 1080,
+  viewportHeight: 1500,
 
   e2e: {
     setupNodeEvents(on, config) {

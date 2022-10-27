@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
-    "cy:runChrome": "cypress run --browser chrome --spec CHBB/cypress/e2e/Mobile.cy.js"
+    "cy:runChrome": "cypress run --browser chrome --spec /cypress/e2e/Mobile.cy.js"
   },
   "keywords": [
     "qa",
@@ -15,7 +15,7 @@
   "author": "Lidibet Escobar",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^10.9.0",
+    "cypress": "^10.10.0",
     "cypress-slow-down": "^1.2.1"
   },
   "dependencies": {

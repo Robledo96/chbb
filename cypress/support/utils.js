@@ -9,12 +9,19 @@ function Random(min, max) {
 
     return Math.floor(Math.random() * (max - min) + min)
 }
-// Function generates date of birth random
+// Function generates date of birth random day/month/year
 function dob() {
     month = Random(10, 12);
     day = month === 11 ? Random(10, 30) : Random(10, 31);
-    year = Random(1940, 2000);
+    year = Random(1952, 2000);
     return day + '/' + month + '/' + year
+}
+// Function generates date of birth random month/day/year
+function dob_1() {
+    month = Random(10, 12);
+    day = month === 11 ? Random(10, 30) : Random(10, 31);
+    year = Random(1952, 2000);
+    return month + '/' + day + '/' + year
 }
 
 //Function generate random RUT
@@ -115,9 +122,9 @@ function aleatorio() {
     return ("" + aleat).padStart(3, '0');
 }
 
-
 export {
     dob,
+    dob_1,
     Random,
     randomRFC,
     randomRUT,

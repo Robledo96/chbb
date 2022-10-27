@@ -16,8 +16,9 @@ var payment = {
     dinersClub_card_num: 30569309025904,
     visa_card_num: 4540630099990031,
     visa_card_num_1: 4111111111111111,
-    amex_card_num: 377813000000001,
     mc_card_num: 5388545961306102,
+    mc_card_num_1: 5162308168101087,
+    amex_card_num: 377813000000001,
    
     cvv: 484,
     cvv_1: 777,
@@ -39,7 +40,7 @@ var mobile = {
 }
 var address = {
     line1: "Vigia Dep 1 ",
-    line2: "Vigia Piso 3"
+    line2: "Vigia Dep 3"
 }
 var address_ec = {
     city: "Guayaquil",
@@ -69,8 +70,12 @@ var address_br = {
     barrio: "Gamboa",
     barrio_1: "Eldorado",
     city: "Rio de Janeiro",
-    province: "RJ",
+    province: "RJ"
 
+}
+var address_pr = {
+    city:'San Juan',
+    zipcode: '00902'  
 }
 
 export {
@@ -82,5 +87,6 @@ export {
     address_mx,
     address_co,
     address_ar,
-    address_br
+    address_br,
+    address_pr
 };
