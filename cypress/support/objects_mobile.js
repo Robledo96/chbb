@@ -1,12 +1,14 @@
 var person = {
     name: "Leonel",
     last_name: "Andres Messi",
+    second_last_name: "Cuccitini",
     email: "leo.messi@x.com",
     phone: "(685) 676-6757",
     phone_1: "3452736757",
     phone_2: "12456575777",
     phone_3: "(316) 621-4030",
-    phone_4: "364874875"
+    phone_4: "364874875",
+    phone_5: "36487487"
 
 }
 
@@ -16,8 +18,10 @@ var payment = {
     dinersClub_card_num: 30569309025904,
     visa_card_num: 4540630099990031,
     visa_card_num_1: 4111111111111111,
+    visa_card_num_2: 5555555555554444,
     mc_card_num: 5388545961306102,
     mc_card_num_1: 5162308168101087,
+    mc_card_num_2: 555555555555444,
     amex_card_num: 377813000000001,
    
     cvv: 484,
@@ -37,6 +41,11 @@ var mobile = {
     tac_1: "35016048",
     model_1: "Apple iPhone 11"
 
+}
+var panama = {
+    nationality: "Panama",
+    company: 'Copa Airlines',
+    place_of_income: "Panama" 
 }
 var address = {
     line1: "Vigia Dep 1 ",
@@ -77,16 +86,23 @@ var address_pr = {
     city:'San Juan',
     zipcode: '00902'  
 }
+var address_pe = {
+    city:'Lima',
+    department: 'Cajatambo'  
+}
+
 
 export {
     person,
     mobile,
     payment,
+    panama,
     address,
     address_ec,
     address_mx,
     address_co,
     address_ar,
     address_br,
-    address_pr
+    address_pr,
+    address_pe
 };

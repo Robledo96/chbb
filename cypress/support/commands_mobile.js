@@ -1,6 +1,6 @@
 
 import { Random, dob, randomRFC, randomRUT, randomDNI, randomCPF } from './utils'
-import { person, payment, mobile, address, address_ec, address_mx, address_co, address_ar, address_br } from '../support/objects_mobile'
+import { person, payment, mobile, address, address_pe, address_ec, address_mx, address_co, address_ar, address_br } from '../support/objects_mobile'
 let date = dob()
 
 // Quote
@@ -25,6 +25,31 @@ Cypress.Commands.add('quote', () => {
 // Personal Details 
 Cypress.Commands.add('personal_details_ec', () => {
     cy.fixture('locators').then((x) => {
+        cy.wait(3000)
+        // Captcha
+        cy.log('////// Conditional - Captcha //////')
+        cy.get('body').then($body => {
+            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                cy.log('////// True //////')
+                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                    let textop = text
+                    let finaltx = textop.trim()
+                    let finaladd = 0
+                    let newtext = finaltx.split(" ")
+                    if (newtext[1] == '+') {
+                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " plus")
+                    } else if (newtext[1] == '-') {
+                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " minus")
+                    }
+                    cy.get('[name="captchaVal"]').first().type(finaladd)
+                    cy.get("[type='Submit']").click()
+                })
+            }
+        })
+        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -34,7 +59,7 @@ Cypress.Commands.add('personal_details_ec', () => {
             .its('length').then(($length) => {
                 cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
-            .get(x.input_id).type(1896297523)//'1896297523'
+            .get(x.input_id).type(Random(1000000000, 1999999999))//'1896297523'
             .get(x.input_mobile).type(person.phone)
             .get(x.input_email).type(person.email)
             .get(x.input_address_1).type(address.line1)
@@ -72,13 +97,9 @@ Cypress.Commands.add('payment_page_ec', () => {
                         .find(x.input_card)
                         .first()
                         .type(payment.dinersClub_card_num)
-                        .wait(500)
                         .get(x.input_card_name).type(payment.card_holder)
                         .get(x.input_expiry_date).type(payment.expiration_date)
-
-                        .get(x.checkboxes).click({ multiple: true })
-                        .wait(500)
-                        .get(x.input_expiry_date).click({ multiple: true })
+                        .get(x.checkboxes).check({ force: true }).should('be.checked')
                         .get(x.forward_button).should('be.enabled')
                 })
             }
@@ -121,6 +142,31 @@ Cypress.Commands.add('payment_page_ec', () => {
 // Personal Details 
 Cypress.Commands.add('personal_details_mx', () => {
     cy.fixture('locators').then((x) => {
+        cy.wait(3000)
+        // Captcha
+        cy.log('////// Conditional - Captcha //////')
+        cy.get('body').then($body => {
+            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                cy.log('////// True //////')
+                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                    let textop = text
+                    let finaltx = textop.trim()
+                    let finaladd = 0
+                    let newtext = finaltx.split(" ")
+                    if (newtext[1] == '+') {
+                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " plus")
+                    } else if (newtext[1] == '-') {
+                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " minus")
+                    }
+                    cy.get('[name="captchaVal"]').first().type(finaladd)
+                    cy.get("[type='Submit']").click()
+                })
+            }
+        })
+        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -210,6 +256,31 @@ Cypress.Commands.add('payment_page_mx', () => {
 // Personal Details 
 Cypress.Commands.add('personal_details_co', () => {
     cy.fixture('locators').then((x) => {
+        cy.wait(3000)
+        // Captcha
+        cy.log('////// Conditional - Captcha //////')
+        cy.get('body').then($body => {
+            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                cy.log('////// True //////')
+                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                    let textop = text
+                    let finaltx = textop.trim()
+                    let finaladd = 0
+                    let newtext = finaltx.split(" ")
+                    if (newtext[1] == '+') {
+                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " plus")
+                    } else if (newtext[1] == '-') {
+                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " minus")
+                    }
+                    cy.get('[name="captchaVal"]').first().type(finaladd)
+                    cy.get("[type='Submit']").click()
+                })
+            }
+        })
+        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).first().type(date)
@@ -240,7 +311,7 @@ Cypress.Commands.add('personal_details_co', () => {
         cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
                 cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                if (cy.get(x.errors).should('contain.text', '  Ingresa tu cédula de ciudadanía  ')) {
                     cy.log('////// Changing ID /////')
                     cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
                         .get(x.forward_button).click()
@@ -287,6 +358,31 @@ Cypress.Commands.add('payment_page_co', () => {
 // Personal Details 
 Cypress.Commands.add('personal_details_cl', () => {
     cy.fixture('locators').then((x) => {
+        cy.wait(3000)
+        // Captcha
+        cy.log('////// Conditional - Captcha //////')
+        cy.get('body').then($body => {
+            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                cy.log('////// True //////')
+                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                    let textop = text
+                    let finaltx = textop.trim()
+                    let finaladd = 0
+                    let newtext = finaltx.split(" ")
+                    if (newtext[1] == '+') {
+                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " plus")
+                    } else if (newtext[1] == '-') {
+                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " minus")
+                    }
+                    cy.get('[name="captchaVal"]').first().type(finaladd)
+                    cy.get("[type='Submit']").click()
+                })
+            }
+        })
+        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -296,7 +392,7 @@ Cypress.Commands.add('personal_details_cl', () => {
             .its('length').then($length => {
                 cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
-        cy.get(x.input_id).type(randomRUT(10000000, 40000000))
+        cy.get(x.input_id).type(randomRUT())
         cy.get(x.input_mobile).type(person.phone_4)
             .get(x.input_email).type(person.email)
             .get(x.input_address_1).type(address.line1)
@@ -314,9 +410,9 @@ Cypress.Commands.add('personal_details_cl', () => {
         cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
                 cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                if (cy.get(x.errors).should('contain.text', '  Ingresa tu RUT (sin puntos y con guión)   ')) {
                     cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(randomRUT(10000000, 40000000)).wait(1000)
+                    cy.get(x.input_id).type(randomRUT()).wait(1000)
                         .get(x.forward_button).click()
                 }
             }
@@ -378,6 +474,31 @@ Cypress.Commands.add('quote_ar', () => {
 // Personal Details 
 Cypress.Commands.add('personal_details_ar', () => {
     cy.fixture('locators').then((x) => {
+        cy.wait(3000)
+        // Captcha
+        cy.log('////// Conditional - Captcha //////')
+        cy.get('body').then($body => {
+            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                cy.log('////// True //////')
+                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                    let textop = text
+                    let finaltx = textop.trim()
+                    let finaladd = 0
+                    let newtext = finaltx.split(" ")
+                    if (newtext[1] == '+') {
+                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " plus")
+                    } else if (newtext[1] == '-') {
+                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " minus")
+                    }
+                    cy.get('[name="captchaVal"]').first().type(finaladd)
+                    cy.get("[type='Submit']").click()
+                })
+            }
+        })
+        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -404,7 +525,7 @@ Cypress.Commands.add('personal_details_ar', () => {
         cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
                 cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                if (cy.get(x.errors).should('contain.text', '  Ingresa tu dni  ')) {
                     cy.log('////// Changing ID /////')
                     cy.get(x.input_id).type(randomDNI()).wait(1000)
                         .get(x.forward_button).click()
@@ -451,6 +572,31 @@ Cypress.Commands.add('payment_page_ar', () => {
 // Personal Details 
 Cypress.Commands.add('personal_details_br', () => {
     cy.fixture('locators').then((x) => {
+        cy.wait(3000)
+        // Captcha
+        cy.log('////// Conditional - Captcha //////')
+        cy.get('body').then($body => {
+            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                cy.log('////// True //////')
+                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                    let textop = text
+                    let finaltx = textop.trim()
+                    let finaladd = 0
+                    let newtext = finaltx.split(" ")
+                    if (newtext[1] == '+') {
+                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " plus")
+                    } else if (newtext[1] == '-') {
+                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " minus")
+                    }
+                    cy.get('[name="captchaVal"]').first().type(finaladd)
+                    cy.get("[type='Submit']").click()
+                })
+            }
+        })
+        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -483,7 +629,7 @@ Cypress.Commands.add('personal_details_br', () => {
         cy.get('form').then($form => {
             if ($form.find(x.errors).is(':visible')) {
                 cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
+                if (cy.get(x.errors).should('contain.text', '  Digite seu cpf  ')) {
                     cy.log('////// Changing ID /////')
                     cy.get(x.input_id).type(randomCPF()).wait(1000)
                         .get(x.forward_button).click()
@@ -531,6 +677,31 @@ Cypress.Commands.add('payment_page_br', () => {
 // Personal Details 
 Cypress.Commands.add('personal_detail_pe', () => {
     cy.fixture('locators').then((x) => {
+        cy.wait(3000)
+        // Captcha
+        cy.log('////// Conditional - Captcha //////')
+        cy.get('body').then($body => {
+            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                cy.log('////// True //////')
+                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                    let textop = text
+                    let finaltx = textop.trim()
+                    let finaladd = 0
+                    let newtext = finaltx.split(" ")
+                    if (newtext[1] == '+') {
+                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " plus")
+                    } else if (newtext[1] == '-') {
+                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                        // cy.log(finaladd + " minus")
+                    }
+                    cy.get('[name="captchaVal"]').first().type(finaladd)
+                    cy.get("[type='Submit']").click()
+                })
+            }
+        })
+        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())

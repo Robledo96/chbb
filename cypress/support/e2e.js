@@ -18,6 +18,7 @@ import './commands'
 import './commands_mobile'
 import './commands_residential'
 import './commands_travel'
+import './commands_life'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

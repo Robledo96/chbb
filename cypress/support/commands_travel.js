@@ -74,9 +74,32 @@ Cypress.Commands.add('details_travel_co', () => {
                     expect($loading).not.to.exist
                 })
 
-                //Personal Details
-                cy.log('/////Personal Details/////')
-                    .wait(1000)
+                cy.wait(3000)
+                // Captcha
+                cy.log('////// Conditional - Captcha //////')
+                cy.get('body').then($body => {
+                    if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                        cy.log('////// True //////')
+                        cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                        cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                            let textop = text
+                            let finaltx = textop.trim()
+                            let finaladd = 0
+                            let newtext = finaltx.split(" ")
+                            if (newtext[1] == '+') {
+                                finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " plus")
+                            } else if (newtext[1] == '-') {
+                                finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " minus")
+                            }
+                            cy.get('[name="captchaVal"]').first().type(finaladd)
+                            cy.get("[type='Submit']").click()
+                        })
+                    }
+                })
+                // Personal Details 
+                cy.log('///// Personal Details //////')
                 cy.get(x.input_name).first().type(person.name)
                     .get(x.input_last_name).first().type(person.last_name)
                     .get(x.input_birth_date).first().type(date)
@@ -128,10 +151,10 @@ Cypress.Commands.add('details_travel_co', () => {
                 })
             })
         cy.wait(1000)
-        cy.get('form').then($form => {
+        cy.get('form').first().then($form => {
             if ($form.find(x.errors).is(':visible')) {
                 cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', '  RFC Inválido ')) {
+                if (cy.get(x.errors).should('contain.text', '  Ingresa tu cédula de ciudadanía ')) {
                     cy.log('////// Changing ID /////')
                         .get(x.input_id).type(Random(1000000000, 1999999999))
                         .get(x.forward_button).click()
@@ -264,9 +287,32 @@ Cypress.Commands.add('details_travel_ar', () => {
                     expect($loading).not.to.exist
                 })
 
-                //Personal Details
-                cy.log('///// Personal Details /////')
-                    .wait(1000)
+                cy.wait(3000)
+                // Captcha
+                cy.log('////// Conditional - Captcha //////')
+                cy.get('body').then($body => {
+                    if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                        cy.log('////// True //////')
+                        cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                        cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                            let textop = text
+                            let finaltx = textop.trim()
+                            let finaladd = 0
+                            let newtext = finaltx.split(" ")
+                            if (newtext[1] == '+') {
+                                finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " plus")
+                            } else if (newtext[1] == '-') {
+                                finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " minus")
+                            }
+                            cy.get('[name="captchaVal"]').first().type(finaladd)
+                            cy.get("[type='Submit']").click()
+                        })
+                    }
+                })
+                // Personal Details 
+                cy.log('///// Personal Details //////')
                 cy.get(x.input_name).first().type(person.name)
                     .get(x.input_last_name).first().type(person.last_name)
                     .get(x.input_birth_date).type(dob())
@@ -312,10 +358,10 @@ Cypress.Commands.add('details_travel_ar', () => {
                     expect($loading).not.to.exist
                 })
                 cy.wait(1000)
-                cy.get('form').then($form => {
+                cy.get('form').first().then($form => {
                     if ($form.find(x.errors).is(':visible')) {
                         cy.log('///// Bug Found /////')
-                        if (cy.get(x.errors).should('contain.text', '  RFC Inválido ')) {
+                        if (cy.get(x.errors).should('contain.text', '  Ingresa tu dni ')) {
                             cy.log('////// Changing ID /////')
                                 .get(x.input_id).type(randomDNI())
                                 .get(x.forward_button).click()
@@ -432,9 +478,33 @@ Cypress.Commands.add('travel_info_pr', () => {
                     expect($loading).not.to.exist
                 })
 
-                //Personal Details
-                cy.log('///// Personal Details /////')
-                    .wait(1000)
+                cy.wait(3000)
+                // Captcha
+                cy.log('////// Conditional - Captcha //////')
+                cy.get('body').then($body => {
+                    if ($body.find('.ng-star-inserted .captcha-modal', { timeout: 60000 }).length > 0) {
+                        cy.log('////// True //////')
+                        cy.get('.ng-star-inserted .captcha-modal', { timeout: 60000 }).click({ force: true })
+                        cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                            let textop = text
+                            let finaltx = textop.trim()
+                            let finaladd = 0
+                            let newtext = finaltx.split(" ")
+                            if (newtext[1] == '+') {
+                                finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " plus")
+                            } else if (newtext[1] == '-') {
+                                finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " minus")
+                            }
+                            cy.get('[name="captchaVal"]').first().type(finaladd)
+                            cy.get("[type='Submit']").click()
+                        })
+                    }
+                })
+                cy.wait(500)
+                // Personal Details 
+                cy.log('///// Personal Details //////')
                 cy.get(x.input_name).first().type(person.name)
                     .get(x.input_last_name).first().type(person.last_name)
                 cy.log('////// Gender /////')
@@ -568,9 +638,32 @@ Cypress.Commands.add('travel_info_br', () => {
                         })
                     })
 
-                //Personal details
-                cy.log('//////// Personal details /////////')
-                    .wait(1000)
+                cy.wait(3000)
+                // Captcha
+                cy.log('////// Conditional - Captcha //////')
+                cy.get('body').then($body => {
+                    if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
+                        cy.log('////// True //////')
+                        cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
+                        cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
+                            let textop = text
+                            let finaltx = textop.trim()
+                            let finaladd = 0
+                            let newtext = finaltx.split(" ")
+                            if (newtext[1] == '+') {
+                                finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " plus")
+                            } else if (newtext[1] == '-') {
+                                finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
+                                // cy.log(finaladd + " minus")
+                            }
+                            cy.get('[name="captchaVal"]').first().type(finaladd)
+                            cy.get("[type='Submit']").click()
+                        })
+                    }
+                })
+                // Personal Details 
+                cy.log('///// Personal Details //////')
                 cy.get(x.input_name).first().type(person.name)
                     .get(x.input_last_name).first().type(person.last_name)
                     .get(x.input_birth_date).type(dob())
@@ -616,10 +709,10 @@ Cypress.Commands.add('travel_info_br', () => {
                     expect($loading).not.to.exist
                 })
                 cy.wait(1000)
-                cy.get('form').then($form => {
+                cy.get('form').first().then($form => {
                     if ($form.find(x.errors).is(':visible')) {
                         cy.log('///// Bug Found /////')
-                        if (cy.get(x.errors).should('contain.text', '  CPF Inválido ')) {
+                        if (cy.get(x.errors).should('contain.text', '  Digite seu cpf ')) {
                             cy.log('////// Changing ID /////')
                                 .get(x.input_id).type(randomCPF())
                                 .get(x.forward_button).click()

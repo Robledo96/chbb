@@ -11,6 +11,7 @@ describe('Mobile diners EC', () => {
 
     // Page 3    
     it('Personal Details ', () => {
+      
         cy.personal_details_ec()
     })
     //Page 4

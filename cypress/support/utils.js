@@ -13,17 +13,23 @@ function Random(min, max) {
 function dob() {
     month = Random(10, 12);
     day = month === 11 ? Random(10, 30) : Random(10, 31);
-    year = Random(1952, 2000);
+    year = Random(1990, 2000);
     return day + '/' + month + '/' + year
 }
 // Function generates date of birth random month/day/year
 function dob_1() {
     month = Random(10, 12);
     day = month === 11 ? Random(10, 30) : Random(10, 31);
-    year = Random(1952, 2000);
+    year = Random(1990, 2000);
     return month + '/' + day + '/' + year
 }
-
+// Function generates date of birth random day/month/year
+function dob_2() {
+    month = Random(10, 12);
+    day = month === 11 ? Random(10, 30) : Random(10, 31);
+    year = Random(2000, 2002);
+    return day + '/' + month + '/' + year
+}
 //Function generate random RUT
 function randomRUT() {
 
@@ -125,6 +131,7 @@ function aleatorio() {
 export {
     dob,
     dob_1,
+    dob_2,
     Random,
     randomRFC,
     randomRUT,
