@@ -502,7 +502,6 @@ Cypress.Commands.add('travel_info_pr', () => {
                         })
                     }
                 })
-                cy.wait(500)
                 // Personal Details 
                 cy.log('///// Personal Details //////')
                 cy.get(x.input_name).first().type(person.name)

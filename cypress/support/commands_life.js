@@ -1,9 +1,7 @@
-import { Random, dob, dob_2, randomRFC, randomRUT, randomCPF, dob_1, randomDNI } from './utils'
-import { person, payment, address, address_ec, address_pe, address_mx, address_co, address_br, panama } from '../support/objects_mobile'
-let radio = 0 // Only Brasil
+import { Random, dob, dob_2, randomRUT} from './utils'
+import { person, payment, address, address_ec, address_pe, panama } from '../support/objects_mobile'
 let num = 0
 let env = 0
-let date = dob()
 
 
 // CHILE

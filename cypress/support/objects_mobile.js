@@ -1,7 +1,7 @@
 var person = {
-    name: "Leonel",
-    last_name: "Andres Messi",
-    second_last_name: "Cuccitini",
+    name: "Test",
+    last_name: "Automation",
+    second_last_name: "Automation",
     email: "leo.messi@x.com",
     phone: "(685) 676-6757",
     phone_1: "3452736757",
@@ -42,23 +42,24 @@ var mobile = {
     model_1: "Apple iPhone 11"
 
 }
+var address = {
+    line1: "Vigia Dep 1 ",
+    line2: "Vigia Dep 3"
+}
 var panama = {
     nationality: "Panama",
     company: 'Copa Airlines',
     place_of_income: "Panama" 
 }
-var address = {
-    line1: "Vigia Dep 1 ",
-    line2: "Vigia Dep 3"
-}
+
 var address_ec = {
     city: "Guayaquil",
     province: "Pichincha"
 }
 
 var address_mx = {
-    zipcode: "50000",
-    colonia: "Toluca De Lerdo Centro",
+    zipcode: "20997",
+    colonia: "El Chacho",
     company: "América Móvil"
 }
 var address_co = {
@@ -84,7 +85,8 @@ var address_br = {
 }
 var address_pr = {
     city:'San Juan',
-    zipcode: '00902'  
+    zipcode: '00902',
+    company: 'EMPRESAS BORIQUE INC'  
 }
 var address_pe = {
     city:'Lima',

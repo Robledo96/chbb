@@ -23,11 +23,11 @@ function dob_1() {
     year = Random(1990, 2000);
     return month + '/' + day + '/' + year
 }
-// Function generates date of birth random day/month/year
+// Function generates date of birth random day/month/year / minor age range
 function dob_2() {
     month = Random(10, 12);
     day = month === 11 ? Random(10, 30) : Random(10, 31);
-    year = Random(2000, 2002);
+    year = Random(2001, 2002);
     return day + '/' + month + '/' + year
 }
 //Function generate random RUT

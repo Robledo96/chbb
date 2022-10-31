@@ -1,26 +1,18 @@
-
 import 'cypress-iframe'
 import { person, address, address_mx } from '../../../support/objects_mobile';
 
 
-describe('Mobile scotia Mexico', () => {
+describe('HC rappi MEXICO', () => {
     //Page 1
-    it('Quote / Select Plan', () => {
-        cy.visit('https://la.studio.chubb.com/mx/scotia/mobile/launchstage/es-MX')
-        cy.quote()
-    })
+    it('Quote / Select Plan / Personal Details', () => {
+        cy.visit('https://la.studio-uat.chubb.com/mx/rappi/hc/launchstage/es-MX')
 
-    // Page 3    
-    it('Personal Details ', () => {
-        cy.personal_details_mx()
-
+        cy.hc_mx()
     })
-    //Page 4
 
     it('Pyment page - Checking personal details information', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
@@ -29,7 +21,6 @@ describe('Mobile scotia Mexico', () => {
                 .and('contain.text', address_mx.zipcode)
                 .and('contain.text', address_mx.colonia)
                 .and('contain.text', address.line1)
-
         })
     })
 
@@ -40,7 +31,7 @@ describe('Mobile scotia Mexico', () => {
             cy.get('.loading-indicator__container').should(($loading) => {
                 expect($loading).not.to.exist
             })
-            cy.wait(1000)
+                .wait(1000)
                 .get(x.input_colonia).click({ force: true })
                 .wait(1000)
                 .get(x.colonia_option_text).first().click({ force: true })
@@ -51,18 +42,16 @@ describe('Mobile scotia Mexico', () => {
             cy.get('.loading-indicator__container').should(($loading) => {
                 expect($loading).not.to.exist
             })
-            cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
         })
     })
     it('Payment page', () => {
 
-        cy.payment_page_mx()
+        cy.payment_hc_mx()
 
 
     })
-    // Page 5 Thank you
     it('Should text Congratulations', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
@@ -74,10 +63,4 @@ describe('Mobile scotia Mexico', () => {
     })
 
 })
-
-
-
-
-
-
 
