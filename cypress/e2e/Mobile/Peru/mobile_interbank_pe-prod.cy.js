@@ -3,7 +3,7 @@ import 'cypress-iframe'
 import { person, address } from '../../../support/objects_mobile';
 
 
-describe('Mobile PERU', () => {
+describe('Mobile interbank PERU', () => {
     //Page 1
     it('Quote / Select Plan', () => {
         cy.visit('https://la.studio.chubb.com/pe/interbank/mobile/launchstage/es-PE')

@@ -1,4 +1,4 @@
-import {  dob, randomRFC } from './utils'
+import { dob, randomRFC } from './utils'
 import { person, payment, address, address_mx, } from '../support/objects_mobile'
 
 
@@ -76,7 +76,7 @@ Cypress.Commands.add('cyber_mx', () => {
         })
 
     })
-})        
+})
 // Payment Page 
 Cypress.Commands.add('payment_cyber_mx', () => {
     cy.fixture('locators').then((x) => {
@@ -102,16 +102,16 @@ Cypress.Commands.add('payment_cyber_mx', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.wait(1000)
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.wait(1000)
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
-            }
-        })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
 
     })
 })

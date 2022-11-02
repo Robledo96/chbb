@@ -3,7 +3,7 @@ import 'cypress-iframe'
 import { person, address } from '../../../support/objects_mobile';
 
 
-describe('Mobile CHILE', () => {
+describe('Mobile automovilclub CHILE', () => {
     //Page 1
     it('Quote / Select PLan', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/automovilclub/mobile/launchstage/es-CL')
@@ -54,15 +54,15 @@ describe('Mobile CHILE', () => {
 
     })
     // Page 5 Thank you
-    it('Should text Congratulations', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-                .and('contain.text', 'Leonel')
-                .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-                .get(x.thank_you_email_text).should('contain.text', person.email)
-            cy.get(x.thankyou__button).click()
-        })
-    })
+    // it('Should text Congratulations', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+    //             .and('contain.text', 'Leonel')
+    //             .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+    //             .get(x.thank_you_email_text).should('contain.text', person.email)
+    //         cy.get(x.thankyou__button).click()
+    //     })
+    // })
 })
 
 

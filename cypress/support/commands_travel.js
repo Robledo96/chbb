@@ -184,15 +184,15 @@ Cypress.Commands.add('payment_travel_co', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
-            }
-        })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
     })
 })
 
@@ -393,16 +393,16 @@ Cypress.Commands.add('payment_travel_ar', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
 
-            }
-        })
+        //     }
+        // })
     })
 })
 
@@ -562,15 +562,15 @@ Cypress.Commands.add('payment_travel_pr', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
-            }
-        })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
     })
 })
 
@@ -804,15 +804,15 @@ Cypress.Commands.add('payment_travel_br', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
-            }
-        })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
     })
 })
 

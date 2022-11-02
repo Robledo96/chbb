@@ -3,7 +3,7 @@ import 'cypress-iframe'
 import { person, address, address_mx } from '../../../support/objects_mobile';
 
 
-describe('Mobile rappi MX', () => {
+describe('Mobile heybanco MX', () => {
     //Page 1
     it('Quote / Select Plan', () => {
         cy.visit('https://la.studio.chubb.com/mx/heybanco/mobile/MXE4400001/es-MX')

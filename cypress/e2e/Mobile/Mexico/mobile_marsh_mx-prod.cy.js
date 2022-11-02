@@ -3,7 +3,7 @@ import 'cypress-iframe'
 import { person, address, address_mx } from '../../../support/objects_mobile';
 
 
-describe('Mobile rappi MX', () => {
+describe('Mobile marsh MX', () => {
     //Page 1
     it('Quote / Select Plan', () => {
         cy.visit('https://la.studio.chubb.com/mx/marsh/mobile/launchstage/es-MX')

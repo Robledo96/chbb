@@ -75,15 +75,15 @@ describe('Residential diners EC', () => {
     })
 
     // Page 5 Thank you
-    it('Should text Congratulations', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-                .and('contain.text', person.name)
-                .and('contain.text', ', ya estas asegurado!')
-                .and('contain.text', person.email)
-            cy.get(x.thankyou__button).click()
-        })
-    })
+    // it('Should text Congratulations', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+    //             .and('contain.text', person.name)
+    //             .and('contain.text', ', ya estas asegurado!')
+    //             .and('contain.text', person.email)
+    //         cy.get(x.thankyou__button).click()
+    //     })
+    // })
 })
 
 

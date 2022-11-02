@@ -3,7 +3,7 @@ import 'cypress-iframe'
 import { person, address, address_mx } from '../../../support/objects_mobile';
 
 
-describe('Mobile rappi MX', () => {
+describe('Mobile heybanco MX', () => {
     //Page 1
     it('Quote / Select Plan', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/heybanco/mobile/MXE4400001/es-MX')
@@ -62,15 +62,15 @@ describe('Mobile rappi MX', () => {
 
     })
     // Page 5 Thank you
-    it('Should text Congratulations', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
-                .and('contain.text', 'Leonel')
-                .and('contain.text', ', ya cuentas con tu póliza de seguro!')
-                .get(x.thank_you_email_text).should('contain.text', person.email)
-            cy.get(x.thankyou__button).click()
-        })
-    })
+    // it('Should text Congratulations', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+    //             .and('contain.text', 'Leonel')
+    //             .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+    //             .get(x.thank_you_email_text).should('contain.text', person.email)
+    //         cy.get(x.thankyou__button).click()
+    //     })
+    // })
 })
 
 

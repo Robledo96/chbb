@@ -121,16 +121,16 @@ Cypress.Commands.add('payment_residential_mx', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.wait(1000)
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.wait(1000)
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
-            }
-        })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
 
     })
 })
@@ -250,13 +250,15 @@ Cypress.Commands.add('payment_residential_co', () => {
 
         })
 
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.wait(1000)
-                cy.get(x.forward_button).click()
-
-            }
-        })
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.wait(1000)
+        //         cy.get(x.forward_button).click()
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
     })
 })
 
@@ -371,16 +373,15 @@ Cypress.Commands.add('payment_residential_cl', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.wait(1000)
-                cy.get(x.forward_button).click()
-
-            }
-            cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-        })
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.wait(1000)
+        //         cy.get(x.forward_button).click()
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
     })
 })
 
@@ -464,15 +465,15 @@ Cypress.Commands.add('payment_residential_ec', () => {
                 .get(x.checkboxes).check({ force: true }).should('be.checked')
                 .get(x.forward_button).should('be.enabled')
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
-            }
-        })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
     })
 })
 
@@ -698,15 +699,15 @@ Cypress.Commands.add('payment_residential_br', () => {
                 .get(x.forward_button).should('be.enabled')
 
         })
-        cy.url().then((url) => {
-            if (url.includes('https://la.studio-uat.chubb.com/')) {
-                cy.get(x.forward_button).click()
+        // cy.url().then((url) => {
+        //     if (url.includes('https://la.studio-uat.chubb.com/')) {
+        //         cy.get(x.forward_button).click()
 
-                cy.get('.loading-indicator__container').should(($loading) => {
-                    expect($loading).not.to.exist
-                })
-            }
-        })
+        //         cy.get('.loading-indicator__container').should(($loading) => {
+        //             expect($loading).not.to.exist
+        //         })
+        //     }
+        // })
     })
 })
 
