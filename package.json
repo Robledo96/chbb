@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
-    "cypress:runDefault": "cypress run"
+    "cypress:runDefault": "cypress run",
+    "cy:folder": "cypress run --browser chrome --spec cypress/e2e/ESB"
+
   },
   "keywords": [
     "qa",

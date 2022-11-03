@@ -2,6 +2,8 @@
 
 const { defineConfig } = require("cypress");
 
+
+
 module.exports = defineConfig({
   projectId: 'i55cc5',
   waitForAnimations: true,
@@ -12,7 +14,7 @@ module.exports = defineConfig({
   videoCompression: false,
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+
     },
   },
 });
