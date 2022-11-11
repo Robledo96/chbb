@@ -2,52 +2,31 @@ import { dob, randomRFC } from './utils'
 import { person, payment, address, address_mx, } from '../support/objects_mobile'
 
 
-// Mexico
-// Quote / Select Plan / Personal Details
-Cypress.Commands.add('cyber_mx', () => {
+/// Mexico ///
+// Quote 
+Cypress.Commands.add('Quote_cyber_mx', () => {
     cy.fixture('locators').then((x) => {
-        // Quote
-        cy.log('//// Quote ////')
         cy.get(x.quote_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
-        // Select Plan
-        cy.log('//// Select Plan ////')
+    })
+})
+//Select Plan
+Cypress.Commands.add('Plan_cyber_mx', () => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.plans_select_button).should('have.length.greaterThan', 0)
             .its('length').then(($length) => {
                 cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
             })
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
-
-        cy.wait(4000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
-        // Personal Details 
-        cy.log('///// Personal Details //////')
+    })
+})
+//Personal Details
+Cypress.Commands.add('Details_cyber_mx', () => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -71,11 +50,69 @@ Cypress.Commands.add('cyber_mx', () => {
             .get(x.input_address_1).type(address.line1)
             .wait(1000)
             .get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
+        })
+        cy.wait(1000)
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_birth_date).clear().type(dob())
+                        cy.get(x.input_id).type(randomRFC()).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                    }
+                })
+            }
+
         })
 
     })
+
+
+
+})
+//Pyment page Checking
+Cypress.Commands.add('Checking_cyber_mx', () => {
+    cy.fixture('locators').then((x) => {
+        //checking insured details
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_1)
+            .and('contain.text', person.email)
+            .and('contain.text', address_mx.zipcode)
+            .and('contain.text', address_mx.colonia)
+            .and('contain.text', address.line1)
+
+    })
+})
+//Pyment Page Edit
+Cypress.Commands.add('Edit_cyber_mx', () => {
+    cy.fixture('locators').then((x) => {
+        cy.wait(1000)
+        cy.get(x.input_colonia).click()
+            .get(x.colonia_option_text, { timeout: 90000 }).eq(0).click({ force: true })
+            .wait(1000)
+        cy.get(x.input_address_1).clear()
+            .type(address.line2)
+        cy.get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+    })
+
 })
 // Payment Page 
 Cypress.Commands.add('payment_cyber_mx', () => {
@@ -115,3 +152,13 @@ Cypress.Commands.add('payment_cyber_mx', () => {
 
     })
 })
+//Congratulations
+// Cypress.Commands.add('Congratulations', () => {
+//     cy.fixture('locators').then((x) => {
+//         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+//             .and('contain.text', 'Leonel')
+//             .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+//             .get(x.thank_you_email_text).should('contain.text', person.email)
+//         cy.get(x.thankyou__button).click()
+//     })
+// })

@@ -1,18 +1,227 @@
-
 import 'cypress-iframe'
+import { person, address, address_br } from '../../../support/objects_mobile';
+import { dob, randomCPF } from '../../../support/utils'
+let num = 0
+let n = 0
 
-describe('Travel nubank BRASIL', () => {
-    //Page 1
-    it('Travel Date / Number of Travelers / Select Plan / Personal Details / Edit Payment ', () => {
+
+
+describe('Travel nubank BRASIL (uat)', () => {
+    beforeEach(function () {
+        const suite = cy.state('test').parent
+        if (suite.tests.some(test => test.state === 'failed')) {
+            this.skip()
+        }
+    })
+    it('Visit ', () => {
         cy.visit('https://la.studio-uat.chubb.com/br/nubank/travel/launchstage/pt-BR')
+    })
 
-        cy.travel_info_br()
+    it('Travel Date ', () => {
+        cy.fixture('locators').then((x) => {
+            // Travel Date
+            cy.get(x.button_1).click()
+            cy.get(x.datepicker_icon).first().click()
+                .get(x.calendar_next_button).click()
+            cy.log('//////// Departure Date /////////')
+            cy.get(x.calendar_body).should('have.length.greaterThan', 0)
+                .its('length')
+                .then(cy.log)
+                .then(() => {
+                    n = Cypress._.random(0, 5)
+                    cy.log(n)
+                })
+            cy.log('//////// Arrival Date /////////')
+            cy.get(x.datepicker_icon).last().click()
+            cy.get(x.calendar_body).should('have.length.greaterThan', 0)
+                .its('length')
+                .then(cy.log)
+                .then(() => {
+                    n = Cypress._.random(10, 15)
+                    cy.log(n)
+                    cy.get(x.calendar_body).eq(n).click()
+                })
+            cy.log('//////// Country /////////')
+            cy.get(x.input_country).click()
+                .get(x.select_option).should('have.length.greaterThan', 0)
+                .its('length').then(($length) => {
+                    cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
+                })
+            cy.log('////  Number of Travelers ////')
+            cy.get(x.select_placeholder).click()
+                .get(x.select_option).should('have.length.greaterThan', 0)
+                .its('length').then(($length) => {
+                    cy.log($length)
+                    num = Cypress._.random($length - 1)
+                    cy.log(num)
+                    cy.get(x.select_option).eq(num).click()
+
+                    cy.get(x.quote_button).click()
+
+                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                        expect($loading).not.to.exist
+                    })
+
+                })
+        })
+    })
+
+    it('Select Plan', () => {
+        cy.fixture('locators').then((x) => {
+            cy.get(x.plans_select_button).should('have.length.greaterThan', 0)
+                .its('length').then(($length) => {
+                    cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
+
+                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                        expect($loading).not.to.exist
+                    })
+                })
+        })
+    })
+
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
+    it('Personal Details', () => {
+        cy.fixture('locators').then((x) => {
+            cy.get(x.input_name).first().type(person.name)
+                .get(x.input_last_name).first().type(person.last_name)
+                .get(x.input_birth_date).type(dob())
+                .get(x.input_mobile).type(person.phone_2)
+                .get(x.input_email).type(person.email)
+                .get(x.input_id).type(randomCPF())
+                .get(x.input_zipcode).type(address_br.zipcode)
+                .intercept('https://viacep.com.br/ws/22050000/json').as('Location')
+                .wait('@Location')
+                .get(x.input_address_1).type(address.line1)
+                .get(x.input_ext_number).type(address_br.ext_num)
+                .get(x.input_address_2).type(address.line1)
+                .get(x.input_address_3).type(address_br.barrio)
+                .get(x.input_city).type(address_br.city)
+                .get(x.input_province).type(address_br.province)
+
+            cy.log('////// Travelers =', num, '///////')
+            if (num > 0) {
+                cy.get('body').then(($body) => {
+                    expect($body.find('app-companions-brasil').is(':visible'))
+                    cy.get('app-companions-brasil')
+                        .find(x.input_name).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(person.name))
+                        })
+                    cy.get('app-companions-brasil')
+                        .find(x.input_last_name).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(person.last_name))
+                        })
+                    cy.get('app-companions-brasil')
+                        .find(x.input_dateOfBirth).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(dob()))
+                        })
+                    cy.get('app-companions-brasil')
+                        .find(x.input_cpf).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(randomCPF()))
+                        })
+                })
+            }
+            cy.wait(1000)
+                .get(x.forward_button).click()
+
+            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    cy.get('app-applicant-details').then(($form) => {
+                        if ($form.find('mat-error').is(':visible')) {
+                            cy.log('///// Bug Found /////')
+                            cy.log('////// Changing ID /////')
+                            cy.get(x.input_id).type(randomCPF()).wait(1000)
+                            cy.get(x.forward_button).click()
+                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                                expect($loading).not.to.exist
+                            })
+                        }
+                        cy.wait(1000)
+                        if ($body.find('#application-errors').is(':visible')) {
+                            cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                        }
+                    })
+                }
+
+            })
+        })
+    })
+
+    it('Pyment page Checking', () => {
+
+        cy.Checking_travel_br()
+    })
+
+    it(' Payment Page Edit button click', () => {
+        cy.Edit_button() //Commands.js
+    })
+
+    it('Edit', () => {
+        cy.fixture('locators').then((x) => {
+            cy.get(x.input_address_1).wait(500).type(address.line2)
+                .get(x.input_address_3).type(address_br.barrio)
+                .get(x.input_city).type(address_br.city)
+                .get(x.input_province).type(address_br.province)
+
+            cy.log('////// Travelers =', num, '///////')
+            if (num > 0) {
+                cy.get('body').then(($body) => {
+                    expect($body.find('app-companions-brasil').is(':visible'))
+
+                    cy.get('app-companions-brasil')
+                        .find(x.input_name).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(person.name))
+                        })
+                    cy.get('app-companions-brasil')
+                        .find(x.input_last_name).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(person.last_name))
+                        })
+                    cy.get('app-companions-brasil')
+                        .find(x.input_dateOfBirth).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(dob()))
+                        })
+                    cy.get('app-companions-brasil')
+                        .find(x.input_cpf).then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(randomCPF()))
+                        })
+                })
+            }
+            cy.wait(1000)
+            cy.get(x.forward_button).click()
+
+            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
+            cy.get(x.collapsable_bar).click()
+                .wait(500)
+            cy.get(x.review_items)
+                .should('contain.text', address.line2)
+        })
     })
 
     it('Payment page', () => {
-            cy.payment_travel_br()
+        cy.Payment_travel_br()
 
     })
+
+    // it('Should text Congratulations', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+    //             .and('contain.text', 'Leonel')
+    //             .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+    //             .get(x.thank_you_email_text).should('contain.text', person.email)
+    //         cy.get(x.thankyou__button).click()
+    //     })
+
+
+    // })
+
 
 })
 

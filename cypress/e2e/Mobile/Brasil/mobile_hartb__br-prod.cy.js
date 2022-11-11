@@ -1,77 +1,55 @@
 import 'cypress-iframe'
-import { person, address, address_br } from '../../../support/objects_mobile';
 
-describe('Mobile BRASIL', () => {
-
+describe('Mobile hartb BRASIL (prod)', () => {
+    beforeEach(function () {
+        const suite = cy.state('test').parent
+        if (suite.tests.some(test => test.state === 'failed')) {
+            this.skip()
+        }
+    })
     //Page 1
-    it('Quote / Select Plan', () => {
+    it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/mobile/launchstage/pt-BR')
-
-        cy.quote()
     })
 
-    // Page 3    
+    it('Quote', () => {
+        cy.Quote_mob()
+    })
+
+    it('Select Plan', () => {
+        cy.Plan_mob()
+    })
+
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
     it('Personal Details ', () => {
-        cy.personal_details_br()
+        cy.Details_mob_br()
 
     })
 
-    //Page 4
-    it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators').then((x) => {
-            //checking insured details
-            cy.get(x.review_items)
-                .should('contain.text', person.name)
-                .and('contain.text', person.last_name)
-                .and('contain.text', person.phone_2)
-                .and('contain.text', person.email)
-                .and('contain.text', address_br.zipcode)
-                .and('contain.text', address.line1)
-                .and('contain.text', address_br.ext_num)
-                .and('contain.text', address.line1)
-                .and('contain.text', address_br.barrio)
-                .and('contain.text', address_br.city)
-                .and('contain.text', address_br.province)
+    it('Pyment page Checking', () => {
 
-        })
+        cy.Checking_mob_br()
     })
 
+    it(' Payment Page Edit button click', () => {
+        cy.Edit_button() //Commands.js
+    })
 
-    it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.edit_button).click()
-            cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-                .get(x.input_address_1).type(address.line2)
-                .get(x.input_address_3).type(address_br.barrio)
-                .wait(1000)
-                .get(x.input_city).type(address_br.city)
-                .wait(1000)
-                .get(x.input_province).type(address_br.province)
-                .wait(1000)
-                .get(x.checkboxes).click({ multiple: true })
-                .wait(1000)
-            cy.get(x.forward_button).click()
-            cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
-                .should('contain.text', address.line2)
-                .and('contain.text', address.line1)
-                .and('contain.text', address_br.barrio)
-                .and('contain.text', address_br.city)
-                .and('contain.text', address_br.province)
-        })
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
+    it('Edit', () => {
+        cy.Edit_mob_br()
     })
 
     it('Payment page', () => {
 
-        cy.payment_page_br()
-
-
+        cy.Payment_mob_br()
     })
-
 })
 
 

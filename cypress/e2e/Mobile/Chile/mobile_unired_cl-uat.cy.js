@@ -1,56 +1,47 @@
 
 import 'cypress-iframe'
-import { person, address } from '../../../support/objects_mobile';
 
 
-describe('Mobile unired CHILE', () => {
+describe('Mobile unired CHILE (uat)', () => {
+    beforeEach(function () {
+        const suite = cy.state('test').parent
+        if (suite.tests.some(test => test.state === 'failed')) {
+            this.skip()
+        }
+    })
     //Page 1
-    it('Quote / Select Plan', () => {
+    it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/unired/mobile/launchstage/es-CL')
-        cy.quote()
     })
-       
+
+    it('Quote', () => {
+        cy.Quote_mob()
+    })
+
+    it('Select Plan', () => {
+        cy.Plan_mob()
+    })
+
     it('Personal Details ', () => {
-        cy.personal_details_cl()
+        cy.Details_mob_cl()
 
     })
 
+    it('Pyment page Checking', () => {
 
-    it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators').then((x) => {
-            //checking insured details
-            cy.get(x.collapsable_bar).click()
-            cy.get(x.review_items)
-                .should('contain.text', person.name)
-                .and('contain.text', person.last_name)
-                .and('contain.text', person.phone_4)
-                .and('contain.text', person.email)
-                .and('contain.text', address.line1)
-
-        })
+        cy.Checking_mob_cl()
     })
 
-
-    it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.edit_button).click() //edit button
-            cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.input_address_1).clear()
-                .type(address.line2)
-            cy.get(x.forward_button).click()
-            cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.collapsable_bar).click()
-            cy.get(x.review_items)
-                .should('contain.text', address.line2)
-        })
+    it(' Payment Page Edit button click', () => {
+        cy.Edit_button() //Commands.js
     })
+
+    it('Edit', () => {
+        cy.Edit_mob_cl()
+    })
+
     it('Payment page', () => {
-
-            cy.payment_page_cl()
+        cy.Payment_mob_cl()
 
     })
     // Page 5 Thank you

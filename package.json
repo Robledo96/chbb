@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
     "cypress:runDefault": "cypress run",
-    "cy:folder": "cypress run --browser chrome --spec cypress/e2e/ESB"
-
+    "run": "cypress run --browser chrome --e2e"
   },
   "keywords": [
     "qa",
@@ -17,11 +16,10 @@
   "author": "Lidibet Escobar",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^10.10.0",
+    "cypress": "^11.0.0",
     "cypress-slow-down": "^1.2.1",
     "del": "^7.0.0",
     "lodash": "^4.17.21"
-
   },
   "dependencies": {
     "cypress-iframe": "^1.0.1"

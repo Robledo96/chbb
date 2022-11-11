@@ -1,60 +1,50 @@
 import 'cypress-iframe'
-import { person, address, address_mx } from '../../../support/objects_mobile';
 
 
-describe('Residential rappi MEXICO', () => {
+describe('Residential rappi MEXICO (prod)', () => {
+    beforeEach(function () {
+        const suite = cy.state('test').parent
+        if (suite.tests.some(test => test.state === 'failed')) {
+            this.skip()
+        }
+    })
     //Page 1
-    it('Quote and Select Plan', () => {
+    it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/residential/launchstage/es-MX')
-
-        cy.quote_residential_mx()
     })
-    it('Personal Details ', () => {
-        cy.details_residential_mx()
-
+    it('Select Plan', () => {
+        cy.Plan_resid_mx()
     })
 
-    it('Pyment page - Checking personal details information', () => {
-        cy.fixture('locators').then((x) => {
-            //checking insured details
-            cy.get(x.review_items)
-                .should('contain.text', person.name)
-                .and('contain.text', person.last_name)
-                .and('contain.text', person.phone_1)
-                .and('contain.text', person.email)
-                .and('contain.text', address_mx.zipcode)
-                .and('contain.text', address_mx.colonia)
-                .and('contain.text', address.line1)
-        })
+    it('Captcha', () => {
+        cy.Captcha()
     })
 
+    it('Personal Details', () => {
+        cy.Details_resid_mx()
 
-    it('Pyment page - Testing that the edit button returns to the Personal Details page', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.edit_button).click() //edit button
-            cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-                .wait(1000)
-                .get(x.input_colonia_1).click({ force: true })
-                .wait(1000)
-                .get(x.colonia_option_text).first().click({ force: true })
-                .wait(1000)
-            cy.get(x.input_address_1).clear()
-                .type(address.line2)
-            cy.get(x.forward_button).click()
-            cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
-                .should('contain.text', address.line2)
-        })
     })
+
+    it('Pyment page Checking', () => {
+
+        cy.Checking_resid_mx()
+    })
+
+    it(' Payment Page Edit button click', () => {
+        cy.Edit_button() //Commands.js
+    })
+
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
+    it('Edit', () => {
+        cy.Edit_resid_mx()
+    })
+
     it('Payment page', () => {
 
-        cy.payment_residential_mx()
-
-
+        cy.Payment_resid_mx()
     })
 
 })

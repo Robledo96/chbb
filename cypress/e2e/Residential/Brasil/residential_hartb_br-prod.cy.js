@@ -1,22 +1,205 @@
 import 'cypress-iframe'
+import { person, address, address_br } from '../../../support/objects_mobile';
+import { randomCPF, dob } from '../../../support/utils';
+let radio = 0
 
 
-describe('Residential hartb  BRASIL', () => {
+describe('Residential hartb  BRASIL (prod)', () => {
+    beforeEach(function () {
+        const suite = cy.state('test').parent
+        if (suite.tests.some(test => test.state === 'failed')) {
+            this.skip()
+        }
+    })
     //Page 1
-    it('Quote / Select Plan', () => {
+    it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/residential/launchstage/pt-BR')
-
-        cy.quote_residential_br()
     })
 
-    // Page 3    
-    it(' Personal Details / Checking Insured Details / Edit ', () => {
-        cy.details_residential_br()
+    it('Select Plan', () => {
+        cy.Plan_resid_br()
+    })
+
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
+    it('Personal Details', () => {
+        cy.fixture('locators').then((x) => {
+            cy.get(x.input_name).type(person.name)
+                .get(x.input_last_name).type(person.last_name)
+                .get(x.input_birth_date).type(dob())
+            cy.log('////// Gender /////')
+            cy.get(x.select_value).first().click()
+                .get(x.select_option).should('have.length.greaterThan', 0)
+                .its('length').then(($length) => {
+                    cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
+                })
+                .get(x.input_mobile).type(person.phone_2)
+                .get(x.input_email).type(person.email)
+                .get(x.input_id).click().type(randomCPF())
+
+            cy.log('//////// Radio Group - 1 /////////')
+            cy.get(x.radio_group).first()
+                .find(x.check_outer_circle).should('have.length.greaterThan', 0)
+                .its('length').then(($length) => {
+                    cy.get(x.check_outer_circle).eq(Cypress._.random($length - 1)).click({ force: true })
+
+                    cy.get(x.input_zipcode).click()// click outside
+                        .wait(1000)
+                    cy.log('//////// Looking for Errors /////////')
+                    cy.get('form').then(($form) => {
+                        if ($form.find(x.errors_1).length > 0) {
+                            cy.get(x.radio_group).first()
+                                .find(x.check_outer_circle).last()
+                                .click({ force: true })
+                                .wait(500)
+                        }
+                    })
+                })
+
+            cy.get(x.input_zipcode).type(address_br.zipcode)
+                .intercept('https://viacep.com.br/ws/22050000/json').as('Location')
+                .wait('@Location')
+
+                .get(x.input_address_1).type(address.line1)
+                .get(x.input_ext_number).type(address_br.ext_num)
+                .get(x.input_address_2).type(address.line1)
+                .get(x.input_address_3).type(address_br.barrio)
+                .get(x.input_city).type(address_br.city)
+                .get(x.input_province).type(address_br.province)
+
+            //Same Address yes or not
+            cy.log('//////// Radio Group - 2 /////////')
+            cy.get(x.radio_group).last()
+                .find(x.check_outer_circle).should('have.length.greaterThan', 0)
+                .its('length').then(($length) => {
+                    cy.log($length)
+                    radio = Cypress._.random($length - 1)
+                    cy.get(x.radio_group).last()
+                        .find(x.check_outer_circle).eq(radio).click({ force: true })
+
+                    cy.log('////// Radio Checked', radio, '///////')
+                    if (radio == 1) {
+                        cy.get(x.input_zipcode_1).type(address_br.zipcode_1)
+                        cy.intercept('https://viacep.com.br/ws/69932000/json').as('Location')
+                        cy.wait('@Location')
+                            .wait(500)
+                            .get(x.input_add_1_Billing).type(address.line1)
+                            .get(x.input_ext_num_Billing).type(address_br.ext_num)
+                            .get(x.input_add_2_Billing).type(address.line1)
+                            .get(x.input_add_3_Billing).type(address_br.barrio_1)
+                    }
+                    cy.get(x.checkboxes).check({ force: true }).should('be.checked')
+                })
+            cy.wait(1000)
+            cy.get(x.forward_button).click()
+            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    cy.get('app-applicant-details').then(($form) => {
+                        if ($form.find('mat-error').is(':visible')) {
+                            cy.log('///// Bug Found /////')
+                            cy.log('////// Changing ID /////')
+                            cy.get(x.input_id).type(randomCPF()).wait(1000)
+                            cy.get(x.forward_button).click()
+                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                                expect($loading).not.to.exist
+                            })
+                        }
+                        cy.wait(1000)
+                        if ($body.find('#application-errors').is(':visible')) {
+                            cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                        }
+                    })
+                }
+
+            })
+        })
+    })
+
+    it('Pyment page Checking', () => {
+        cy.get('.review__item--applicant-details')
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_2)
+            .and('contain.text', person.email)
+
+        cy.get('.review__item--insured-address')
+            .should('contain.text', address_br.zipcode)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_br.ext_num)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_br.barrio)
+            .and('contain.text', address_br.city)
+            .and('contain.text', address_br.province)
+
+        cy.log('////// Radio Checked', radio, '///////')
+        if (radio == 1) {
+            cy.get('.review__item--billing-address')
+                .should('contain.text', address_br.zipcode_1)
+                .and('contain.text', address.line1)
+                .and('contain.text', address_br.ext_num)
+                .and('contain.text', address.line1)
+                .and('contain.text', address_br.barrio_1)
+
+        } else {
+            cy.get('.review__item--billing-address')
+                .should('contain.text', address_br.zipcode)
+                .and('contain.text', address.line1)
+                .and('contain.text', address_br.ext_num)
+                .and('contain.text', address.line1)
+                .and('contain.text', address_br.barrio)
+                .and('contain.text', address_br.city)
+                .and('contain.text', address_br.province)
+        }
+    })
+
+    it(' Payment Page Edit button click', () => {
+        cy.fixture('locators').then((x) => {
+            cy.get(x.edit_button).eq(1).click()
+            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
+        })
+    })
+
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
+    it('Edit', () => {
+        cy.fixture('locators').then((x) => {
+            cy.get(x.input_address_1).wait(500).type(address.line2)
+                .get(x.input_address_3).type(address_br.barrio)
+                .get(x.input_city).type(address_br.city)
+                .get(x.input_province).type(address_br.province)
+
+            cy.log('////// Radio =', radio, '///////')
+            if (radio == 1) {
+                cy.get(x.input_add_1_Billing).type(address.line1)
+                cy.get(x.input_add_3_Billing).type(address_br.barrio_1)
+            }
+
+
+            cy.get(x.checkboxes).check({ force: true }).should('be.checked')
+                .wait(1000)
+            cy.get(x.forward_button).click()
+            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
+
+            cy.get('.review__item--insured-address')
+                .should('contain.text', address.line2)
+        })
     })
 
     it('Payment page', () => {
+        cy.Payment_resid_br()
 
-        cy.payment_residential_br()
     })
 
 })

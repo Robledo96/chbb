@@ -3,52 +3,12 @@ import { Random, dob, randomRFC, randomRUT, randomDNI, randomCPF } from './utils
 import { person, payment, mobile, address, address_pe, address_ec, address_mx, address_co, address_ar, address_br } from '../support/objects_mobile'
 let date = dob()
 
-// Quote
-Cypress.Commands.add('quote', () => {
-    cy.fixture('locators').then((x) => {
-        cy.log('////// Quote /////')
-        cy.get(x.button_1).click()
-            .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
-            .get(x.quote_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
-        })
-        cy.log('////// Select PLan /////')
-        cy.get(x.plans_select_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
-        })
-    })
-})
 
-// ECUADOR
+
+// ECUADOR //
 // Personal Details 
-Cypress.Commands.add('personal_details_ec', () => {
+Cypress.Commands.add('Details_mob_ec', () => {
     cy.fixture('locators').then((x) => {
-        cy.wait(3000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
         cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
@@ -66,27 +26,71 @@ Cypress.Commands.add('personal_details_ec', () => {
             .get(x.input_city).type(address_ec.city)
             .get(x.input_province).type(address_ec.province)
             .get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
         cy.wait(1000)
-        cy.get('form').then($form => {
-            if ($form.find(x.errors).is(':visible')) {
-                cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
-                    cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                        .get(x.forward_button).click()
-                }
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+
+                    }
+                })
             }
-        })
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
+
         })
     })
 })
-// Payment Page 
-Cypress.Commands.add('payment_page_ec', () => {
+//Pyment page Checking
+Cypress.Commands.add('Checking_mob_ec', () => {
+    cy.fixture('locators').then((x) => {
+        cy.url().then((url) => {
+            if (url.includes('/diners/')) {
+                cy.get(x.collapsable_bar).click()
+            }
+        })
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone)
+            .and('contain.text', person.email)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_ec.city)
+            .and('contain.text', address_ec.province)
+    })
+})
+//Edit
+Cypress.Commands.add('Edit_mob_ec', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.input_address_1).clear()
+            .type(address.line2)
+            .get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.url().then((url) => {
+            if (url.includes('/diners/')) {
+                cy.get(x.collapsable_bar).click()
+            }
+        })
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+    })
+})
+//Payment Page
+Cypress.Commands.add('Payment_mob_ec', () => {
     cy.fixture('locators').then((x) => {
         cy.log('/////// Checking url for Conditions ///////')
         cy.url().then((url) => {
@@ -136,36 +140,23 @@ Cypress.Commands.add('payment_page_ec', () => {
 
     })
 })
-
-// MEXICO
-// Personal Details 
-Cypress.Commands.add('personal_details_mx', () => {
+// Congratulations
+Cypress.Commands.add('Congrats_mob_ec', () => {
     cy.fixture('locators').then((x) => {
-        cy.wait(3000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
-        cy.log('///// Personal Details //////')
+        cy.get(x.thank_you_text).should('contain.text', '¡Felicidades ')
+            .and('contain.text', 'Leonel')
+            .and('contain.text', ', ya cuentas con tu póliza de seguro!')
+            .get(x.thank_you_email_text).should('contain.text', person.email)
+        cy.get(x.thankyou__button).click()
+
+    })
+})
+
+
+// MEXICO //
+// Personal Details 
+Cypress.Commands.add('Details_mob_mx', () => {
+    cy.fixture('locators').then((x) => {
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -193,28 +184,68 @@ Cypress.Commands.add('personal_details_mx', () => {
         })
             .wait(1000)
         cy.get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
         cy.wait(1000)
-        cy.get('form').then($form => {
-            if ($form.find(x.errors).is(':visible')) {
-                cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', "  RFC Inválido  ")) {
-                    cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(randomRFC()).wait(1000)
-                        .get(x.forward_button).click()
-                }
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomRFC()).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                    }
+                })
             }
-        })
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
+
         })
 
     })
 })
+//Pyment page Checking
+Cypress.Commands.add('Checking_mob_mx', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_1)
+            .and('contain.text', person.email)
+            .and('contain.text', address_mx.zipcode)
+            .and('contain.text', address_mx.colonia)
+            .and('contain.text', address.line1)
+    })
+})
+//Edit
+Cypress.Commands.add('Edit_mob_mx', () => {
+    cy.fixture('locators').then((x) => {
+        cy.wait(1000)
+            .get(x.input_colonia).click({ force: true })
+            .wait(1000)
+            .get(x.colonia_option_text).first().click({ force: true })
+            .wait(1000)
+        cy.get(x.input_address_1).clear()
+            .type(address.line2)
+        cy.get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+    })
+})
 // Payment Page 
-Cypress.Commands.add('payment_page_mx', () => {
+Cypress.Commands.add('Payment_mob_mx', () => {
     cy.fixture('locators').then((x) => {
         cy.log('/////// Radio Group - 1 ///////')
         cy.get(x.radio_group)
@@ -250,35 +281,11 @@ Cypress.Commands.add('payment_page_mx', () => {
     })
 })
 
+
 // COLOMBIA
 // Personal Details 
-Cypress.Commands.add('personal_details_co', () => {
+Cypress.Commands.add('Details_mob_co', () => {
     cy.fixture('locators').then((x) => {
-        cy.wait(3000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
-        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).first().type(date)
@@ -302,27 +309,61 @@ Cypress.Commands.add('personal_details_co', () => {
                 cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
             })
             .get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
         cy.wait(1000)
-        cy.get('form').then($form => {
-            if ($form.find(x.errors).is(':visible')) {
-                cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', '  Ingresa tu cédula de ciudadanía  ')) {
-                    cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                        .get(x.forward_button).click()
-                }
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                    }
+                })
             }
-        })
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
+
         })
     })
 })
+//Pyment page Checking
+Cypress.Commands.add('Checking_mob_co', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_3)
+            .and('contain.text', person.email)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_co.department)
+            .and('contain.text', address_co.city)
+
+    })
+})
+//Edit
+Cypress.Commands.add('Edit_mob_co', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.input_address_1).clear()
+            .type(address.line2)
+        cy.get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+    })
+})
 // Payment Page 
-Cypress.Commands.add('payment_page_co', () => {
+Cypress.Commands.add('Payment_mob_co', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
@@ -351,35 +392,11 @@ Cypress.Commands.add('payment_page_co', () => {
     })
 })
 
-// CHILE
+
+// CHILE //
 // Personal Details 
-Cypress.Commands.add('personal_details_cl', () => {
+Cypress.Commands.add('Details_mob_cl', () => {
     cy.fixture('locators').then((x) => {
-        cy.wait(3000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
-        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -400,27 +417,60 @@ Cypress.Commands.add('personal_details_cl', () => {
             })
             .wait(1000)
             .get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
         cy.wait(1000)
-        cy.get('form').then($form => {
-            if ($form.find(x.errors).is(':visible')) {
-                cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', '  Ingresa tu RUT (sin puntos y con guión)   ')) {
-                    cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(randomRUT()).wait(1000)
-                        .get(x.forward_button).click()
-                }
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomRUT()).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                    }
+                })
             }
-        })
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
+
         })
     })
 })
+//Pyment page Checking
+Cypress.Commands.add('Checking_mob_cl', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_4)
+            .and('contain.text', person.email)
+            .and('contain.text', address.line1)
+    })
+})
+//Edit
+Cypress.Commands.add('Edit_mob_cl', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.input_address_1).clear()
+            .type(address.line2)
+        cy.get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+    })
+})
 // Payment Page 
-Cypress.Commands.add('payment_page_cl', () => {
+Cypress.Commands.add('Payment_mob_cl', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
@@ -449,52 +499,23 @@ Cypress.Commands.add('payment_page_cl', () => {
     })
 })
 
-// ARGENTINA
+
+// ARGENTINA //
 // Quote 
-Cypress.Commands.add('quote_ar', () => {
+Cypress.Commands.add('Quote_mob_ar', () => {
     cy.fixture('locators').then((x) => {
         cy.log('////// Quote /////')
         cy.get(x.button_1).click()
             .get(x.input_imei).type(mobile.tac_1 + Random(1000000, 9999999).toString())
             .get(x.quote_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
-        })
-        cy.log('////// Select PLan /////')
-        cy.get(x.plans_select_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
     })
 })
 // Personal Details 
-Cypress.Commands.add('personal_details_ar', () => {
+Cypress.Commands.add('Details_mob_ar', () => {
     cy.fixture('locators').then((x) => {
-        cy.wait(3000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
-        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -514,27 +535,67 @@ Cypress.Commands.add('personal_details_ar', () => {
             .get(x.input_province).type(address_ar.province)
             .get(x.input_zipcode).type(address_ar.zipcode)
             .get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
         cy.wait(1000)
-        cy.get('form').then($form => {
-            if ($form.find(x.errors).is(':visible')) {
-                cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', '  Ingresa tu dni  ')) {
-                    cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(randomDNI()).wait(1000)
-                        .get(x.forward_button).click()
-                }
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomDNI()).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+
+                    }
+                })
             }
-        })
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
+
         })
     })
 })
+//Pyment page Checking
+Cypress.Commands.add('Checking_mob_ar', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_1)
+            .and('contain.text', person.email)
+            .and('contain.text', address.line1)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_ar.localidad)
+            .and('contain.text', address_ar.city)
+            .and('contain.text', address_ar.province)
+            .and('contain.text', address_ar.zipcode)
+
+    })
+})
+//Edit
+Cypress.Commands.add('Edit_mob_ar', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.input_address_1).clear()
+            .type(address.line2)
+        cy.get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+    })
+})
 // Payment Page  
-Cypress.Commands.add('payment_page_ar', () => {
+Cypress.Commands.add('Payment_mob_ar', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
@@ -563,35 +624,11 @@ Cypress.Commands.add('payment_page_ar', () => {
     })
 })
 
-// BRASIL
+
+// BRASIL //
 // Personal Details 
-Cypress.Commands.add('personal_details_br', () => {
+Cypress.Commands.add('Details_mob_br', () => {
     cy.fixture('locators').then((x) => {
-        cy.wait(3000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
-        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -614,30 +651,78 @@ Cypress.Commands.add('personal_details_br', () => {
             .get(x.input_address_3).type(address_br.barrio)
             .get(x.input_city).type(address_br.city)
             .get(x.input_province).type(address_br.province)
-            .get(x.checkboxes).click({ multiple: true })
+        cy.get(x.checkboxes).check({ force: true }).should('be.checked')
             .wait(1000)
             .get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
         cy.wait(1000)
-        cy.get('form').then($form => {
-            if ($form.find(x.errors).is(':visible')) {
-                cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', '  Digite seu cpf  ')) {
-                    cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(randomCPF()).wait(1000)
-                        .get(x.forward_button).click()
-                }
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomCPF()).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                    }
+                })
             }
-        })
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
+
         })
     })
 })
+//Pyment page Checking
+Cypress.Commands.add('Checking_mob_br', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_2)
+            .and('contain.text', person.email)
+            .and('contain.text', address_br.zipcode)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_br.ext_num)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_br.barrio)
+            .and('contain.text', address_br.city)
+            .and('contain.text', address_br.province)
+    })
+})
+//Edit
+Cypress.Commands.add('Edit_mob_br', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.input_address_1).type(address.line2)
+            .get(x.input_address_3).type(address_br.barrio)
+            .wait(1000)
+            .get(x.input_city).type(address_br.city)
+            .wait(1000)
+            .get(x.input_province).type(address_br.province)
+            .wait(1000)
+        cy.get(x.checkboxes).check({ force: true }).should('be.checked')
+            .wait(1000)
+        cy.get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+            .and('contain.text', address.line1)
+            .and('contain.text', address_br.barrio)
+            .and('contain.text', address_br.city)
+            .and('contain.text', address_br.province)
+    })
+})
 // Payment Page 
-Cypress.Commands.add('payment_page_br', () => {
+Cypress.Commands.add('Payment_mob_br', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
@@ -667,35 +752,11 @@ Cypress.Commands.add('payment_page_br', () => {
     })
 })
 
-// PERU
+
+// PERU //
 // Personal Details 
-Cypress.Commands.add('personal_detail_pe', () => {
+Cypress.Commands.add('Details_mob_pe', () => {
     cy.fixture('locators').then((x) => {
-        cy.wait(3000)
-        // Captcha
-        cy.log('////// Conditional - Captcha //////')
-        cy.get('body').then($body => {
-            if ($body.find('.captcha-modal', { timeout: 60000 }).length > 0) {
-                cy.log('////// True //////')
-                cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
-                cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
-                    let textop = text
-                    let finaltx = textop.trim()
-                    let finaladd = 0
-                    let newtext = finaltx.split(" ")
-                    if (newtext[1] == '+') {
-                        finaladd = parseInt(newtext[0]) + parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " plus")
-                    } else if (newtext[1] == '-') {
-                        finaladd = parseInt(newtext[0]) - parseInt(newtext[2].trim())
-                        // cy.log(finaladd + " minus")
-                    }
-                    cy.get('[name="captchaVal"]').first().type(finaladd)
-                    cy.get("[type='Submit']").click()
-                })
-            }
-        })
-        cy.log('///// Personal Details //////')
         cy.get(x.input_name).type(person.name)
             .get(x.input_last_name).type(person.last_name)
             .get(x.input_birth_date).type(dob())
@@ -715,27 +776,60 @@ Cypress.Commands.add('personal_detail_pe', () => {
             .get(x.input_province).type(address_ar.province)
             .get(x.input_postal_Code).type(address_ar.zipcode)
             .get(x.forward_button).click()
-        cy.get('.loading-indicator__container').should(($loading) => {
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
         cy.wait(1000)
-        cy.get('form').then($form => {
-            if ($form.find(x.errors).is(':visible')) {
-                cy.log('///// Bug Found /////')
-                if (cy.get(x.errors).should('contain.text', ' Ingresa tu cédula ')) {
-                    cy.log('////// Changing ID /////')
-                    cy.get(x.input_id).type(randomDNI()).wait(1000)
-                        .get(x.forward_button).click()
-                }
+        cy.get('body').then(($body) => {
+            if ($body.find('app-applicant-details').is(':visible')) {
+                cy.get('app-applicant-details').then(($form) => {
+                    if ($form.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomDNI()).wait(1000)
+                        cy.get(x.forward_button).click()
+                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                    }
+                })
             }
-        })
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
+
         })
     })
 })
-// Payment Page PERU  
-Cypress.Commands.add('payment_page_pe', () => {
+//Pyment page Checking
+Cypress.Commands.add('Checking_mob_pe', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', person.name)
+            .and('contain.text', person.last_name)
+            .and('contain.text', person.phone_4)
+            .and('contain.text', person.email)
+            .and('contain.text', address.line1)
+    })
+})
+//Edit
+Cypress.Commands.add('Edit_mob_pe', () => {
+    cy.fixture('locators').then((x) => {
+        cy.get(x.input_address_1).clear()
+            .type(address.line2)
+        cy.get(x.forward_button).click()
+        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
+        cy.get(x.collapsable_bar).click()
+        cy.get(x.review_items)
+            .should('contain.text', address.line2)
+    })
+})
+// Payment Page   
+Cypress.Commands.add('Payment_mob_pe', () => {
     cy.fixture('locators').then((x) => {
         cy.iframe(x.card_iframe).then($ => {
             cy.wrap($[0])
