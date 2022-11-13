@@ -1,13 +1,11 @@
 {
-  "name": "mobile_autamation_chuub",
+  "name": "autamation_chuub",
   "version": "1.0.0",
   "description": "e2e Framework Testing Cypress ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cy:open": "cypress open",
-    "cypress:runDefault": "cypress run",
-    "run": "cypress run --browser chrome --e2e"
+    "cy:open": "cypress open"
   },
   "keywords": [
     "qa",
@@ -16,7 +14,7 @@
   "author": "Lidibet Escobar",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^11.0.0",
+    "cypress": "^11.0.1",
     "cypress-slow-down": "^1.2.1",
     "del": "^7.0.0",
     "lodash": "^4.17.21"

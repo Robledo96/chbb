@@ -2,7 +2,7 @@ var person = {
     name: "Test",
     last_name: "Automation",
     second_last_name: "Automation",
-    email: "leo.messi@x.com",
+    email: "test.automation@x.com",
     phone: "(685) 676-6757",
     phone_1: "3452736757",
     phone_2: "12456575777",
