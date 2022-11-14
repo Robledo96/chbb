@@ -8,7 +8,7 @@ import './HC/Mexico/hc_rappi_mx-uat.cy'
 
 import './Life/Chile/life_buk_cl-uat.cy'
 
-import './Life/Ecuador/life_pycca_ec-uat.cy'
+//import './Life/Ecuador/life_pycca_ec-uat.cy'
 
 import './Life/Panama/life_marsh_pa-uat.cy'
 
@@ -26,7 +26,7 @@ import './Residential/Colombia/residential_colsubsidio_co-uat.cy'
 
 import './Residential/Colombia/residential_falabella_co-uat.cy'
 
-import './Residential/Ecuador/residential_diners_ec-uat.cy'
+//import './Residential/Ecuador/residential_diners_ec-uat.cy'
 
 import './Residential/Mexico/residential_rappi_mx-uat.cy'
 
@@ -48,11 +48,13 @@ import './Travel/Puerto Rico/travel_travelgallery_pr-uat.cy'
 
 import './Travel/Puerto Rico/travel_tws_pr-uat.cy'
 
+import './Travel/Puerto Rico/travel-chubb_pr-prod.cy'
+
 import './Mobile/Argentina/mobile_amex_ar-uat.cy'
 
-import './Mobile/Ecuador/mobile_diners_ec.-uat.cy'
+//import './Mobile/Ecuador/mobile_diners_ec.-uat.cy'
 
-import './Mobile/Ecuador/mobile_olx_ec-uat.cy'
+//import './Mobile/Ecuador/mobile_olx_ec-uat.cy'
 
 import './Mobile/Mexico/mobile_heybanco_mx-uat.cy'
 

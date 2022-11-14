@@ -359,7 +359,7 @@ Cypress.Commands.add('Details_resid_cl', () => {
                         cy.log('////// Changing ID /////')
                         cy.get(x.input_id).type(randomRUT()).wait(1000)
                         cy.get(x.forward_button).click()
-                        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                        cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                             expect($loading).not.to.exist
                         })
                     }
