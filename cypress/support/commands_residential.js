@@ -143,7 +143,7 @@ Cypress.Commands.add('Payment_resid_mx', () => {
     })
 })
 
-// COLOMIA //
+// COLOMBIA //
 //Quote   (falabella)
 Cypress.Commands.add('Quote_resid_co', () => {
     cy.fixture('locators').then((x) => {
@@ -251,7 +251,6 @@ Cypress.Commands.add('Details_resid_co', () => {
 Cypress.Commands.add('Checking_resid_co', () => {
     cy.fixture('locators').then((x) => {
         //checking insured details
-        cy.get(x.collapsable_bar).click()
         cy.get(x.review_items)
             .should('contain.text', person.name)
             .and('contain.text', person.last_name)
@@ -272,7 +271,6 @@ Cypress.Commands.add('Edit_resid_co', () => {
         cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
             expect($loading).not.to.exist
         })
-        cy.get(x.collapsable_bar).click()
         cy.get(x.review_items)
             .should('contain.text', address.line2)
     })

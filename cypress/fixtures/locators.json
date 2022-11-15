@@ -10,7 +10,7 @@
     "calendar_next_button": ".mat-calendar-controls > .mat-calendar-next-button",
     "calendar_previous_button": ".mat-calendar-controls > .mat-calendar-previous-button", 
     "calendar_body": "td > .mat-calendar-body-cell-content",
-    "datepicker_icon": ".mat-datepicker-toggle-default-icon",
+    "datepicker_icon": ".mat-datepicker-toggle-default-icon",  
     "errors": "[role='alert']",
     "errors_1": ".crux-radio__error",
     "edit_button": " a.review__header-change",

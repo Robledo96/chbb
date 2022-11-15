@@ -30,6 +30,7 @@ describe('Travel nubank BRASIL (uat)', () => {
                 .then(() => {
                     n = Cypress._.random(0, 5)
                     cy.log(n)
+                    cy.get(x.calendar_body).eq(n).click()
                 })
             cy.log('//////// Arrival Date /////////')
             cy.get(x.datepicker_icon).last().click()

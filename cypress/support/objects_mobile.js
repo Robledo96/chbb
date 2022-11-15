@@ -21,7 +21,7 @@ var payment = {
     visa_card_num_2: 5555555555554444,
     mc_card_num: 5388545961306102,
     mc_card_num_1: 5162308168101087,
-    mc_card_num_2: 555555555555444,
+    mc_card_num_2: 5555555555554444,
     amex_card_num: 377813000000001,
    
     cvv: 484,

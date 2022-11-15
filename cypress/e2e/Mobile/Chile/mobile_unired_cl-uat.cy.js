@@ -20,6 +20,7 @@ describe('Mobile unired CHILE (uat)', () => {
 
     it('Select Plan', () => {
         cy.Plan_mob()
+        cy.wait(1000)
     })
 
     it('Personal Details ', () => {

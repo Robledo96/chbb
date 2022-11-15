@@ -31,6 +31,9 @@ describe('Residential cafam COLOMBIA (prod)', () => {
     })
 
     it('Pyment page Checking', () => {
+        cy.fixture('locators').then((x) => {
+            cy.get(x.collapsable_bar).click()
+        })
         cy.Checking_resid_co()
     })
 
@@ -44,6 +47,11 @@ describe('Residential cafam COLOMBIA (prod)', () => {
 
     it('Edit', () => {
         cy.Edit_resid_co()
+        cy.fixture('locators').then((x) => {
+            cy.get(x.collapsable_bar).click()
+            cy.get(x.review_items)
+                .should('contain.text', address.line2)
+        })
     })
 
     it('Payment page', () => {

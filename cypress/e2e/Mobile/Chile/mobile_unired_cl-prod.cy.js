@@ -20,6 +20,7 @@ describe('Mobile unired CHILE (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan_mob()
+        cy.wait(1000)
     })
 
     it('Captcha', () => {
@@ -52,7 +53,7 @@ describe('Mobile unired CHILE (prod)', () => {
         cy.Payment_mob_cl()
 
     })
- 
+
 })
 
 

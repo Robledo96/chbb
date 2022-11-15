@@ -194,6 +194,7 @@ Cypress.Commands.add('Details_mob_mx', () => {
                     if ($form.find('mat-error').is(':visible')) {
                         cy.log('///// Bug Found /////')
                         cy.log('////// Changing ID /////')
+                            .get(x.input_birth_date).clear().type(dob())
                         cy.get(x.input_id).type(randomRFC()).wait(1000)
                         cy.get(x.forward_button).click()
                         cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
