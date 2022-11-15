@@ -7,7 +7,7 @@ let date = dob()
 Cypress.Commands.add('Quote_hc_mx', () => {
     cy.fixture('locators').then((x) => {
         cy.log('//////// Date of Birth /////////')
-        cy.get('input').click()
+        cy.get('input', { timeout: 6000 }).click()
             .type(dob())
 
         cy.get(x.quote_button).click()

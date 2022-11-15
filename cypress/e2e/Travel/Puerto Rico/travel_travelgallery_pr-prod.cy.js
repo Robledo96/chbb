@@ -4,7 +4,7 @@ import { dob_1 } from '../../../support/utils'
 let num = 0
 
 
-describe('Travel aatours PUERTO RICO (prod)', () => {
+describe('Travel travelgallery PUERTO RICO (prod)', () => {
     beforeEach(function () {
         const suite = cy.state('test').parent
         if (suite.tests.some(test => test.state === 'failed')) {

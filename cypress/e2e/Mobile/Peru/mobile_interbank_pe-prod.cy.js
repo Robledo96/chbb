@@ -11,6 +11,7 @@ describe('Mobile interbank PERU (prod)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pe/interbank/mobile/launchstage/es-PE')
+    
     })
 
     it('Quote', () => {
