@@ -13,7 +13,7 @@ module.exports = defineConfig({
   viewportWidth: 1920,
   viewportHeight: 1500,
   screenshotOnRunFailure: true,
-  videoCompression: false,
+  videoCompression: true,
 
   e2e: {
     setupNodeEvents(on, config) {
