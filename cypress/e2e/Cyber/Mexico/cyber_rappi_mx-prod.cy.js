@@ -28,6 +28,10 @@ describe('Cyber rappi MEXICO (prod)', () => {
         cy.Plan()
     })
 
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_name).type(person.name)
@@ -101,10 +105,14 @@ describe('Cyber rappi MEXICO (prod)', () => {
         cy.Edit_button()
     })
 
+    it('Captcha', () => {
+        cy.Captcha()
+    })
+
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
             cy.wait(1000)
-            cy.get(x.input_colonia, { timeout: 90000 }).click()
+            cy.get(x.input_colonia).click()
                 .get(x.colonia_option_text, { timeout: 90000 }).eq(0).click({ force: true })
                 .wait(1000)
             cy.get(x.input_address_1).clear()

@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
-describe('HC rappi MEXICO (uat)', () => {
+describe('HC rappi MEXICO (prod)', () => {
     beforeEach(function () {
         const suite = cy.state('test').parent
         if (suite.tests.some(test => test.state === 'failed')) {
@@ -11,7 +11,7 @@ describe('HC rappi MEXICO (uat)', () => {
     })
     //Page 1
     it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/mx/rappi/hc/launchstage/es-MX')
+        cy.visit('https://la.studio.chubb.com/mx/rappi/hc/launchstage/es-MX')
         cy.Not_Found()
 
     })

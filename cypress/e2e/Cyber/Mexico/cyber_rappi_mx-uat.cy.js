@@ -104,7 +104,7 @@ describe('Cyber rappi MEXICO (uat)', () => {
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
             cy.wait(1000)
-            cy.get(x.input_colonia, { timeout: 90000 }).click()
+            cy.get(x.input_colonia).click()
                 .get(x.colonia_option_text, { timeout: 90000 }).eq(0).click({ force: true })
                 .wait(1000)
             cy.get(x.input_address_1).clear()

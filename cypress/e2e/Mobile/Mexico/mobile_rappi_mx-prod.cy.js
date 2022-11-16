@@ -35,6 +35,7 @@ describe('Mobile rappi MEXICO (prod)', () => {
 
     it('Captcha', () => {
         cy.Captcha()
+        cy.wait(1000)
     })
 
     it('Personal Details ', () => {

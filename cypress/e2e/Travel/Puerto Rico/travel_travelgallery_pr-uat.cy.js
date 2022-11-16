@@ -59,7 +59,7 @@ describe('Travel travelgallery PUERTO RICO (uat)', () => {
 
     it(' Number of Travelers ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.select_placeholder, { timeout: 20000 }).click()
+            cy.get('mat-select').click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.log($length)
