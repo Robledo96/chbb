@@ -125,14 +125,14 @@ describe('Mobile automovilclub CHILE (prod)', () => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card).click()
-                    .type(payment.visa_card_num_1)
+                    .type(payment.visa_card_num_1, { delay: 50 })
                     .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date_2)
+                    .get(x.input_expiry_date).type(payment.expiration_date_2, { delay: 60 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 60 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
             })
