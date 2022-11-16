@@ -1,5 +1,5 @@
 import 'cypress-iframe'
-import { person, address, address_br } from '../../../support/objects_mobile';
+import { person, address, address_br, payment } from '../../../support/objects_mobile';
 import { randomCPF, dob } from '../../../support/utils';
 let radio = 0
 
@@ -14,10 +14,14 @@ describe('Residential hartb  BRASIL (prod)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/residential/launchstage/pt-BR')
+        cy.Not_Found()
+
     })
 
     it('Select Plan', () => {
-        cy.Plan_resid_br()
+        cy.get('.hero-banner__button').click()
+            .wait(500)
+        cy.Plan()
     })
 
     it('Captcha', () => {
@@ -198,7 +202,24 @@ describe('Residential hartb  BRASIL (prod)', () => {
     })
 
     it('Payment page', () => {
-        cy.Payment_resid_br()
+        cy.fixture('locators').then((x) => {
+            cy.iframe(x.card_iframe).then($ => {
+                cy.wrap($[0])
+                    .find(x.input_card)
+                    .type(payment.visa_card_num_1)
+                    .get(x.input_card_name).type(payment.card_holder)
+                    .get(x.input_expiry_date).type(payment.expiration_date)
+            })
+            cy.iframe(x.cvv_iframe).then($iframes => {
+                cy.wrap($iframes[0])
+                    .find(x.input_cvv)
+                    .type(payment.cvv_1)
+                    .get(x.checkboxes).check({ force: true }).should('be.checked')
+                    .get(x.input_expiry_date).click()
+                    .get(x.forward_button).should('be.enabled')
+
+            })
+        })
 
     })
 

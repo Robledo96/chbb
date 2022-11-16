@@ -1,5 +1,5 @@
 import 'cypress-iframe'
-import { person, address, address_ec } from '../../../support/objects_mobile';
+import { person, address, address_ec, payment } from '../../../support/objects_mobile';
 import { Random, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
@@ -14,6 +14,8 @@ describe('Life pycca Ecuador (prod)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ec/pycca/life/launchstage/es-EC')
+        cy.Not_Found()
+
     })
 
     it('Quote', () => {
@@ -149,7 +151,7 @@ describe('Life pycca Ecuador (prod)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                            throw new Error('//// ERROR FOUND ////')
                         }
                     })
                 }
@@ -175,6 +177,10 @@ describe('Life pycca Ecuador (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+    })
+
+    it('Captcha', () => {
+        cy.Captcha()
     })
 
     it('Edit', () => {
@@ -213,12 +219,31 @@ describe('Life pycca Ecuador (prod)', () => {
     })
 
     it('Payment page', () => {
+        cy.fixture('locators').then((x) => {
+            cy.wait(1000)
+            cy.log('////// Radio Group - 1 /////')
+            cy.get(x.radio_group)
+                .find(x.check_outer_circle).eq(0).click({ force: true })
 
-        cy.payment_life_ec()
+            cy.iframe(x.card_iframe).then($ => {
+                cy.wrap($[0])
+                    .find(x.input_card).click()
+                    .type(payment.visa_card_num)
+                    .get(x.input_card_name).type(payment.card_holder)
+                    .get(x.input_expiry_date).click()
+                    .type(payment.expiration_date_1)
+            })
+            cy.iframe(x.cvv_iframe).then($iframes => {
+                cy.wrap($iframes[0])
+                    .find(x.input_cvv).click()
+                    .type(payment.cvv)
+                    .get(x.checkboxes).check({ force: true }).should('be.checked')
+                    .get(x.input_expiry_date).click()
+                    .get(x.forward_button).should('be.enabled')
 
-
+            })
+        })
     })
-
 })
 
 

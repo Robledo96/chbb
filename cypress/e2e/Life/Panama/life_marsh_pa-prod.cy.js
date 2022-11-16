@@ -1,5 +1,5 @@
 import 'cypress-iframe'
-import { person, address, panama } from '../../../support/objects_mobile';
+import { person, address, panama, payment } from '../../../support/objects_mobile';
 import { Random, dob, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
@@ -157,7 +157,7 @@ describe('Life marsh Panama (prod)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// UNRECOGNIZED ERROR FOUND ////')
+                            throw new Error('//// ERROR FOUND ////')
                         }
                     })
                 }
@@ -224,8 +224,26 @@ describe('Life marsh Panama (prod)', () => {
 
 
     it('Payment page', () => {
-
-        cy.payment_life_pa()
+        cy.fixture('locators').then((x) => {
+            cy.wait(1000)
+            cy.iframe(x.card_iframe).then($ => {
+                cy.wrap($[0])
+                    .find(x.input_card).click()
+                    .type(payment.visa_card_num_2)
+                    .wait(500)
+                    .get(x.input_card_name).type(payment.card_holder)
+                    .get(x.input_expiry_date).click()
+                    .type(payment.expiration_date_2)
+            })
+            cy.iframe(x.cvv_iframe).then($iframes => {
+                cy.wrap($iframes[0])
+                    .find(x.input_cvv).click()
+                    .type(payment.cvv_1)
+                    .get(x.checkboxes).check({ force: true }).should('be.checked')
+                    .get(x.input_expiry_date).click()
+                    .get(x.forward_button).should('be.enabled')
+            })
+        })
     })
 
 })
