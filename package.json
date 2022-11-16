@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
-    "cy:run-Prod": "cypress run --spec cypress/e2e/all_spec-PROD.cy.js",
+    "cy:run-PROD": "cypress run --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy:run-UAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js"
   },
   "keywords": [
