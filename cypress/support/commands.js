@@ -76,14 +76,10 @@ Cypress.Commands.add('Plan', () => {
 })
 //Not Found
 Cypress.Commands.add('Not_Found', () => {
-    cy.fixture('locators').then((x) => {
-        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-            expect($loading).not.to.exist
-        })
-        cy.get('body').then(($body) => {
-            if ($body.find('.not-found__container').is(':visible')) {
-                throw new Error('//// NOT FOUND ////')
-            }
-        })
+    cy.wait(2000)
+    cy.get('body').then(($body) => {
+        if ($body.find('.not-found__container').is(':visible')) {
+            throw new Error('//// NOT FOUND ////')
+        }
     })
 })
