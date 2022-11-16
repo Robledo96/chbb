@@ -72,7 +72,7 @@ describe('Life cajasullana PERU (uat)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 5000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get('[name="secondLastName"]').type(person.second_last_name)
             cy.log('////// Gener //////')
@@ -148,7 +148,7 @@ describe('Life cajasullana PERU (uat)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            throw new Error('//// ERROR FOUND ////')
+                           cy.log('//// ERROR FOUND ////')
                         }
                     })
                 }

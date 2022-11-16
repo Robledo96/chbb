@@ -72,7 +72,7 @@ describe('Cyber rappi MEXICO (prod)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            throw new Error('//// ERROR FOUND ////')
+                            cy.log('//// ERROR FOUND ////')
                         }
                     })
                 }
@@ -104,7 +104,7 @@ describe('Cyber rappi MEXICO (prod)', () => {
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
             cy.wait(1000)
-            cy.get(x.input_colonia).click()
+            cy.get(x.input_colonia, { timeout: 90000 }).click()
                 .get(x.colonia_option_text, { timeout: 90000 }).eq(0).click({ force: true })
                 .wait(1000)
             cy.get(x.input_address_1).clear()

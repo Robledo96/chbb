@@ -69,7 +69,7 @@ describe('Mobile amex ARGENTINA (uat)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            throw new Error('//// ERROR FOUND ////')
+                            cy.log('//// ERROR FOUND ////')
 
                         }
                     })
@@ -118,14 +118,14 @@ describe('Mobile amex ARGENTINA (uat)', () => {
         cy.fixture('locators').then((x) => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
-                    .find(x.input_card)
+                    .find(x.input_card).click()
                     .type(payment.amex_card_num)
                     .get(x.input_card_name).type(payment.card_holder)
                     .get(x.input_expiry_date).type(payment.expiration_date_2)
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
-                    .find(x.input_cvv)
+                    .find(x.input_cvv).click()
                     .type(payment.cvv_2)
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')

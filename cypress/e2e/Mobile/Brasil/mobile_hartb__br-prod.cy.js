@@ -1,6 +1,6 @@
 import 'cypress-iframe'
 import {  dob, randomCPF, Random } from '../../../support/utils'
-import { person, payment, address, address_br } from '../../../support/objects_mobile'
+import { person, payment, address, address_br, mobile } from '../../../support/objects_mobile'
 
 describe('Mobile hartb BRASIL (prod)', () => {
     beforeEach(function () {
@@ -79,7 +79,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            throw new Error('//// ERROR FOUND ////')
+                            cy.log('//// ERROR FOUND ////')
                         }
                     })
                 }

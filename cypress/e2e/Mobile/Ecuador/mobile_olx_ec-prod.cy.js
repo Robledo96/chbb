@@ -73,7 +73,7 @@ describe('Mobile OLX ECUADOR (prod)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            throw new Error('//// ERROR FOUND ////')
+                            cy.log('//// ERROR FOUND ////')
 
                         }
                     })

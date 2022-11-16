@@ -80,7 +80,7 @@ describe('HC coomeva COLOMBIA (uat)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            throw new Error('//// ERROR FOUND ////')
+                            tcy.log('//// ERROR FOUND ////')
                         }
                     })
                 }

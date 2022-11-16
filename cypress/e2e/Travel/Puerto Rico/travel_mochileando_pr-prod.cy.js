@@ -131,7 +131,7 @@ describe('Travel mochileando PUERTO RICO (prod)', () => {
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('#application-errors').is(':visible')) {
-                    throw new Error('//// ERROR FOUND ////')
+                    cy.log('//// ERROR FOUND ////')
                 }
             })
 

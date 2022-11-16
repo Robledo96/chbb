@@ -147,7 +147,7 @@ describe('Life pycca Ecuador (uat)', () => {
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                            throw new Error('//// ERROR FOUND ////')
+                            cy.logs('//// ERROR FOUND ////')
                         }
                     })
                 }

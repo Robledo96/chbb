@@ -1,6 +1,6 @@
 import 'cypress-iframe'
 import { dob, randomCPF, Random } from '../../../support/utils'
-import { person, payment, address, address_br } from '../../../support/objects_mobile'
+import { person, payment, address, address_br, mobile } from '../../../support/objects_mobile'
 
 describe('Mobile hartb BRASIL (uat)', () => {
     beforeEach(function () {
