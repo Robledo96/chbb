@@ -129,7 +129,7 @@ describe('Life cajasullana PERU (uat)', () => {
                         }
                     })
             }
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -141,14 +141,14 @@ describe('Life cajasullana PERU (uat)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
                         }
                         cy.wait(1000)
                         if ($body.find('#application-errors').is(':visible')) {
-                           cy.log('//// ERROR FOUND ////')
+                            cy.log('//// ERROR FOUND ////')
                         }
                     })
                 }
@@ -203,7 +203,7 @@ describe('Life cajasullana PERU (uat)', () => {
             }
 
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -236,7 +236,7 @@ describe('Life cajasullana PERU (uat)', () => {
 
         })
     })
-   
+
 })
 
 

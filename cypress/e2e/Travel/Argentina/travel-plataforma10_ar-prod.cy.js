@@ -149,7 +149,7 @@ describe('Travel plataforma10 ARGENTINA (prod)', () => {
                 })
             }
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
@@ -162,7 +162,7 @@ describe('Travel plataforma10 ARGENTINA (prod)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomDNI()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -210,7 +210,7 @@ describe('Travel plataforma10 ARGENTINA (prod)', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist

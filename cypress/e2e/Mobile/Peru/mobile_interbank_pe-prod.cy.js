@@ -54,7 +54,7 @@ describe('Mobile interbank PERU (prod)', () => {
                 .get(x.input_city).type(address_ar.city)
                 .get(x.input_province).type(address_ar.province)
                 .get(x.input_postal_Code).type(address_ar.zipcode)
-                .get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -66,7 +66,7 @@ describe('Mobile interbank PERU (prod)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomDNI()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -106,7 +106,7 @@ describe('Mobile interbank PERU (prod)', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

@@ -57,7 +57,7 @@ describe('Mobile automovilclub CHILE (prod)', () => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
                 .wait(1000)
-                .get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -69,7 +69,7 @@ describe('Mobile automovilclub CHILE (prod)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomRUT()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -110,7 +110,7 @@ describe('Mobile automovilclub CHILE (prod)', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

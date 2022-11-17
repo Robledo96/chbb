@@ -34,6 +34,7 @@ describe('Travel mochileando PUERTO RICO (uat)', () => {
                     cy.log(n)
                     cy.get(x.calendar_body).eq(n).click()
                 })
+            cy.wait(1000)
             cy.log('//////// Arrival Date /////////')
             cy.get(x.datepicker_icon).last().click()
                 .get(x.calendar_body).should('have.length.greaterThan', 0)
@@ -51,7 +52,7 @@ describe('Travel mochileando PUERTO RICO (uat)', () => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
             cy.get(x.quote_button).click()
-    
+
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -119,7 +120,7 @@ describe('Travel mochileando PUERTO RICO (uat)', () => {
                 })
             }
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
@@ -157,8 +158,8 @@ describe('Travel mochileando PUERTO RICO (uat)', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
-    
+            cy.get(x.forward_button).should('be.enabled').click()
+
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -183,9 +184,9 @@ describe('Travel mochileando PUERTO RICO (uat)', () => {
                     .type(payment.cvv_1)
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
-    
+
             })
-       
+
         })
 
     })

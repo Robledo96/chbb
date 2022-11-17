@@ -52,8 +52,8 @@ describe('Cyber rappi MEXICO (uat)', () => {
 
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
-                .get(x.forward_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                cy.get(x.forward_button).should('be.enabled').click()
+                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.wait(1000)
@@ -109,8 +109,8 @@ describe('Cyber rappi MEXICO (uat)', () => {
                 .wait(1000)
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                cy.get(x.forward_button).should('be.enabled').click()
+                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.get(x.review_items)

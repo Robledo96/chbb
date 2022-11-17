@@ -54,8 +54,8 @@ describe('Mobile OLX ECUADOR (prod)', () => {
                 .get(x.input_address_1).type(address.line1)
                 .get(x.input_city).type(address_ec.city)
                 .get(x.input_province).type(address_ec.province)
-                .get(x.forward_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                cy.get(x.forward_button).should('be.enabled').click()
+                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.wait(1000)
@@ -66,7 +66,7 @@ describe('Mobile OLX ECUADOR (prod)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -109,8 +109,8 @@ describe('Mobile OLX ECUADOR (prod)', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-                .get(x.forward_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                cy.get(x.forward_button).should('be.enabled').click()
+                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.get(x.collapsable_bar).click()

@@ -23,6 +23,7 @@ describe('Travel nubank BRASIL (prod)', () => {
             cy.get(x.button_1).click()
             cy.get(x.datepicker_icon).first().click()
                 .get(x.calendar_next_button).click()
+
             cy.log('//////// Departure Date /////////')
             cy.get(x.calendar_body).should('have.length.greaterThan', 0)
                 .its('length')
@@ -32,6 +33,7 @@ describe('Travel nubank BRASIL (prod)', () => {
                     cy.log(n)
                     cy.get(x.calendar_body).eq(n).click()
                 })
+            cy.wait(1000)
             cy.log('//////// Arrival Date /////////')
             cy.get(x.datepicker_icon).last().click()
             cy.get(x.calendar_body).should('have.length.greaterThan', 0)
@@ -40,7 +42,7 @@ describe('Travel nubank BRASIL (prod)', () => {
                 .then(() => {
                     n = Cypress._.random(10, 15)
                     cy.log(n)
-                    cy.get(x.calendar_body).eq(n).click()
+                    cy.get(x.calendar_body, { timeout: 5000 }).eq(n).click()
                 })
             cy.log('//////// Country /////////')
             cy.get(x.input_country).click()
@@ -118,7 +120,7 @@ describe('Travel nubank BRASIL (prod)', () => {
                 })
             }
             cy.wait(1000)
-                .get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
@@ -131,7 +133,7 @@ describe('Travel nubank BRASIL (prod)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomCPF()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -204,7 +206,7 @@ describe('Travel nubank BRASIL (prod)', () => {
                 })
             }
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist

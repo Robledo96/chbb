@@ -32,6 +32,7 @@ describe('Travel nubank BRASIL (uat)', () => {
                     cy.log(n)
                     cy.get(x.calendar_body).eq(n).click()
                 })
+            cy.wait(1000)
             cy.log('//////// Arrival Date /////////')
             cy.get(x.datepicker_icon).last().click()
             cy.get(x.calendar_body).should('have.length.greaterThan', 0)
@@ -114,7 +115,7 @@ describe('Travel nubank BRASIL (uat)', () => {
                 })
             }
             cy.wait(1000)
-                .get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
@@ -127,7 +128,7 @@ describe('Travel nubank BRASIL (uat)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomCPF()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -196,7 +197,7 @@ describe('Travel nubank BRASIL (uat)', () => {
                 })
             }
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist

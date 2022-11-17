@@ -36,6 +36,8 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
                     cy.log(n)
                     cy.get(x.calendar_body).eq(n).click()
                 })
+            cy.wait(1000)
+
             cy.log('//////// Arrival Date /////////')
             cy.get(x.datepicker_icon).last().click()
             cy.get(x.calendar_body).should('have.length.greaterThan', 0)
@@ -132,7 +134,7 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
                 })
             }
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
@@ -146,7 +148,7 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
                         cy.log('///// Bug Found /////')
                         cy.log('////// Changing ID /////')
                         cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                        cy.get(x.forward_button).click()
+                        cy.get(x.forward_button).should('be.enabled').click()
                         cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                             expect($loading).not.to.exist
                         })
@@ -186,7 +188,7 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist

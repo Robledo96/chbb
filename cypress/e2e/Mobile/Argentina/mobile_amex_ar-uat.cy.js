@@ -1,5 +1,5 @@
 import 'cypress-iframe'
-import { Random, dob, randomDNI} from '../../../support/utils'
+import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
 describe('Mobile amex ARGENTINA (uat)', () => {
@@ -50,7 +50,7 @@ describe('Mobile amex ARGENTINA (uat)', () => {
                 .get(x.input_city).type(address_ar.city)
                 .get(x.input_province).type(address_ar.province)
                 .get(x.input_zipcode).type(address_ar.zipcode)
-                .get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -62,7 +62,7 @@ describe('Mobile amex ARGENTINA (uat)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomDNI()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -104,7 +104,7 @@ describe('Mobile amex ARGENTINA (uat)', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -132,7 +132,7 @@ describe('Mobile amex ARGENTINA (uat)', () => {
             })
         })
     })
- 
+
 })
 
 

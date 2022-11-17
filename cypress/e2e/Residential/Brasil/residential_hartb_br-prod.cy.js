@@ -97,7 +97,7 @@ describe('Residential hartb  BRASIL (prod)', () => {
                     cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 })
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -109,7 +109,7 @@ describe('Residential hartb  BRASIL (prod)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomCPF()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -191,7 +191,7 @@ describe('Residential hartb  BRASIL (prod)', () => {
 
             cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 .wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

@@ -60,8 +60,8 @@ describe('HC rappi MEXICO (prod)', () => {
 
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
-                .get(x.forward_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                cy.get(x.forward_button).should('be.enabled').click()
+                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
 
@@ -74,7 +74,7 @@ describe('HC rappi MEXICO (prod)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomRFC()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -122,8 +122,8 @@ describe('HC rappi MEXICO (prod)', () => {
                 .wait(1000)
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                cy.get(x.forward_button).should('be.enabled').click()
+                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.get(x.review_items)

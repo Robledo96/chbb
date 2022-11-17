@@ -61,7 +61,7 @@ describe('Mobile marsh MEXICO (uat)', () => {
                 }
             })
                 .wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -74,7 +74,7 @@ describe('Mobile marsh MEXICO (uat)', () => {
                             cy.log('////// Changing ID /////')
                                 .get(x.input_birth_date).clear().type(dob())
                             cy.get(x.input_id).type(randomRFC()).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -118,7 +118,7 @@ describe('Mobile marsh MEXICO (uat)', () => {
                 .wait(1000)
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
