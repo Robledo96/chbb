@@ -116,7 +116,7 @@ describe('ESB aon PUERTO RICO (uat)', () => {
                         }
                     })
             }
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -128,7 +128,7 @@ describe('ESB aon PUERTO RICO (uat)', () => {
                             cy.log('///// Bug Found /////')
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(Random(1000, 9999)).wait(1000)
-                            cy.get(x.forward_button).click()
+                            cy.get(x.forward_button).should('be.enabled').click()
                             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
@@ -188,7 +188,7 @@ describe('ESB aon PUERTO RICO (uat)', () => {
                 })
             }
             cy.wait(1000)
-            cy.get(x.forward_button).click()
+            cy.get(x.forward_button).should('be.enabled').click()
             cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
