@@ -19,10 +19,8 @@ describe('Residential falabella COLOMBIA (prod)', () => {
 
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_1, { timeout: 30000 }).click()
-                .wait(500)
             cy.log('////// Radio Group //////')
-            cy.get(x.radio_group)
+            cy.get(x.radio_group, { timeout: 30000 })
                 .find(x.check_outer_circle).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.get(x.check_outer_circle).eq(Cypress._.random($length - 1)).click({ force: true })
