@@ -17,12 +17,9 @@ describe('Mobile amex ARGENTINA (prod)', () => {
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
             cy.log('////// Quote /////')
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac_1 + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
@@ -36,7 +33,7 @@ describe('Mobile amex ARGENTINA (prod)', () => {
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
             cy.log('/////// Gener ///////')
@@ -85,7 +82,7 @@ describe('Mobile amex ARGENTINA (prod)', () => {
 
     it('Pyment page - Checking personal details information', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.collapsable_bar).click()
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
@@ -110,13 +107,11 @@ describe('Mobile amex ARGENTINA (prod)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.collapsable_bar).click()
+
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
         })

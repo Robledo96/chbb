@@ -18,7 +18,7 @@ describe('Residential diners EC (uat)', () => {
 
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
                 .wait(500)
             cy.log('////// Radio Group //////')
             cy.get(x.radio_group)
@@ -26,10 +26,6 @@ describe('Residential diners EC (uat)', () => {
                 .its('length').then(($length) => {
                     cy.get(x.check_outer_circle).eq(Cypress._.random($length - 1)).click({ force: true })
                         .get(x.quote_button).click()
-
-                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                        expect($loading).not.to.exist
-                    })
                 })
         })
     })
@@ -40,7 +36,7 @@ describe('Residential diners EC (uat)', () => {
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
             cy.log('////// Gender /////')
@@ -87,7 +83,7 @@ describe('Residential diners EC (uat)', () => {
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.review_items)
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', person.phone)
@@ -105,13 +101,11 @@ describe('Residential diners EC (uat)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
 
         })

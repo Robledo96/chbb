@@ -17,10 +17,7 @@ describe('Cyber rappi MEXICO (uat)', () => {
     })
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.quote_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
+            cy.get(x.quote_button, { timeout: 30000 }).click()
         })
     })
 
@@ -30,7 +27,7 @@ describe('Cyber rappi MEXICO (uat)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
                 .get(x.input_id).click().type(randomRFC()).wait(500)//'ANML891018J47'
@@ -52,8 +49,8 @@ describe('Cyber rappi MEXICO (uat)', () => {
 
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
-                cy.get(x.forward_button).should('be.enabled').click()
-                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            cy.get(x.forward_button).should('be.enabled').click()
+            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.wait(1000)
@@ -85,7 +82,7 @@ describe('Cyber rappi MEXICO (uat)', () => {
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.review_items)
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', person.phone_1)
@@ -103,17 +100,14 @@ describe('Cyber rappi MEXICO (uat)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait(1000)
-            cy.get(x.input_colonia).click({ force: true })
+            cy.get(x.input_colonia, { timeout: 30000 }).click({ force: true })
                 .get(x.colonia_option_text, { timeout: 5000 }).eq(0).click({ force: true })
                 .wait(1000)
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-                cy.get(x.forward_button).should('be.enabled').click()
-                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+            cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
     })

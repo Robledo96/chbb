@@ -17,15 +17,17 @@ describe('Residential colsubsidio COLOMBIA (uat)', () => {
 
     })
 
+    it('Quote', () => {
+        cy.get('.hero-banner__button', { timeout: 30000 }).click()
+    })
+
     it('Select Plan', () => {
-        cy.get('.hero-banner__button').click()
-            .wait(500)
         cy.Plan()
     })
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).first().type(date)
             cy.log('////// Gener //////')
@@ -82,7 +84,7 @@ describe('Residential colsubsidio COLOMBIA (uat)', () => {
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.review_items)
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', person.phone_3)
@@ -100,13 +102,11 @@ describe('Residential colsubsidio COLOMBIA (uat)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
     })
@@ -116,14 +116,14 @@ describe('Residential colsubsidio COLOMBIA (uat)', () => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card).click()
-                    .type(payment.amex_card_num)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date)
+                    .type(payment.amex_card_num, { delay: 60 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 60 })
+                    .get(x.input_expiry_date).type(payment.expiration_date, { delay: 60 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_2)
+                    .type(payment.cvv_2, { delay: 60 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
 

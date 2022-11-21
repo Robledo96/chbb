@@ -19,7 +19,7 @@ describe('Residential falabella COLOMBIA (uat)', () => {
 
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
                 .wait(500)
             cy.log('////// Radio Group //////')
             cy.get(x.radio_group)
@@ -27,29 +27,22 @@ describe('Residential falabella COLOMBIA (uat)', () => {
                 .its('length').then(($length) => {
                     cy.get(x.check_outer_circle).eq(Cypress._.random($length - 1)).click({ force: true })
                         .get(x.quote_button).click()
-
-                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                        expect($loading).not.to.exist
-                    })
                 })
         })
     })
 
     it('Select Plan', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.plans_select_button).should('have.length.greaterThan', 0)
+            cy.get(x.plans_select_button, { timeout: 30000 }).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).first().type(date)
             cy.log('////// Gener //////')
@@ -106,7 +99,7 @@ describe('Residential falabella COLOMBIA (uat)', () => {
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.collapsable_bar).click()
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
@@ -125,13 +118,11 @@ describe('Residential falabella COLOMBIA (uat)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.collapsable_bar).click()
+
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
         })

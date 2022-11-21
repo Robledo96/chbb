@@ -56,7 +56,7 @@ describe('Travel aon PUERTO RICO (prod)', () => {
 
     it(' Number of Travelers ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.select_placeholder, { timeout: 30000 }).click()
+            cy.get(x.select_placeholder, { timeout: 50000 }).click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.log($length)

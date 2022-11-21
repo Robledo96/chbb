@@ -16,17 +16,17 @@ describe('Residential rappi MEXICO (uat)', () => {
 
     })
 
+    it('Quote', () => {
+        cy.get('.hero-banner__button', { timeout: 30000 }).click()
+    })
+
     it('Select Plan', () => {
-        cy.get('.hero-banner__button').click()
-        cy.get('.loading-indicator__container').should(($loading) => {
-            expect($loading).not.to.exist
-        })
         cy.Plan()
     })
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
                 .get(x.input_id).type(randomRFC())//'ANML891018J47'
@@ -80,7 +80,7 @@ describe('Residential rappi MEXICO (uat)', () => {
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.review_items)
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', person.phone_1)
@@ -97,18 +97,15 @@ describe('Residential rappi MEXICO (uat)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait(1000)
-                .get(x.input_colonia_1).click({ force: true })
+            cy.get(x.input_colonia_1, { timeout: 30000 }).click({ force: true })
                 .wait(1000)
                 .get(x.colonia_option_text).first().click({ force: true })
                 .wait(1000)
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
     })

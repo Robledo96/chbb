@@ -20,7 +20,7 @@ describe('Travel nubank BRASIL (uat)', () => {
     it('Travel Date ', () => {
         cy.fixture('locators').then((x) => {
             // Travel Date
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
             cy.get(x.datepicker_icon).first().click()
                 .get(x.calendar_next_button).click()
             cy.log('//////// Departure Date /////////')
@@ -59,11 +59,6 @@ describe('Travel nubank BRASIL (uat)', () => {
                     cy.get(x.select_option).eq(num).click()
 
                     cy.get(x.quote_button).click()
-
-                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                        expect($loading).not.to.exist
-                    })
-
                 })
         })
     })
@@ -76,7 +71,7 @@ describe('Travel nubank BRASIL (uat)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).first().type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
                 .get(x.input_birth_date).type(dob())
                 .get(x.input_mobile).type(person.phone_2)
@@ -146,7 +141,7 @@ describe('Travel nubank BRASIL (uat)', () => {
 
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.collapsable_bar).click()
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
@@ -168,7 +163,7 @@ describe('Travel nubank BRASIL (uat)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).wait(500).type(address.line2)
+            cy.get(x.input_address_1, { timeout: 30000 }).wait(500).type(address.line2)
                 .get(x.input_address_3).type(address_br.barrio)
                 .get(x.input_city).type(address_br.city)
                 .get(x.input_province).type(address_br.province)
@@ -199,10 +194,7 @@ describe('Travel nubank BRASIL (uat)', () => {
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.collapsable_bar).click()
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
                 .wait(500)
             cy.get(x.review_items)
                 .should('contain.text', address.line2)

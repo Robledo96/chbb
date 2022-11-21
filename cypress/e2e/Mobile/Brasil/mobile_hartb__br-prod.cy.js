@@ -17,12 +17,9 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
@@ -36,7 +33,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
             cy.log('/////// Gener ///////')
@@ -61,7 +58,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
             cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.wait(1000)
@@ -73,7 +70,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
                             cy.log('////// Changing ID /////')
                             cy.get(x.input_id).type(randomCPF()).wait(1000)
                             cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+                            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
                                 expect($loading).not.to.exist
                             })
                         }
@@ -91,7 +88,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.review_items)
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', person.phone_2)
@@ -116,7 +113,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).type(address.line2)
+            cy.get(x.input_address_1, { timeout: 30000 }).type(address.line2)
                 .get(x.input_address_3).type(address_br.barrio)
                 .wait(1000)
                 .get(x.input_city).type(address_br.city)
@@ -126,10 +123,8 @@ describe('Mobile hartb BRASIL (prod)', () => {
             cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
                 .and('contain.text', address.line1)
                 .and('contain.text', address_br.barrio)

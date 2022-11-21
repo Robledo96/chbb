@@ -20,7 +20,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
             cy.log('//// Quote ////')
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
                 .wait(500)
             cy.log('//////// Date of Birth /////////')
             cy.get('[formcontrolname="dateOfBirth"]').type(dob())
@@ -36,23 +36,15 @@ describe('ESB aon PUERTO RICO (prod)', () => {
 
                     cy.get(x.quote_button).click()
                 })
-
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-
         })
     })
 
     it('Select Plan', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.plans_select_button).should('have.length.greaterThan', 0)
+            cy.get(x.plans_select_button, { timeout: 30000 }).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
@@ -62,7 +54,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_company).type(address_pr.company)
+            cy.get(x.input_company, { timeout: 30000 }).type(address_pr.company)
                 .get(x.input_name).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
                 .get(x.input_id).type(Random(1000, 9999))
@@ -149,7 +141,6 @@ describe('ESB aon PUERTO RICO (prod)', () => {
     })
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait(1000)
             cy.log('/////// Checking Insured Details //////')
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address_pr.company)
@@ -173,7 +164,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
 
             cy.log('////// Conditional - 3 ///////')
@@ -197,10 +188,8 @@ describe('ESB aon PUERTO RICO (prod)', () => {
             }
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
 
         })

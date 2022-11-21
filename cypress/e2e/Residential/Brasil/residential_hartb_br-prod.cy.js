@@ -18,9 +18,11 @@ describe('Residential hartb  BRASIL (prod)', () => {
 
     })
 
-    it('Select Plan', () => {
+    it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).click()
-            .wait(500)
+    })
+
+    it('Select Plan', () => {
         cy.Plan()
     })
 
