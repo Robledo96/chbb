@@ -50,7 +50,7 @@ import './Travel/Puerto Rico/travel_travelgallery_pr-prod.cy'
 
 import './Travel/Puerto Rico/travel_tws_pr-prod.cy'
 
-import './Travel/Puerto Rico/travel-chubb_pr-prod.cy'
+import './Travel/Puerto Rico/travel_chubb_pr-prod.cy'
 
 import './Travel/Puerto Rico/travel_orientalbank_pr-prod.cy'
 

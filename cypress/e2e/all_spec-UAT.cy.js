@@ -32,7 +32,7 @@ import './Residential/Colombia/residential_falabella_co-uat.cy'
 
 import './Residential/Mexico/residential_rappi_mx-uat.cy'
 
-import './Travel/Argentina/travel-plataforma10_ar-uat.cy'
+import './Travel/Argentina/travel_plataforma10_ar-uat.cy'
 
 import './Travel/Brasil/travel_nubank_br-uat.cy'
 
@@ -50,7 +50,7 @@ import './Travel/Puerto Rico/travel_travelgallery_pr-uat.cy'
 
 import './Travel/Puerto Rico/travel_tws_pr-uat.cy'
 
-import './Travel/Puerto Rico/travel-chubb_pr-prod.cy'
+import './Travel/Puerto Rico/travel_chubb_pr-prod.cy'
 
 import './Travel/Puerto Rico/travel_orientalbank_pr-uat.cy'
 
