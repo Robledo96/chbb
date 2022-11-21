@@ -90,7 +90,7 @@ import './AH/Ecuador/ah_elcomercio_ec-uat.cy'
 
 import './Compra Protegida/Mexico/cp_rappi_mx-uat.cy'
 
-import './Compra Protegida/Mexico/cp_itesm_mx-uat.cys'
+import './Compra Protegida/Mexico/cp_itesm_mx-uat.cy'
 
 import './Compra Protegida/Costa Rica/cp_credix_cr-uat.cy'
 
