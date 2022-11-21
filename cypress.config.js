@@ -10,7 +10,7 @@ module.exports = defineConfig({
 
   defaultCommandTimeout: 10000,
 
-  viewportWidth: 1920,
+  viewportWidth: 920,
   viewportHeight: 1500,
   screenshotOnRunFailure: true,
   videoCompression: false,
