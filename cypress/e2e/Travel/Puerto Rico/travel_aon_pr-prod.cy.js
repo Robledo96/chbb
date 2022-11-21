@@ -50,7 +50,7 @@ describe('Travel aon PUERTO RICO (prod)', () => {
                 .its('length').then(($length) => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
-            cy.get(x.quote_button).click()\
+            cy.get(x.quote_button).click()
         })
     })
 
