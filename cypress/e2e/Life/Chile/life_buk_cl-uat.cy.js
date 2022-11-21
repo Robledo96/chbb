@@ -20,7 +20,7 @@ describe('Life Buk Chile (uat)', () => {
 
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
                 .wait(500)
             cy.log('//////// Date of Birth /////////')
             cy.get(x.datepicker_icon).click()
@@ -50,29 +50,22 @@ describe('Life Buk Chile (uat)', () => {
                     cy.get(x.select_option).eq(num).click()
 
                     cy.get(x.quote_button).click()
-
-                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                        expect($loading).not.to.exist
-                    })
                 })
         })
     })
 
     it('Select Plan', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.plans_select_button).should('have.length.greaterThan', 0)
+            cy.get(x.plans_select_button, { timeout: 30000 }).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
             cy.get(x.input_id).click().type(randomRUT())
 
@@ -167,7 +160,7 @@ describe('Life Buk Chile (uat)', () => {
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.wait(1000)
-            cy.get(x.review_items)
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', person.phone_4)
@@ -182,7 +175,7 @@ describe('Life Buk Chile (uat)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
 
             cy.log('////// Conditional - 3 ///////')
@@ -208,10 +201,8 @@ describe('Life Buk Chile (uat)', () => {
 
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+          
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
     })

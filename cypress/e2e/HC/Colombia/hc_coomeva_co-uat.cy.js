@@ -19,15 +19,12 @@ describe('HC coomeva COLOMBIA (uat)', () => {
 
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
             cy.log('//////// Date of Birth /////////')
             cy.get('input').click()
                 .type(date)
 
             cy.get(x.quote_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
@@ -37,7 +34,7 @@ describe('HC coomeva COLOMBIA (uat)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
             cy.log('////// Gener //////')
             cy.get(x.select_value).first().click()
@@ -92,7 +89,7 @@ describe('HC coomeva COLOMBIA (uat)', () => {
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
-            cy.get(x.review_items)
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
                 .and('contain.text', person.phone_3)
@@ -109,13 +106,11 @@ describe('HC coomeva COLOMBIA (uat)', () => {
     })
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
                 cy.get(x.forward_button).should('be.enabled').click()
-                cy.get('.loading-indicator__container').should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
+             
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
     })

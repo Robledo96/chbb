@@ -151,7 +151,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
         cy.fixture('locators').then((x) => {
             cy.wait(1000)
             cy.log('/////// Checking Insured Details //////')
-            cy.get(x.review_items, { timeout: 6000 })
+            cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address_pr.company)
                 .and('contain.text', person.name)
                 .and('contain.text', person.last_name)

@@ -19,12 +19,14 @@ describe('Residential hartb  BRASIL (uat)', () => {
     })
 
     it('Select Plan', () => {
+        cy.get('.hero-banner__button', { timeout: 30000 }).click()
+            .wait(500)
         cy.Plan()
     })
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
             cy.log('////// Gender /////')
@@ -92,7 +94,7 @@ describe('Residential hartb  BRASIL (uat)', () => {
                 })
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.wait(1000)
@@ -120,7 +122,7 @@ describe('Residential hartb  BRASIL (uat)', () => {
     })
 
     it('Pyment page Checking', () => {
-        cy.get('.review__item--applicant-details')
+        cy.get('.review__item--applicant-details', { timeout: 30000 })
             .should('contain.text', person.name)
             .and('contain.text', person.last_name)
             .and('contain.text', person.phone_2)
@@ -159,15 +161,13 @@ describe('Residential hartb  BRASIL (uat)', () => {
     it(' Payment Page Edit button click', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).eq(1).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).wait(500).type(address.line2)
+            cy.get(x.input_address_1, { timeout: 30000 }).wait(500)
+                .type(address.line2)
                 .get(x.input_address_3).type(address_br.barrio)
                 .get(x.input_city).type(address_br.city)
                 .get(x.input_province).type(address_br.province)
@@ -182,11 +182,8 @@ describe('Residential hartb  BRASIL (uat)', () => {
             cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
 
-            cy.get('.review__item--insured-address')
+            cy.get('.review__item--insured-address', { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
     })

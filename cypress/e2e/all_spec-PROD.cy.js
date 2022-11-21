@@ -8,6 +8,8 @@ import './HC/Mexico/hc_rappi_mx-prod.cy'
 
 import './Life/Chile/life_buk_cl-prod.cy'
 
+import './Life/Mexico/life_betterfly-mx-prod.cy'
+
 //import './Life/Ecuador/life_pycca_ec-prod.cy'
 
 import './Life/Panama/life_marsh_pa-prod.cy'
@@ -50,6 +52,10 @@ import './Travel/Puerto Rico/travel_tws_pr-prod.cy'
 
 import './Travel/Puerto Rico/travel-chubb_pr-prod.cy'
 
+import './Travel/Puerto Rico/travel_orientalbank_pr-prod.cy'
+
+import './Travel/Puerto Rico/travel_hectorrojas_pr-prod.cy'
+
 import './Mobile/Argentina/mobile_amex_ar-prod.cy'
 
 //import './Mobile/Ecuador/mobile_diners_ec.-prod.cy'
@@ -68,6 +74,8 @@ import './Mobile/Colombia/mobile_cafam_co-prod.cy'
 
 import './Mobile/Colombia/mobile_colsubsidio_co-prod.cy'
 
+import './Mobile/Colombia/mobile_falabella_co-prod.cy'
+
 import './Mobile/Brasil/mobile_hartb__br-prod.cy'
 
 import './Mobile/Chile/mobile_automovilclub_cl-prod.cy'
@@ -75,6 +83,18 @@ import './Mobile/Chile/mobile_automovilclub_cl-prod.cy'
 import './Mobile/Chile/mobile_unired_cl-prod.cy'
 
 import './Mobile/Peru/mobile_interbank_pe-prod.cy'
+
+import './AH/Mexico/ah_drkura_mx-prod.cy'
+
+import './AH/Ecuador/ah_elcomercio_ec-prod.cy'
+
+import './Compra Protegida/Mexico/cp_rappi_mx-prod.cy'
+
+import './Compra Protegida/Mexico/cp_itesm_mx-prod.cy'
+
+import './Compra Protegida/Costa Rica/cp_credix_cr-prod.cy'
+
+
 
 
 

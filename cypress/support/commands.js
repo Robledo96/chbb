@@ -65,7 +65,7 @@ Cypress.Commands.add('Edit_button', () => {
 //Select PLan
 Cypress.Commands.add('Plan', () => {
     cy.fixture('locators').then((x) => {
-        cy.get(x.plans_select_button).should('have.length.greaterThan', 0)
+        cy.get(x.plans_select_button, { timeout: 30000 }).should('have.length.greaterThan', 0)
             .its('length').then(($length) => {
                 cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
             })
@@ -77,8 +77,8 @@ Cypress.Commands.add('Plan', () => {
 //Not Found
 Cypress.Commands.add('Not_Found', () => {
     cy.wait(2000)
-    cy.get('body').then(($body) => {
-        if ($body.find('.not-found__container').is(':visible')) {
+    cy.url().then(($url) => {
+        if ($url.includes('https://la.studio.chubb.com/404')) {
             throw new Error('//// NOT FOUND ////')
         }
     })

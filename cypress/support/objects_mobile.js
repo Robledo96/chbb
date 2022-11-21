@@ -19,6 +19,7 @@ var payment = {
     visa_card_num: 4540630099990031,
     visa_card_num_1: 4111111111111111,
     visa_card_num_2: 5555555555554444,
+    visa_card_num_3: 4242424242424240,
     mc_card_num: 5388545961306102,
     mc_card_num_1: 5162308168101087,
     mc_card_num_2: 5555555555554444,
@@ -45,6 +46,10 @@ var mobile = {
 var address = {
     line1: "Vigia Dep 1 ",
     line2: "Vigia Dep 2"
+}
+var address_cr = {
+    city: "San José",
+    province: "San José"
 }
 var panama = {
     nationality: "Panama",
@@ -106,5 +111,6 @@ export {
     address_ar,
     address_br,
     address_pr,
-    address_pe
+    address_pe,
+    address_cr
 };

@@ -20,7 +20,7 @@ describe('Travel aatours PUERTO RICO (prod)', () => {
 
     it('Travel Date ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.button_1).click()
+            cy.get(x.button_1, { timeout: 30000 }).click()
                 .wait(500)
             cy.log('//////// Departure Date /////////')
             cy.get(x.datepicker_icon).first().click()
@@ -52,16 +52,12 @@ describe('Travel aatours PUERTO RICO (prod)', () => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
             cy.get(x.quote_button).click()
-
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
     it(' Number of Travelers ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.select_placeholder).click({ force: true })
+            cy.get(x.select_placeholder, { timeout: 30000 }).click({ force: true })
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.log($length)
@@ -94,7 +90,7 @@ describe('Travel aatours PUERTO RICO (prod)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_name).first().type(person.name)
+            cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
             cy.log('////// Gender /////')
                 .get(x.select_value).first().click()
@@ -142,7 +138,7 @@ describe('Travel aatours PUERTO RICO (prod)', () => {
 
     it('Pyment page - Checking personal details information', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.collapsable_bar).click()
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
@@ -164,14 +160,11 @@ describe('Travel aatours PUERTO RICO (prod)', () => {
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
+            cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.collapsable_bar).click()
+            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
         })
