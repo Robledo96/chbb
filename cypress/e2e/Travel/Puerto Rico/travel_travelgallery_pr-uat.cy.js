@@ -159,6 +159,7 @@ describe('Travel travelgallery PUERTO RICO (uat)', () => {
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {
+            cy.wait(1000)
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card).click()

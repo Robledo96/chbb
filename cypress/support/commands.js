@@ -24,9 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //Captcha
-import { mobile } from "./objects_mobile"
-import { Random } from "./utils"
-
 Cypress.Commands.add('Captcha', () => {
     //Captcha
     cy.wait(9000)
@@ -57,21 +54,15 @@ Cypress.Commands.add('Captcha', () => {
 Cypress.Commands.add('Edit_button', () => {
     cy.fixture('locators').then((x) => {
         cy.get(x.edit_button).click() //edit button
-        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-            expect($loading).not.to.exist
-        })
     })
 })
 //Select PLan
 Cypress.Commands.add('Plan', () => {
     cy.fixture('locators').then((x) => {
-        cy.get(x.plans_select_button, { timeout: 30000 }).should('have.length.greaterThan', 0)
+        cy.get(x.plans_select_button, { timeout: 50000 }).should('have.length.greaterThan', 0)
             .its('length').then(($length) => {
                 cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
             })
-        cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-            expect($loading).not.to.exist
-        })
     })
 })
 //Not Found
