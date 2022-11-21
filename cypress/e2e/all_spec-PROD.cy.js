@@ -32,7 +32,7 @@ import './Residential/Colombia/residential_falabella_co-prod.cy'
 
 import './Residential/Mexico/residential_rappi_mx-prod.cy'
 
-import './Travel/Argentina/travel-plataforma10_ar-prod.cy'
+import './Travel/Argentina/travel_plataforma10_ar-prod.cy'
 
 import './Travel/Brasil/travel_nubank_br-prod.cy'
 
