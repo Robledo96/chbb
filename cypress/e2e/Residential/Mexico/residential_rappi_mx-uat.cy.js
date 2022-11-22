@@ -93,6 +93,8 @@ describe('Residential rappi MEXICO (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+        cy.intercept('POST', '/api/data/locations').as('getLocation')
+            .wait('@getLocation', { timeout: 80000 })
     })
 
     it('Edit', () => {

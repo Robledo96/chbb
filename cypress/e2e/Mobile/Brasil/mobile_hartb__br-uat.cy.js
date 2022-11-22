@@ -116,7 +116,7 @@ describe('Mobile hartb BRASIL (uat)', () => {
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.get(x.review_items, { timeout: 30000 })
+            cy.get(x.review_items, { timeout: 50000 })
                 .should('contain.text', address.line2)
                 .and('contain.text', address.line1)
                 .and('contain.text', address_br.barrio)

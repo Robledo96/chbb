@@ -75,9 +75,9 @@ describe('Cyber rappi MEXICO (uat)', () => {
                 }
 
             })
-
         })
     })
+
 
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
