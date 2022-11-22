@@ -21,16 +21,14 @@
 // Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
 //
 //
-// -- This will overwrite an existing command --
+// -- This will overwrite an existing command ---
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //Captcha
 Cypress.Commands.add('Captcha', () => {
     //Captcha
-    cy.wait(9000)
-    cy.get('body').then($body => {
+    //cy.wait(9000)
+    cy.get('body', { timeout: 10000 }).then($body => {
         if ($body.find('.captcha-modal').length > 0) {
-            // cy.get('.captcha-modal', { timeout: 9000 }).then($loading => {
-            //     expect($loading).length > 0
             cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
             cy.get('.captcha-modal__content .captcha-modal__question').invoke('text').then((text) => {
                 let textop = text

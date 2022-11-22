@@ -46,6 +46,7 @@ describe('Travel plataforma10 ARGENTINA (uat)', () => {
                                 cy.log(n)
                                 cy.get(x.calendar_body).eq(n).click()
                             })
+                        cy.wait(500)
                         cy.log('//////// Arrival Date /////////')
                         cy.get(x.datepicker_icon).last().click()
                         cy.get(x.calendar_body).should('have.length.greaterThan', 0)

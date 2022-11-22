@@ -50,7 +50,7 @@ describe('Cyber rappi MEXICO (uat)', () => {
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.wait(1000)
@@ -96,6 +96,8 @@ describe('Cyber rappi MEXICO (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button()
+        cy.intercept('POST', '/api/data/locations').as('getLocation')
+            .wait('@getLocation', { timeout: 90000 })
     })
 
     it('Edit', () => {

@@ -129,16 +129,16 @@ describe('Mobile hartb BRASIL (uat)', () => {
         cy.fixture('locators').then((x) => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
-                    .find(x.input_card).click()
-                    .type(payment.visa_card_num_1)
-                    .get(x.input_card_name)
-                    .type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date)
+                    .find(x.input_card, { timeout: 5000 }).click()
+                    .type(payment.visa_card_num_1, { delay: 60 })
+                    .get(x.input_card_name, { timeout: 5000 })
+                    .type(payment.card_holder, { delay: 60 })
+                    .get(x.input_expiry_date, { timeout: 5000 }).type(payment.expiration_date, { delay: 60 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
-                    .find(x.input_cvv)
-                    .type(payment.cvv_1)
+                    .find(x.input_cvv, { timeout: 5000 })
+                    .type(payment.cvv_1, { delay: 60 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
             })

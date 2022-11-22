@@ -13,7 +13,7 @@ describe('Mobile rappi MEXICO (uat)', () => {
     })
     //Page 1
     it('Visit', () => {
-        cy.visit('https://la.studio-{{environment}}.chubb.com/mx/rappi/mobile/launchstage/es-MX')
+        cy.visit('https://la.studio-uat.chubb.com/mx/rappi/mobile/launchstage/es-MX')
         cy.Not_Found()
 
     })
@@ -104,6 +104,8 @@ describe('Mobile rappi MEXICO (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+        cy.intercept('POST', '/api/data/locations').as('getLocation')
+            .wait('@getLocation', { timeout: 60000 })
     })
 
     it('Edit', () => {

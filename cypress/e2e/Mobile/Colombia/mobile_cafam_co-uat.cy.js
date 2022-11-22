@@ -54,7 +54,7 @@ describe('Mobile cafam COLOMBIA (uat)', () => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
             cy.wait(1000)

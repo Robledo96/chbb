@@ -100,6 +100,8 @@ describe('Life betterfly MEXICO (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+        cy.intercept('POST', '/api/data/locations').as('getLocation')
+            .wait('@getLocation', { timeout: 90000 })
     })
 
     it('Edit', () => {
