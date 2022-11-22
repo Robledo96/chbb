@@ -26,7 +26,7 @@
 //Captcha
 Cypress.Commands.add('Captcha', () => {
     //Captcha
-    //cy.wait(9000)
+    cy.wait(9000)
     cy.get('body', { timeout: 10000 }).then($body => {
         if ($body.find('.captcha-modal').length > 0) {
             cy.get('.captcha-modal', { timeout: 60000 }).click({ force: true })
