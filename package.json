@@ -8,7 +8,7 @@
     "cy:open": "cypress open",
     "cy:run-PROD": "cypress run --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy:run-UAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js",
-    "cy:run": "cypress run --spec cypress/e2e/Travel/Argentina/travel_plataforma10_ar-prod.cy.js"
+    "cy:run": "cypress run --spec cypress/e2e/AH/Mexico/ah_drkura_mx-prod.cy.js"
   },
   "keywords": [
     "qa",
@@ -17,7 +17,7 @@
   "author": "Lidibet Escobar",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^11.1.0",
+    "cypress": "^11.2.0",
     "cypress-mochawesome-reporter": "^3.2.3",
     "cypress-slow-down": "^1.2.1",
     "del": "^7.0.0",

@@ -3,12 +3,8 @@ import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
 describe('AH drkura MEXICO (prod)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
+
+
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/drkura/ah/launchstage/es-MX')
@@ -30,12 +26,12 @@ describe('AH drkura MEXICO (prod)', () => {
         cy.Plan()
     })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
-
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+
+            cy.wait('@ah_drkura_mx', { timeout: 10000 })
+            cy.Captcha()
+
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
             cy.log('/////// Gener ///////')
@@ -54,9 +50,9 @@ describe('AH drkura MEXICO (prod)', () => {
                 .get(x.input_email).type(person.email)
                 .get(x.input_zipcode).type(address_mx.zipcode)
 
-            cy.intercept('POST', '/api/data/locations').as('getLocation')
-                .wait('@getLocation', { timeout: 90000 })
-                .wait(1000)
+            cy.wait('@getLocation', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+
+            cy.wait(1000)
             cy.log('/////// Select /////')
             cy.get(x.input_colonia).click()
                 .get(x.colonia_option_text, { timeout: 90000 }).eq(0).click({ force: true })
@@ -64,31 +60,25 @@ describe('AH drkura MEXICO (prod)', () => {
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
 
+            cy.wait('@validate', { timeout: 40000 })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomRFC()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomRFC()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+                        
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// ERROR FOUND ////')
+                    }
                 }
-
             })
         })
 
@@ -110,9 +100,8 @@ describe('AH drkura MEXICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-    })
-
-    it('Captcha', () => {
+        cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+        cy.wait('@ah_drkura_mx', { timeout: 10000 })
         cy.Captcha()
     })
 
@@ -125,6 +114,8 @@ describe('AH drkura MEXICO (prod)', () => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.review_items, { timeout: 350000 })
                 .should('contain.text', address.line2)

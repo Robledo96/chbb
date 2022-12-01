@@ -3,12 +3,6 @@ import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
 describe('AH drkura MEXICO (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/drkura/ah/launchstage/es-MX')
@@ -60,29 +54,24 @@ describe('AH drkura MEXICO (uat)', () => {
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
 
+            cy.wait('@validate', { timeout: 40000 })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomRFC()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomRFC()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// ERROR FOUND ////')
+                    }
                 }
 
             })
@@ -106,6 +95,7 @@ describe('AH drkura MEXICO (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+        cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Edit', () => {
@@ -118,6 +108,10 @@ describe('AH drkura MEXICO (uat)', () => {
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
 
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.getCookie('set-cookie').then(cookie => {
+                cy.log(cookie)
+            })
             cy.get(x.review_items, { timeout: 350000 })
                 .should('contain.text', address.line2)
         })
@@ -145,6 +139,7 @@ describe('AH drkura MEXICO (uat)', () => {
                     .type(payment.cvv_1)
                 cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
+               
 
             })
         })

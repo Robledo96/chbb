@@ -1,15 +1,9 @@
 import 'cypress-iframe'
 import { Random, dob } from '../../../support/utils'
-import { person, payment, mobile, address, address_ec } from '../../../support/objects_mobile'
+import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
 
 describe('AH elcomercio ECUADOR (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
@@ -46,28 +40,25 @@ describe('AH elcomercio ECUADOR (uat)', () => {
                 .get(x.input_province).type(address_ec.province)
                 .get(x.input_address_1).type(address.line1)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
+
+            cy.wait('@validate', { timeout: 40000 })
+
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
 
-                        }
-                    })
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                    cy.wait(1000)
+                    if ($body.find('#application-errors').is(':visible')) {
+                        cy.log('//// ERROR FOUND ////')
+
+                    }
                 }
 
             })
@@ -96,7 +87,9 @@ describe('AH elcomercio ECUADOR (uat)', () => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
-           
+
+            cy.wait('@validate').its('response.statusCode').should('eq', 200)
+
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
@@ -116,7 +109,8 @@ describe('AH elcomercio ECUADOR (uat)', () => {
                     .find(x.input_cvv).click()
                     .type(payment.cvv)
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
-                    .get(x.forward_button).should('be.enabled')
+                cy.get(x.forward_button).should('be.enabled')
+
             })
         })
     })
