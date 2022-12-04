@@ -93,6 +93,8 @@ describe('Mobile hartb BRASIL (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+        cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+
     })
 
     it('Edit', () => {

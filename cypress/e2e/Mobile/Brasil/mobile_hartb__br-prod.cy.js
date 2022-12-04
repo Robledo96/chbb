@@ -42,7 +42,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
                 .wait(1000)
                 .get(x.input_zipcode).type(address_br.zipcode)
             cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
-
+                .wait(1000)
                 .get(x.input_address_1).type(address.line1)
                 .get(x.input_ext_number).type(address_br.ext_num)
                 .get(x.input_address_2).type(address.line1)
@@ -97,6 +97,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+        cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
         cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
