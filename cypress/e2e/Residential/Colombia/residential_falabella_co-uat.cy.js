@@ -5,12 +5,6 @@ let date = dob()
 
 
 describe('Residential falabella COLOMBIA (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/falabella/residential/launchstage/es-CO')
@@ -66,29 +60,26 @@ describe('Residential falabella COLOMBIA (uat)', () => {
                 })
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+                        cy.wait('@validate', { timeout: 40000 })
+
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
 
@@ -119,6 +110,8 @@ describe('Residential falabella COLOMBIA (uat)', () => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)

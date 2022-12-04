@@ -5,12 +5,6 @@ let num = 0
 let env = 0
 
 describe('ESB aon PUERTO RICO (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/aon/esb/launchstage/es-PR')
@@ -109,32 +103,31 @@ describe('ESB aon PUERTO RICO (uat)', () => {
                     })
             }
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
+
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('#mat-error-10').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(Random(1000, 9999)).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('#mat-error-10').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(Random(1000, 9999)).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
     })
+
     it('Pyment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.log('/////// Checking Insured Details //////')
@@ -180,6 +173,9 @@ describe('ESB aon PUERTO RICO (uat)', () => {
             }
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)

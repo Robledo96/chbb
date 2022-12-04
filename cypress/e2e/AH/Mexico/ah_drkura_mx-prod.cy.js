@@ -3,8 +3,6 @@ import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
 describe('AH drkura MEXICO (prod)', () => {
-
-
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/drkura/ah/launchstage/es-MX')
@@ -29,7 +27,7 @@ describe('AH drkura MEXICO (prod)', () => {
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
 
-            cy.wait('@ah_drkura_mx', { timeout: 10000 })
+            cy.wait('@recaptcha_1', { timeout: 10000 })
             cy.Captcha()
 
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
@@ -56,7 +54,6 @@ describe('AH drkura MEXICO (prod)', () => {
             cy.log('/////// Select /////')
             cy.get(x.input_colonia).click()
                 .get(x.colonia_option_text, { timeout: 90000 }).eq(0).click({ force: true })
-
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
@@ -71,17 +68,18 @@ describe('AH drkura MEXICO (prod)', () => {
                         cy.log('////// Changing ID /////')
                         cy.get(x.input_id).type(randomRFC()).wait(1000)
                         cy.get(x.forward_button).should('be.enabled').click()
-                        
+
                         cy.wait('@validate', { timeout: 40000 })
-                    }
-                    cy.wait(1000)
-                    if ($body.find('#application-errors').is(':visible')) {
-                        cy.log('//// ERROR FOUND ////')
                     }
                 }
             })
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    throw new Error('//// ERROR FOUND ////')
+                }
+            })
         })
-
     })
 
     it('Pyment page Checking', () => {
@@ -101,7 +99,7 @@ describe('AH drkura MEXICO (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
-        cy.wait('@ah_drkura_mx', { timeout: 10000 })
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 
@@ -116,6 +114,7 @@ describe('AH drkura MEXICO (prod)', () => {
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.review_items, { timeout: 350000 })
                 .should('contain.text', address.line2)
@@ -133,15 +132,15 @@ describe('AH drkura MEXICO (prod)', () => {
 
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
-                    .find(x.input_card).click()
-                    .type(payment.visa_card_num_1)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date_2)
+                    .find(x.input_card, { timeout: 10000 }).click()
+                    .type(payment.visa_card_num_1, { delay: 80 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 80 })
+                    .get(x.input_expiry_date).type(payment.expiration_date_2, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 80 })
                 cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
 

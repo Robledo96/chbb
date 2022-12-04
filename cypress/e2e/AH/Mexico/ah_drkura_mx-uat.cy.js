@@ -63,17 +63,18 @@ describe('AH drkura MEXICO (uat)', () => {
                     if ($body.find('mat-error').is(':visible')) {
                         cy.log('///// Bug Found /////')
                         cy.log('////// Changing ID /////')
-                        cy.get(x.input_id).type(randomRFC()).wait(1000)
+                            .get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
                         cy.get(x.forward_button).should('be.enabled').click()
 
                         cy.wait('@validate', { timeout: 40000 })
                     }
-                    cy.wait(1000)
-                    if ($body.find('#application-errors').is(':visible')) {
-                        cy.log('//// ERROR FOUND ////')
-                    }
                 }
-
+            })
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    throw new Error('//// ERROR FOUND ////')
+                }
             })
         })
 
@@ -109,9 +110,8 @@ describe('AH drkura MEXICO (uat)', () => {
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.getCookie('set-cookie').then(cookie => {
-                cy.log(cookie)
-            })
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
             cy.get(x.review_items, { timeout: 350000 })
                 .should('contain.text', address.line2)
         })
@@ -128,18 +128,18 @@ describe('AH drkura MEXICO (uat)', () => {
 
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
-                    .find(x.input_card).click()
-                    .type(payment.visa_card_num_1)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date_2)
+                    .find(x.input_card, { timeout: 10000 }).click()
+                    .type(payment.visa_card_num_1, { delay: 80 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 80 })
+                    .get(x.input_expiry_date).type(payment.expiration_date_2, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 80 })
                 cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
-               
+
 
             })
         })

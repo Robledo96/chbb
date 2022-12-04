@@ -3,12 +3,6 @@ import { dob, randomCPF, Random } from '../../../support/utils'
 import { person, payment, address, address_br, mobile } from '../../../support/objects_mobile'
 
 describe('Mobile hartb BRASIL (prod)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/mobile/launchstage/pt-BR')
@@ -27,12 +21,12 @@ describe('Mobile hartb BRASIL (prod)', () => {
         cy.Plan()
     })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
-
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
+
+            cy.wait('@recaptcha_1', { timeout: 10000 })
+            cy.Captcha()
+
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
@@ -58,29 +52,27 @@ describe('Mobile hartb BRASIL (prod)', () => {
             cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
-                expect($loading).not.to.exist
+
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomCPF()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomCPF()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
 
@@ -105,9 +97,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-    })
-
-    it('Captcha', () => {
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 
@@ -123,6 +113,9 @@ describe('Mobile hartb BRASIL (prod)', () => {
             cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)

@@ -3,12 +3,6 @@ import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx } from '../../../support/objects_mobile'
 
 describe('CP rappi MEXICO (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/rappi/compraprotegida/launchstage/es-MX')
@@ -41,38 +35,35 @@ describe('CP rappi MEXICO (uat)', () => {
                 .get(x.input_email).type(person.email)
                 .get(x.input_zipcode).type(address_mx.zipcode)
 
-            cy.intercept('POST', '/api/data/locations').as('getLocation')
-                .wait('@getLocation', { timeout: 80000 })
+            cy.wait('@getLocation', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
 
                 .get(x.input_colonia).type(address_mx.colonia)
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
+
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_birth_date).clear()
+                            .get(x.input_birth_date).type(dob())
+                            .get(x.input_id).type(randomRFC()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_birth_date).clear()
-                                .get(x.input_birth_date).type(dob())
-                                .get(x.input_id).type(randomRFC()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// NOT FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
 
@@ -94,8 +85,7 @@ describe('CP rappi MEXICO (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-        cy.intercept('POST', '/api/data/locations').as('getLocation')
-            .wait('@getLocation', { timeout: 80000 })
+        cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Edit', () => {
@@ -107,6 +97,10 @@ describe('CP rappi MEXICO (uat)', () => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
             cy.get(x.forward_button, { timeout: 30000 }).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
         })

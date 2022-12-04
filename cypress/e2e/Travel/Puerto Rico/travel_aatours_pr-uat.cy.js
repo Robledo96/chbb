@@ -5,12 +5,6 @@ let num = 0
 let n = 0
 
 describe('Travel aatours PUERTO RICO (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/aatours/travel/launchstage/es-PR')
@@ -72,10 +66,6 @@ describe('Travel aatours PUERTO RICO (uat)', () => {
                     })
                     cy.get(x.companions_button).click()
 
-                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                        expect($loading).not.to.exist
-                    })
-
                 })
         })
     })
@@ -86,6 +76,7 @@ describe('Travel aatours PUERTO RICO (uat)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+            cy.wait(1000)
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
             cy.log('////// Gender /////')
@@ -117,14 +108,12 @@ describe('Travel aatours PUERTO RICO (uat)', () => {
             }
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
+            cy.wait('@validate', { timeout: 40000 })
 
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
             cy.wait(1000)
             cy.get('body').then(($body) => {
-                if ($body.find('#application-errors').is(':visible')) {
-                    cy.log('//// ERROR FOUND ////')
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    throw new Error('//// ERROR FOUND ////')
                 }
             })
 
@@ -155,6 +144,8 @@ describe('Travel aatours PUERTO RICO (uat)', () => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)

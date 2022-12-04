@@ -5,12 +5,6 @@ let num = 0
 let n = 0
 
 describe('Travel nubank BRASIL (prod)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     it('Visit ', () => {
         cy.visit('https://la.studio.chubb.com/br/nubank/travel/launchstage/pt-BR')
         cy.Not_Found()
@@ -71,12 +65,10 @@ describe('Travel nubank BRASIL (prod)', () => {
         })
     })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
-
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+            cy.wait('@recaptcha_1', { timeout: 10000 })
+            cy.Captcha()
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
                 .get(x.input_birth_date).type(dob())
@@ -84,8 +76,8 @@ describe('Travel nubank BRASIL (prod)', () => {
                 .get(x.input_email).type(person.email)
                 .get(x.input_id).type(randomCPF())
                 .get(x.input_zipcode).type(address_br.zipcode)
-                .intercept('https://viacep.com.br/ws/22050000/json').as('Location')
-                .wait('@Location')
+            cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+
                 .get(x.input_address_1).type(address.line1)
                 .get(x.input_ext_number).type(address_br.ext_num)
                 .get(x.input_address_2).type(address.line1)
@@ -118,29 +110,26 @@ describe('Travel nubank BRASIL (prod)', () => {
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomCPF()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+                        cy.wait('@validate', { timeout: 40000 })
+
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomCPF()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
     })
@@ -165,9 +154,8 @@ describe('Travel nubank BRASIL (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-    })
-
-    it('Captcha', () => {
+        cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 
@@ -203,7 +191,8 @@ describe('Travel nubank BRASIL (prod)', () => {
             }
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
                 .wait(500)

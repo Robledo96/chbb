@@ -5,12 +5,6 @@ let num = 0
 let n = 0
 
 describe('Travel hectorrojas PUERTO RICO (prod)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/hectorrojas/travel/launchstage/es-PR')
@@ -70,11 +64,6 @@ describe('Travel hectorrojas PUERTO RICO (prod)', () => {
                         [...els].forEach(el => cy.wrap(el).type(dob_1()));
                     })
                     cy.get(x.companions_button).click()
-
-                    cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                        expect($loading).not.to.exist
-                    })
-
                 })
         })
     })
@@ -83,12 +72,10 @@ describe('Travel hectorrojas PUERTO RICO (prod)', () => {
         cy.Plan()
     })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
-
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+            cy.wait('@recaptcha_1', { timeout: 10000 })
+            cy.Captcha()
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
             cy.log('////// Gender /////')
@@ -121,13 +108,12 @@ describe('Travel hectorrojas PUERTO RICO (prod)', () => {
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
+            cy.wait('@validate', { timeout: 40000 })
+
             cy.wait(1000)
             cy.get('body').then(($body) => {
-                if ($body.find('#application-errors').is(':visible')) {
-                    cy.log('//// ERROR FOUND ////')
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    throw new Error('//// ERROR FOUND ////')
                 }
             })
 
@@ -151,9 +137,7 @@ describe('Travel hectorrojas PUERTO RICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-    })
-
-    it('Captcha', () => {
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 
@@ -162,6 +146,8 @@ describe('Travel hectorrojas PUERTO RICO (prod)', () => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)

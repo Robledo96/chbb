@@ -3,12 +3,6 @@ import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
 describe('Mobile amex ARGENTINA (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ar/amex/mobile/launchstage/es-AR')
         cy.Not_Found()
@@ -48,30 +42,27 @@ describe('Mobile amex ARGENTINA (uat)', () => {
                 .get(x.input_province).type(address_ar.province)
                 .get(x.input_zipcode).type(address_ar.zipcode)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
+
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomDNI()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+                        
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomDNI()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
     })
@@ -103,6 +94,9 @@ describe('Mobile amex ARGENTINA (uat)', () => {
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
 
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
@@ -114,14 +108,14 @@ describe('Mobile amex ARGENTINA (uat)', () => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card).click()
-                    .type(payment.amex_card_num)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date_2)
+                    .type(payment.amex_card_num, { delay: 100 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 100 })
+                    .get(x.input_expiry_date).type(payment.expiration_date_2, { delay: 100 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_2)
+                    .type(payment.cvv_2, { delay: 100 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
             })

@@ -5,12 +5,6 @@ let radio = 0
 
 
 describe('Residential hartb  BRASIL (prod)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/residential/launchstage/pt-BR')
@@ -26,12 +20,12 @@ describe('Residential hartb  BRASIL (prod)', () => {
         cy.Plan()
     })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
-
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+
+            cy.wait('@recaptcha_1', { timeout: 10000 })
+            cy.Captcha()
+
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
@@ -63,10 +57,9 @@ describe('Residential hartb  BRASIL (prod)', () => {
                         }
                     })
                 })
-
             cy.get(x.input_zipcode).type(address_br.zipcode)
-                .intercept('https://viacep.com.br/ws/22050000/json').as('Location')
-                .wait('@Location')
+
+            cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
 
                 .get(x.input_address_1).type(address.line1)
                 .get(x.input_ext_number).type(address_br.ext_num)
@@ -88,9 +81,9 @@ describe('Residential hartb  BRASIL (prod)', () => {
                     cy.log('////// Radio Checked', radio, '///////')
                     if (radio == 1) {
                         cy.get(x.input_zipcode_1).type(address_br.zipcode_1)
-                        cy.intercept('https://viacep.com.br/ws/69932000/json').as('Location')
-                        cy.wait('@Location')
-                            .wait(500)
+
+                        cy.wait('@getLocat_Brasil_2', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+                        cy.wait(1000)
                             .get(x.input_add_1_Billing).type(address.line1)
                             .get(x.input_ext_num_Billing).type(address_br.ext_num)
                             .get(x.input_add_2_Billing).type(address.line1)
@@ -100,29 +93,26 @@ describe('Residential hartb  BRASIL (prod)', () => {
                 })
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomCPF()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+                        cy.wait('@validate', { timeout: 40000 })
+
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomCPF()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// UNRECOGNIZED ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
     })
@@ -167,17 +157,19 @@ describe('Residential hartb  BRASIL (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).eq(1).click()
+            cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+            if (radio == 1) {
+                cy.wait('@getLocat_Brasil_2', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+            }
+            cy.wait('@recaptcha_1', { timeout: 10000 })
+            cy.Captcha()
         })
-    })
-
-    it('Captcha', () => {
-        cy.Captcha()
     })
 
     it('Edit', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1, { timeout: 30000 }).wait(500)
-            .type(address.line2)
+                .type(address.line2)
                 .get(x.input_address_3).type(address_br.barrio)
                 .get(x.input_city).type(address_br.city)
                 .get(x.input_province).type(address_br.province)
@@ -192,6 +184,9 @@ describe('Residential hartb  BRASIL (prod)', () => {
             cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get('.review__item--insured-address', { timeout: 30000 })
                 .should('contain.text', address.line2)

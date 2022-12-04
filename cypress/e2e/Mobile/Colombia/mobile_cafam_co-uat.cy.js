@@ -4,12 +4,6 @@ import { person, payment, mobile, address, address_co } from '../../../support/o
 let date = dob()
 
 describe('Mobile cafam COLOMBIA (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/cafam/mobile/COAS600001/es-CO')
@@ -54,29 +48,26 @@ describe('Mobile cafam COLOMBIA (uat)', () => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
-                expect($loading).not.to.exist
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+                        cy.wait('@validate', { timeout: 40000 })
+
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
     })
@@ -104,6 +95,9 @@ describe('Mobile cafam COLOMBIA (uat)', () => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)

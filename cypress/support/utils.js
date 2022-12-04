@@ -72,7 +72,7 @@ function randomRUT() {
 //Function generate random RFC
 function randomRFC() {
     var year2 = (year.toString()).substr(-2);
-    return "ANML" + year2 + month + day + "J47"
+    return "AUCT" + year2 + month + day + "J47"
 }
 //Function generate random DNI
 var num = 0;

@@ -4,12 +4,6 @@ import { person, payment, address, address_mx, } from '../../../support/objects_
 
 
 describe('Cyber rappi MEXICO (prod)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/cyber/launchstage/es-MX')
@@ -25,12 +19,12 @@ describe('Cyber rappi MEXICO (prod)', () => {
         cy.Plan()
     })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
-
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+
+            cy.wait('@recaptcha_1', { timeout: 10000 })
+            cy.Captcha()
+
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
@@ -44,8 +38,8 @@ describe('Cyber rappi MEXICO (prod)', () => {
                 .get(x.input_email).type(person.email)
                 .get(x.input_zipcode).type(address_mx.zipcode)
 
-            cy.intercept('POST', '/api/data/locations').as('getLocation')
-                .wait('@getLocation', { timeout: 90000 })
+            cy.wait('@getLocation', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+
                 .wait(1000)
             cy.log('/////// Select /////')
             cy.get(x.input_colonia).click()
@@ -54,32 +48,29 @@ describe('Cyber rappi MEXICO (prod)', () => {
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
-                expect($loading).not.to.exist
+
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_birth_date).clear().type(dob())
+                        cy.get(x.input_id).type(randomRFC()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_birth_date).clear().type(dob())
-                            cy.get(x.input_id).type(randomRFC()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
-
         })
     })
 
@@ -100,9 +91,8 @@ describe('Cyber rappi MEXICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button()
-    })
-
-    it('Captcha', () => {
+        cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 
@@ -114,6 +104,9 @@ describe('Cyber rappi MEXICO (prod)', () => {
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)

@@ -4,17 +4,10 @@ import { person, payment, mobile, address } from '../../../support/objects_mobil
 
 
 describe('Mobile unired CHILE (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/unired/mobile/launchstage/es-CL')
         cy.Not_Found()
-
     })
 
     it('Quote', () => {
@@ -51,29 +44,27 @@ describe('Mobile unired CHILE (uat)', () => {
                 })
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
+
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomRUT()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomRUT()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
 
@@ -100,7 +91,10 @@ describe('Mobile unired CHILE (uat)', () => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
-          
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
@@ -112,14 +106,14 @@ describe('Mobile unired CHILE (uat)', () => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card).click()
-                    .type(payment.visa_card_num_1)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date_2)
+                    .type(payment.visa_card_num_1, { delay: 80 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 80 })
+                    .get(x.input_expiry_date).type(payment.expiration_date_2, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 80 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
             })

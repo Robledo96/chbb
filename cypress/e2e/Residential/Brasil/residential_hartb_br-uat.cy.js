@@ -5,12 +5,6 @@ let radio = 0
 
 
 describe('Residential hartb  BRASIL (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/br/hartb/residential/launchstage/pt-BR')
@@ -61,8 +55,8 @@ describe('Residential hartb  BRASIL (uat)', () => {
                 })
 
             cy.get(x.input_zipcode).type(address_br.zipcode)
-                .intercept('https://viacep.com.br/ws/22050000/json').as('Location')
-                .wait('@Location')
+
+            cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
 
                 .get(x.input_address_1).type(address.line1)
                 .get(x.input_ext_number).type(address_br.ext_num)
@@ -84,9 +78,9 @@ describe('Residential hartb  BRASIL (uat)', () => {
                     cy.log('////// Radio Checked', radio, '///////')
                     if (radio == 1) {
                         cy.get(x.input_zipcode_1).type(address_br.zipcode_1)
-                        cy.intercept('https://viacep.com.br/ws/69932000/json').as('Location')
-                        cy.wait('@Location')
-                            .wait(500)
+
+                        cy.wait('@getLocat_Brasil_2', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+                        cy.wait(1000)
                             .get(x.input_add_1_Billing).type(address.line1)
                             .get(x.input_ext_num_Billing).type(address_br.ext_num)
                             .get(x.input_add_2_Billing).type(address.line1)
@@ -96,29 +90,26 @@ describe('Residential hartb  BRASIL (uat)', () => {
                 })
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 50000 }).should(($loading) => {
-                expect($loading).not.to.exist
+            cy.wait('@validate', { timeout: 40000 })
+
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomCPF()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
+                        cy.wait('@validate', { timeout: 40000 })
+
+                    }
+                }
             })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomCPF()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// UNRECOGNIZED ERROR FOUND ////')
-                        }
-                    })
+                    throw new Error('//// ERROR FOUND ////')
                 }
-
             })
         })
     })
@@ -163,6 +154,10 @@ describe('Residential hartb  BRASIL (uat)', () => {
     it(' Payment Page Edit button click', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.edit_button).eq(1).click()
+            cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+            if (radio == 1) {
+                cy.wait('@getLocat_Brasil_2', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+            }
         })
     })
 
@@ -185,6 +180,9 @@ describe('Residential hartb  BRASIL (uat)', () => {
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
             cy.get('.review__item--insured-address', { timeout: 30000 })
                 .should('contain.text', address.line2)
         })
@@ -195,14 +193,14 @@ describe('Residential hartb  BRASIL (uat)', () => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card)
-                    .type(payment.visa_card_num_1)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date)
+                    .type(payment.visa_card_num_1, { delay: 80 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 80 })
+                    .get(x.input_expiry_date).type(payment.expiration_date, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv)
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 80 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.input_expiry_date).click()
                     .get(x.forward_button).should('be.enabled')

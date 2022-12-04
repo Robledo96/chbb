@@ -3,12 +3,6 @@ import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
 describe('HC rappi MEXICO (prod)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/hc/launchstage/es-MX')
@@ -23,9 +17,6 @@ describe('HC rappi MEXICO (prod)', () => {
                 .type(dob())
 
             cy.get(x.quote_button).click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
         })
     })
 
@@ -33,12 +24,12 @@ describe('HC rappi MEXICO (prod)', () => {
         cy.Plan()
     })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
-
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+
+            cy.wait('@recaptcha_1', { timeout: 10000 })
+            cy.Captcha()
+
             cy.get(x.input_name).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_id).click().type(randomRFC()).wait(500)//'ANML891018J47'
@@ -51,8 +42,8 @@ describe('HC rappi MEXICO (prod)', () => {
                 .get(x.input_email).type(person.email)
                 .get(x.input_zipcode).type(address_mx.zipcode)
 
-            cy.intercept('POST', '/api/data/locations').as('getLocation')
-                .wait('@getLocation', { timeout: 90000 })
+            cy.wait('@getLocation', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+
                 .wait(1000)
             cy.log('/////// Select /////')
             cy.get(x.input_colonia).click()
@@ -60,35 +51,30 @@ describe('HC rappi MEXICO (prod)', () => {
 
                 .get(x.input_address_1).type(address.line1)
                 .wait(1000)
-                cy.get(x.forward_button).should('be.enabled').click()
-                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
+            cy.get(x.forward_button).should('be.enabled').click()
 
+            cy.wait('@validate', { timeout: 40000 })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    cy.get('app-applicant-details').then(($form) => {
-                        if ($form.find('mat-error').is(':visible')) {
-                            cy.log('///// Bug Found /////')
-                            cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).type(randomRFC()).wait(1000)
-                            cy.get(x.forward_button).should('be.enabled').click()
-                            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                                expect($loading).not.to.exist
-                            })
-                        }
-                        cy.wait(1000)
-                        if ($body.find('#application-errors').is(':visible')) {
-                            cy.log('//// ERROR FOUND ////')
-                        }
-                    })
-                }
+                    if ($body.find('mat-error').is(':visible')) {
+                        cy.log('///// Bug Found /////')
+                        cy.log('////// Changing ID /////')
+                        cy.get(x.input_id).type(randomRFC()).wait(1000)
+                        cy.get(x.forward_button).should('be.enabled').click()
 
+                        cy.wait('@validate', { timeout: 40000 })
+                    }
+                }
+            })
+            cy.wait(1000)
+            cy.get('body').then(($body) => {
+                if ($body.find('app-applicant-details').is(':visible')) {
+                    throw new Error('//// ERROR FOUND ////')
+                }
             })
         })
-
     })
 
     it('Pyment page Checking', () => {
@@ -107,9 +93,8 @@ describe('HC rappi MEXICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-    })
-
-    it('Captcha', () => {
+        cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 
@@ -122,10 +107,11 @@ describe('HC rappi MEXICO (prod)', () => {
                 .wait(1000)
             cy.get(x.input_address_1).clear()
                 .type(address.line2)
-                cy.get(x.forward_button).should('be.enabled').click()
-                cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
+            cy.get(x.forward_button).should('be.enabled').click()
+
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
             cy.get(x.review_items)
                 .should('contain.text', address.line2)
         })
@@ -143,14 +129,14 @@ describe('HC rappi MEXICO (prod)', () => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card).click()
-                    .type(payment.visa_card_num_1)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date_2)
+                    .type(payment.visa_card_num_1, { delay: 80 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 80 })
+                    .get(x.input_expiry_date).type(payment.expiration_date_2, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 100 })
                 cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
 
