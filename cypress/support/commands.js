@@ -57,7 +57,7 @@ Cypress.Commands.add('Edit_button', () => {
 //Select PLan
 Cypress.Commands.add('Plan', () => {
     cy.fixture('locators').then((x) => {
-        cy.get(x.plans_select_button, { timeout: 50000 }).should('have.length.greaterThan', 0)
+        cy.get(x.plans_select_button, { timeout: 100000 }).should('have.length.greaterThan', 0)
             .its('length').then(($length) => {
                 cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
             })

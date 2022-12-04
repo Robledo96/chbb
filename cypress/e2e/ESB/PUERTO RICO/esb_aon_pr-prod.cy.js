@@ -181,8 +181,8 @@ describe('ESB aon PUERTO RICO (prod)', () => {
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
 
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
@@ -201,7 +201,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
 
             cy.iframe(' .payment-field-iframe > .tokenex-iframe > iframe:first').then(($) => {
                 cy.wrap($[0])
-                    .find(x.input_card).click()
+                    .find(x.input_card, { timeout: 40000 }).click()
                     .type(payment.visa_card_num_1)
                     .wait(500)
                     .get(x.input_card_name).type(payment.card_holder)

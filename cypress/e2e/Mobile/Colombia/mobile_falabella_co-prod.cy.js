@@ -20,13 +20,12 @@ describe('Mobile falabella COLOMBIA (uat)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
+        cy.wait('@recaptcha_2', { timeout: 10000 })
+        cy.Captcha()
     })
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-
-            cy.wait('@recaptcha_2', { timeout: 10000 })
-            cy.Captcha()
 
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
