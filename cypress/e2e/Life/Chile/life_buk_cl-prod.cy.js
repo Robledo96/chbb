@@ -56,7 +56,7 @@ describe('Life Buk Chile (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
 
     })
@@ -166,7 +166,7 @@ describe('Life Buk Chile (prod)', () => {
 
     it('Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 

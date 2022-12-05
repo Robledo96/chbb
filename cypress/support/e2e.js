@@ -27,10 +27,6 @@ beforeEach(function () {
     cy.intercept('POST', '/api/campaign/travel').as('travel')
     cy.intercept('https://viacep.com.br/ws/22050000/json').as('getLocat_Brasil_1')
     cy.intercept('https://viacep.com.br/ws/69932000/json').as('getLocat_Brasil_2')
-
-    //Recaptcha
-    cy.intercept('POST', 'https://www.google.com/recaptcha/api2/reload?k=6LeR5roZAAAAAElSV6dqfPQiLYGBgYoHdG-hdkIz').as('recaptcha_1')
-
 })
 
 beforeEach(function () {

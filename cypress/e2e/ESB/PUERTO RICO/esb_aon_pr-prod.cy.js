@@ -41,7 +41,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 
@@ -150,7 +150,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button()
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 

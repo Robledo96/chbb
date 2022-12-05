@@ -67,7 +67,7 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
                     cy.get(x.select_option).eq(num).click()
                     cy.get(x.companions_button).click()
 
-                    cy.wait('@recaptcha_1', { timeout: 10000 })
+                   //
                     cy.Captcha()
                 })
         })
@@ -160,7 +160,7 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 

@@ -25,7 +25,7 @@ describe('HC coomeva COLOMBIA (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 
@@ -95,7 +95,7 @@ describe('HC coomeva COLOMBIA (prod)', () => {
 
     it('Payment Page Edit button click', () => {
         cy.Edit_button()
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 

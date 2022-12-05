@@ -10,10 +10,11 @@ module.exports = defineConfig({
 
   defaultCommandTimeout: 10000,
 
-  viewportWidth: 1000,
+  viewportWidth: 1900,
   viewportHeight: 1500,
   screenshotOnRunFailure: true,
-  videoCompression: 15,
+  videoCompression: false,
+  video: false,
 
   e2e: {
     setupNodeEvents(on, config) {

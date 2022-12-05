@@ -75,7 +75,7 @@ describe('Travel tws PUERTO RICO (prod)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait('@recaptcha_1', { timeout: 10000 })
+           //
             cy.Captcha()
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
@@ -137,7 +137,7 @@ describe('Travel tws PUERTO RICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 

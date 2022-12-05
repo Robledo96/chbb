@@ -21,7 +21,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 
@@ -98,7 +98,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
-        cy.wait('@recaptcha_1', { timeout: 10000 })
+       //
         cy.Captcha()
     })
 
