@@ -47,6 +47,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+            cy.wait(1000)
             cy.get(x.input_company, { timeout: 30000 }).type(address_pr.company)
                 .get(x.input_name).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
@@ -118,7 +119,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
                         cy.get(x.input_id).type(Random(1000, 9999)).wait(1000)
                         cy.get(x.forward_button).should('be.enabled').click()
 
-                        cy.wait('@validate', { timeout: 40000 })
+                        cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
                     }
                 }
             })

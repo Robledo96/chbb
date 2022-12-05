@@ -45,6 +45,7 @@ describe('ESB aon PUERTO RICO (uat)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+            cy.wait(1000)
             cy.get(x.input_company, { timeout: 30000 }).type(address_pr.company)
                 .get(x.input_name).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
