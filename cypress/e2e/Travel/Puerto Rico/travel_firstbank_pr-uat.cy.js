@@ -116,7 +116,7 @@ describe('Travel firstbank PUERTO RICO (uat)', () => {
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {

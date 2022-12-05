@@ -117,7 +117,7 @@ describe('Travel coomeva COLOMBIA (uat)', () => {
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 })
+            cy.wait('@validate', { timeout: 60000 })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {

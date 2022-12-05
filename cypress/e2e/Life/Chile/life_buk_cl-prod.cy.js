@@ -197,7 +197,7 @@ describe('Life Buk Chile (prod)', () => {
             }
             cy.get(x.forward_button, { timeout: 10000 }).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 40000 }).should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.review_items, { timeout: 30000 })
