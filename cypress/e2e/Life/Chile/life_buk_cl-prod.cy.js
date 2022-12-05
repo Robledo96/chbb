@@ -210,7 +210,7 @@ describe('Life Buk Chile (prod)', () => {
             cy.wait(1000)
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
-                    .find(x.input_card).click()
+                    .find(x.input_card, { timeout: 60000 }).click()
                     .type(payment.visa_card_num_1)
                     .wait(500)
                     .get(x.input_card_name).type(payment.card_holder)

@@ -52,7 +52,7 @@ describe('Travel aatours PUERTO RICO (prod)', () => {
 
     it(' Number of Travelers ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get(x.select_placeholder, { timeout: 50000 }).click({ timeout: 50000 })
+            cy.get(x.select_placeholder, { timeout: 50000 }).click({ timeout: 80000 })
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.log($length)
@@ -110,8 +110,7 @@ describe('Travel aatours PUERTO RICO (prod)', () => {
             }
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 40000 })
-
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
