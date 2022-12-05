@@ -58,7 +58,7 @@ describe('Mobile falabella COLOMBIA (uat)', () => {
                         cy.log('////// Changing ID /////')
                         cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
                         cy.get(x.forward_button).should('be.enabled').click()
-                        cy.wait('@validate', { timeout: 40000 })
+                        cy.wait('@validate', { timeout: 80000 })
                     }
                 }
             })
