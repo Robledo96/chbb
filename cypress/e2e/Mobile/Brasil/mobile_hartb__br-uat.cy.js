@@ -14,6 +14,8 @@ describe('Mobile hartb BRASIL (uat)', () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
+            cy.wait('@mobile', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
         })
     })
 
@@ -37,7 +39,7 @@ describe('Mobile hartb BRASIL (uat)', () => {
                 .get(x.input_id).type(randomCPF())
                 .wait(1000)
                 .get(x.input_zipcode).type(address_br.zipcode)
-                cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
 
                 .get(x.input_address_1).type(address.line1)
                 .get(x.input_ext_number).type(address_br.ext_num)

@@ -46,6 +46,7 @@ describe('Life cajasullana PERU (uat)', () => {
                     cy.get(x.quote_button).click()
                 })
         })
+        cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Select Plan', () => {
@@ -128,7 +129,7 @@ describe('Life cajasullana PERU (uat)', () => {
                         cy.log('////// Changing ID /////')
                         cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
                         cy.get(x.forward_button).should('be.enabled').click()
-                        
+
                         cy.wait('@validate', { timeout: 40000 })
                     }
                 }

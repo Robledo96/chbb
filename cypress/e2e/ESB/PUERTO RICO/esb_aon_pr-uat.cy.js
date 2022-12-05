@@ -30,6 +30,7 @@ describe('ESB aon PUERTO RICO (uat)', () => {
 
                     cy.get(x.quote_button).click()
                 })
+            cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
         })
     })
 

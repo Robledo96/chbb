@@ -13,6 +13,7 @@ describe('Residential colsubsidio COLOMBIA (uat)', () => {
 
     it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).click()
+        cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Select Plan', () => {

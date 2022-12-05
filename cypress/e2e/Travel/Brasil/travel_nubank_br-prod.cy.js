@@ -54,21 +54,20 @@ describe('Travel nubank BRASIL (prod)', () => {
                     cy.get(x.select_option).eq(num).click()
 
                     cy.get(x.quote_button).click()
-
+                    cy.wait('@travel', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
                 })
         })
     })
 
     it('Select Plan', () => {
-        cy.fixture('locators').then((x) => {
-            cy.Plan()
-        })
+        cy.Plan()
+        cy.wait('@recaptcha_1', { timeout: 10000 })
+        cy.Captcha()
     })
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait('@recaptcha_1', { timeout: 10000 })
-            cy.Captcha()
+            cy.wait(1000)
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
                 .get(x.input_birth_date).type(dob())

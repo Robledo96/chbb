@@ -22,12 +22,14 @@ beforeEach(function () {
     cy.intercept('POST', '/api/policy/validate').as('validate')
     cy.intercept('POST', '/api/data/locations').as('getLocation')
     cy.intercept('POST', '/api/payment/iframe').as('iframe')
+    cy.intercept('POST', '/api/pricing/mobile').as('mobile')
+    cy.intercept('POST', '/api/campaign').as('campaign')
+    cy.intercept('POST', '/api/campaign/travel').as('travel')
     cy.intercept('https://viacep.com.br/ws/22050000/json').as('getLocat_Brasil_1')
     cy.intercept('https://viacep.com.br/ws/69932000/json').as('getLocat_Brasil_2')
 
     //Recaptcha
     cy.intercept('POST', 'https://www.google.com/recaptcha/api2/reload?k=6LeR5roZAAAAAElSV6dqfPQiLYGBgYoHdG-hdkIz').as('recaptcha_1')
-    cy.intercept('POST', 'https://www.google.com/recaptcha/api2/reload?k=6LeexvkUAAAAAHjVp8Tl7dCaGC5HFtMfZV20XfDV').as('recaptcha_2')
 
 })
 

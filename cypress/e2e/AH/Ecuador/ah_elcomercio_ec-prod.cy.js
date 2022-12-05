@@ -6,7 +6,7 @@ import { person, payment, address, address_ec } from '../../../support/objects_m
 describe('AH elcomercio ECUADOR (prod)', () => {
     //Page 1
     it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
+        cy.visit('https://la.studio.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
         cy.Not_Found()
 
     })
@@ -14,18 +14,18 @@ describe('AH elcomercio ECUADOR (prod)', () => {
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.quote_button, { timeout: 30000 }).click()
+            cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
         })
     })
 
     it('Select Plan', () => {
         cy.Plan()
+        cy.wait('@recaptcha_1', { timeout: 10000 })
+        cy.Captcha()
     })
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait('@recaptcha_2', { timeout: 10000 })
-            cy.Captcha()
-
             cy.log('///// Personal Details //////')
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
@@ -83,7 +83,7 @@ describe('AH elcomercio ECUADOR (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-        cy.wait('@recaptcha_2', { timeout: 10000 })
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 

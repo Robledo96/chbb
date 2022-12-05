@@ -13,6 +13,7 @@ describe('AH elcomercio ECUADOR (uat)', () => {
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.quote_button, { timeout: 30000 }).click()
+            cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
         })
     })
 

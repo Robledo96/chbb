@@ -12,19 +12,17 @@ describe('CP credix Costa Rica (prod)', () => {
 
     it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).should('be.enabled').click()
-
+        cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Select Plan', () => {
         cy.Plan()
+        cy.wait('@recaptcha_1', { timeout: 10000 })
+        cy.Captcha()
     })
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-
-            cy.wait('@recaptcha_1', { timeout: 10000 })
-            cy.Captcha()
-
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())

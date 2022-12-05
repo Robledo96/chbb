@@ -53,6 +53,7 @@ describe('Travel nubank BRASIL (uat)', () => {
                     cy.get(x.select_option).eq(num).click()
 
                     cy.get(x.quote_button).click()
+                    cy.wait('@travel', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
                 })
         })
     })

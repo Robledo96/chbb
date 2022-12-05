@@ -14,6 +14,8 @@ describe('Mobile amex ARGENTINA (uat)', () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac_1 + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
+            cy.wait('@mobile', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
         })
     })
 
@@ -53,7 +55,7 @@ describe('Mobile amex ARGENTINA (uat)', () => {
                         cy.log('////// Changing ID /////')
                         cy.get(x.input_id).type(randomDNI()).wait(1000)
                         cy.get(x.forward_button).should('be.enabled').click()
-                        
+
                         cy.wait('@validate', { timeout: 40000 })
                     }
                 }

@@ -46,6 +46,7 @@ describe('Travel mochileando PUERTO RICO (uat)', () => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
             cy.get(x.quote_button).click()
+            cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
         })
     })
 

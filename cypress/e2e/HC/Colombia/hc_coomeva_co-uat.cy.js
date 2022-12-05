@@ -20,6 +20,7 @@ describe('HC coomeva COLOMBIA (uat)', () => {
 
             cy.get(x.quote_button).click()
         })
+        cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Select Plan', () => {

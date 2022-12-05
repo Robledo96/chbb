@@ -15,6 +15,8 @@ describe('Mobile unired CHILE (uat)', () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
+            cy.wait('@mobile', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
         })
     })
 

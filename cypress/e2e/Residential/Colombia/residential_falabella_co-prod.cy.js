@@ -21,6 +21,7 @@ describe('Residential falabella COLOMBIA (prod)', () => {
                         .get(x.quote_button).click()
                 })
         })
+        cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Select Plan', () => {
@@ -30,13 +31,12 @@ describe('Residential falabella COLOMBIA (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
+        cy.wait('@recaptcha_1', { timeout: 10000 })
+        cy.Captcha()
     })
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait('@recaptcha_1', { timeout: 10000 })
-            cy.Captcha()
-
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).first().type(date)

@@ -14,11 +14,15 @@ describe('Mobile interbank PERU (prod)', () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
+            cy.wait('@mobile', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
         })
     })
 
     it('Select Plan', () => {
         cy.Plan()
+        cy.wait('@recaptcha_1', { timeout: 10000 })
+        cy.Captcha()
     })
 
     it('Personal Details ', () => {
@@ -81,6 +85,8 @@ describe('Mobile interbank PERU (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
+        cy.wait('@recaptcha_1', { timeout: 10000 })
+        cy.Captcha()
     })
 
     it('Edit', () => {

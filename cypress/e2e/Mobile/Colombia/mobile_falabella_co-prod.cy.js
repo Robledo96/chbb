@@ -3,10 +3,10 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, mobile, address, address_co } from '../../../support/objects_mobile'
 let date = dob()
 
-describe('Mobile falabella COLOMBIA (uat)', () => {
+describe('Mobile falabella COLOMBIA (prod)', () => {
     //Page 1
     it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/co/falabella/mobile/launchstage/es-CO')
+        cy.visit('https://la.studio.chubb.com/co/falabella/mobile/launchstage/es-CO')
         cy.Not_Found()
     })
 
@@ -15,18 +15,19 @@ describe('Mobile falabella COLOMBIA (uat)', () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
+            cy.wait('@mobile', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
         })
     })
 
     it('Select Plan', () => {
         cy.Plan()
-        cy.wait('@recaptcha_2', { timeout: 10000 })
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 
     it('Personal Details ', () => {
         cy.fixture('locators').then((x) => {
-
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).first().type(date)
@@ -90,7 +91,7 @@ describe('Mobile falabella COLOMBIA (uat)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-        cy.wait('@recaptcha_2', { timeout: 10000 })
+        cy.wait('@recaptcha_1', { timeout: 10000 })
         cy.Captcha()
     })
 

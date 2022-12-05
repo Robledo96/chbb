@@ -16,6 +16,7 @@ describe('Life betterfly MEXICO (uat)', () => {
             cy.get('input', { timeout: 10000 }).click()
                 .type(dob())
             cy.get(x.quote_button).click()
+            cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
         })
     })
 
