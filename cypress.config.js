@@ -13,7 +13,7 @@ module.exports = defineConfig({
   viewportWidth: 1900,
   viewportHeight: 1500,
   screenshotOnRunFailure: true,
-  videoCompression: 15,
+  videoCompression: false,
   video: false,
 
   e2e: {
