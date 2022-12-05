@@ -2,7 +2,6 @@ import 'cypress-iframe'
 import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
-
 describe('AH elcomercio ECUADOR (prod)', () => {
     //Page 1
     it('Visit', () => {
