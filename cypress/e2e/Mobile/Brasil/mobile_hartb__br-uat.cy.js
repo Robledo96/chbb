@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomCPF, Random } from '../../../support/utils'
 import { person, payment, address, address_br, mobile } from '../../../support/objects_mobile'
 
-describe('Mobile hartb BRASIL (uat)', () => {
+describe('Mobile hartb BRASIL (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/br/hartb/mobile/launchstage/pt-BR')

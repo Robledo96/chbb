@@ -4,7 +4,7 @@ import { person, payment, address, address_co } from '../../../support/objects_m
 let date = dob()
 
 
-describe('Residential falabella COLOMBIA (prod)', () => {
+describe('Residential falabella COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/falabella/residential/launchstage/es-CO')
@@ -31,7 +31,7 @@ describe('Residential falabella COLOMBIA (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
-       //
+        //
         cy.Captcha()
     })
 
@@ -106,7 +106,7 @@ describe('Residential falabella COLOMBIA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

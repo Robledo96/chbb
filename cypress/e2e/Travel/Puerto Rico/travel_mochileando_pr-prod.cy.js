@@ -5,7 +5,7 @@ let num = 0
 let n = 0
 
 
-describe('Travel mochileando PUERTO RICO (prod)', () => {
+describe('Travel mochileando PUERTO RICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/mochileando/travel/launchstage/es-PR')
@@ -72,7 +72,7 @@ describe('Travel mochileando PUERTO RICO (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -138,7 +138,7 @@ describe('Travel mochileando PUERTO RICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

@@ -3,7 +3,7 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, mobile, address, address_co } from '../../../support/objects_mobile'
 let date = dob()
 
-describe('Mobile cafam COLOMBIA (prod)', () => {
+describe('Mobile cafam COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/cafam/mobile/COAS600001/es-CO')
@@ -23,7 +23,7 @@ describe('Mobile cafam COLOMBIA (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -92,7 +92,7 @@ describe('Mobile cafam COLOMBIA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

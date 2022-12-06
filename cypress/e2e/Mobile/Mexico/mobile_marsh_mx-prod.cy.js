@@ -5,7 +5,7 @@ import { person, payment, mobile, address, address_mx } from '../../../support/o
 
 
 
-describe('Mobile marsh MEXICO (prod)', () => {
+describe('Mobile marsh MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/marsh/mobile/launchstage/es-MX')
@@ -25,7 +25,7 @@ describe('Mobile marsh MEXICO (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -94,7 +94,7 @@ describe('Mobile marsh MEXICO (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
-       //
+        //
         cy.Captcha()
     })
 

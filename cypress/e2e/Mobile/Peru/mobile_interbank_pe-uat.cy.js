@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
-describe('Mobile interbank PERU (uat)', () => {
+describe('Mobile interbank PERU (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pe/interbank/mobile/launchstage/es-PE')

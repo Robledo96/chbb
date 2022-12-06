@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, Random } from '../../../support/utils'
 import { person, address, address_cr } from '../../../support/objects_mobile'
 
-describe('Compra Protegida credix Costa Rica (prod)', () => {
+describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cr/credix/compraprotegida/launchstage/es-CR')
@@ -17,7 +17,7 @@ describe('Compra Protegida credix Costa Rica (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -81,7 +81,7 @@ describe('Compra Protegida credix Costa Rica (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

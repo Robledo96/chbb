@@ -4,7 +4,7 @@ import { Random, dob, randomRUT } from '../../../support/utils'
 import { person, payment, mobile, address } from '../../../support/objects_mobile'
 
 
-describe('Mobile automovilclub CHILE (uat)', () => {
+describe('Mobile automovilclub CHILE (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/automovilclub/mobile/launchstage/es-CL')

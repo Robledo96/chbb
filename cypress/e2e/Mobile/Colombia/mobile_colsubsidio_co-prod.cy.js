@@ -3,7 +3,7 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, mobile, address, address_co } from '../../../support/objects_mobile'
 let date = dob()
 
-describe('Mobile colsubsidio COLOMBIA (prod)', () => {
+describe('Mobile colsubsidio COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/colsubsidio/mobile/launchstage/es-CO')
@@ -23,7 +23,7 @@ describe('Mobile colsubsidio COLOMBIA (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -91,7 +91,7 @@ describe('Mobile colsubsidio COLOMBIA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

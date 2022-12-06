@@ -4,7 +4,7 @@ import { randomCPF, dob } from '../../../support/utils';
 let radio = 0
 
 
-describe('Residential hartb  BRASIL (prod)', () => {
+describe('Residential hartb  BRASIL (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/residential/launchstage/pt-BR')
@@ -19,7 +19,7 @@ describe('Residential hartb  BRASIL (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -161,7 +161,7 @@ describe('Residential hartb  BRASIL (prod)', () => {
             if (radio == 1) {
                 cy.wait('@getLocat_Brasil_2', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
             }
-           //
+            //
             cy.Captcha()
         })
     })

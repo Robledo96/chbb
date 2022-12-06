@@ -4,7 +4,7 @@ import { dob_1 } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel aatours PUERTO RICO (uat)', () => {
+describe('Travel aatours PUERTO RICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/aatours/travel/launchstage/es-PR')

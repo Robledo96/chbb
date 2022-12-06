@@ -5,7 +5,7 @@ let num = 0
 let radio = 0
 let n = 0
 
-describe('Travel plataforma10 ARGENTINA (uat)', () => {
+describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => {
     //Page 1
     it(' Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ar/plataforma10/travel/launchstage/es-AR')

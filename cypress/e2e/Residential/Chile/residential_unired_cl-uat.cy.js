@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomRUT } from '../../../support/utils'
 import { person, payment, address } from '../../../support/objects_mobile'
 
-describe('Residential unired CHILE (uat)', () => {
+describe('Residential unired CHILE (uat)', { testIsolation: false }, () => {
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/unired/residential/launchstage/es-CL')
         cy.Not_Found()

@@ -4,7 +4,7 @@ import { dob, randomCPF } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel nubank BRASIL (uat)', () => {
+describe('Travel nubank BRASIL (uat)', { testIsolation: false }, () => {
     it('Visit ', () => {
         cy.visit('https://la.studio-uat.chubb.com/br/nubank/travel/launchstage/pt-BR')
         cy.Not_Found()

@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
-describe('Mobile amex ARGENTINA (prod)', () => {
+describe('Mobile amex ARGENTINA (prod)', { testIsolation: false }, () => {
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ar/amex/mobile/launchstage/es-AR')
         cy.Not_Found()
@@ -21,7 +21,7 @@ describe('Mobile amex ARGENTINA (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
 
     })
@@ -91,7 +91,7 @@ describe('Mobile amex ARGENTINA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

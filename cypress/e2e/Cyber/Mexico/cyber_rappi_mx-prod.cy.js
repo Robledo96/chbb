@@ -3,7 +3,7 @@ import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
 
-describe('Cyber rappi MEXICO (prod)', () => {
+describe('Cyber rappi MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/cyber/launchstage/es-MX')
@@ -18,7 +18,7 @@ describe('Cyber rappi MEXICO (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -91,7 +91,7 @@ describe('Cyber rappi MEXICO (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.Edit_button()
         cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
-       //
+        //
         cy.Captcha()
     })
 

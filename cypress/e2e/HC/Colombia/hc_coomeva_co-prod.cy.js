@@ -4,7 +4,7 @@ import { person, payment, address, address_co } from '../../../support/objects_m
 let date = dob()
 
 
-describe('HC coomeva COLOMBIA (prod)', () => {
+describe('HC coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/coomeva/hc/launchstage/es-CO')
@@ -25,7 +25,7 @@ describe('HC coomeva COLOMBIA (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -95,7 +95,7 @@ describe('HC coomeva COLOMBIA (prod)', () => {
 
     it('Payment Page Edit button click', () => {
         cy.Edit_button()
-       //
+        //
         cy.Captcha()
     })
 

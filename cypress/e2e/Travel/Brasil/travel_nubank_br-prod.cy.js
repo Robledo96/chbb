@@ -4,7 +4,7 @@ import { dob, randomCPF } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel nubank BRASIL (prod)', () => {
+describe('Travel nubank BRASIL (prod)', { testIsolation: false }, () => {
     it('Visit ', () => {
         cy.visit('https://la.studio.chubb.com/br/nubank/travel/launchstage/pt-BR')
         cy.Not_Found()
@@ -61,7 +61,7 @@ describe('Travel nubank BRASIL (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -153,7 +153,7 @@ describe('Travel nubank BRASIL (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
-       //
+        //
         cy.Captcha()
     })
 

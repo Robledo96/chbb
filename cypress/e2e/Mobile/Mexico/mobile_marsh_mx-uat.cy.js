@@ -5,7 +5,7 @@ import { person, payment, mobile, address, address_mx } from '../../../support/o
 
 
 
-describe('Mobile marsh MEXICO (uat)', () => {
+describe('Mobile marsh MEXICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/marsh/mobile/launchstage/es-MX')

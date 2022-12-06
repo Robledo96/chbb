@@ -4,7 +4,7 @@ import { Random, dob, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('Life marsh Panama (uat)', () => {
+describe('Life marsh Panama (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pa/marsh/life/launchstage/es-PA')

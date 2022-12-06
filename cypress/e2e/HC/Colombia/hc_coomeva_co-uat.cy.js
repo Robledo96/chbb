@@ -4,7 +4,7 @@ import { person, payment, address, address_co } from '../../../support/objects_m
 let date = dob()
 
 
-describe('HC coomeva COLOMBIA (uat)', () => {
+describe('HC coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/coomeva/hc/launchstage/es-CO')

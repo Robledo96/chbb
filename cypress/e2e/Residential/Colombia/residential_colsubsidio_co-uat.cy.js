@@ -3,7 +3,7 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_co } from '../../../support/objects_mobile'
 let date = dob()
 
-describe('Residential colsubsidio COLOMBIA (uat)', () => {
+describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/colsubsidio/residential/launchstage/es-CO')

@@ -4,7 +4,7 @@ import { Random, dob, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('Life marsh Panama (prod)', () => {
+describe('Life marsh Panama (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pa/marsh/life/launchstage/es-PA')
@@ -54,7 +54,7 @@ describe('Life marsh Panama (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
-       //
+        //
         cy.Captcha()
 
     })
@@ -165,7 +165,7 @@ describe('Life marsh Panama (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

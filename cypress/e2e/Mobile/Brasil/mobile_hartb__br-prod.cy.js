@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomCPF, Random } from '../../../support/utils'
 import { person, payment, address, address_br, mobile } from '../../../support/objects_mobile'
 
-describe('Mobile hartb BRASIL (prod)', () => {
+describe('Mobile hartb BRASIL (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/mobile/launchstage/pt-BR')
@@ -21,7 +21,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -98,7 +98,7 @@ describe('Mobile hartb BRASIL (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
-       //
+        //
         cy.Captcha()
     })
 

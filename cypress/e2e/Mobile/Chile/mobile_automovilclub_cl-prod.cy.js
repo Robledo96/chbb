@@ -4,7 +4,7 @@ import { Random, dob, randomRUT } from '../../../support/utils'
 import { person, payment, mobile, address } from '../../../support/objects_mobile'
 
 
-describe('Mobile automovilclub CHILE (prod)', () => {
+describe('Mobile automovilclub CHILE (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cl/automovilclub/mobile/launchstage/es-CL')
@@ -23,7 +23,7 @@ describe('Mobile automovilclub CHILE (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -89,7 +89,7 @@ describe('Mobile automovilclub CHILE (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

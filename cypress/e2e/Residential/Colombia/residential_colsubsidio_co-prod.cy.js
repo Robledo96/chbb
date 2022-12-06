@@ -3,7 +3,7 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_co } from '../../../support/objects_mobile'
 let date = dob()
 
-describe('Residential colsubsidio COLOMBIA (prod)', () => {
+describe('Residential colsubsidio COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/colsubsidio/residential/launchstage/es-CO')
@@ -18,7 +18,7 @@ describe('Residential colsubsidio COLOMBIA (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -92,7 +92,7 @@ describe('Residential colsubsidio COLOMBIA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

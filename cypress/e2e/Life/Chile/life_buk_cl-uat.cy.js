@@ -4,7 +4,7 @@ import { dob, dob_2, randomRUT } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('Life Buk Chile (uat)', () => {
+describe('Life Buk Chile (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/buk/life/launchstage/es-CL')

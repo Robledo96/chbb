@@ -4,7 +4,7 @@ import { Random, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('Life cajasullana PERU (prod)', () => {
+describe('Life cajasullana PERU (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pe/cajasullana/life/launchstage/es-PE')
@@ -56,7 +56,7 @@ describe('Life cajasullana PERU (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
-       //
+        //
         cy.Captcha()
     })
 
@@ -161,7 +161,7 @@ describe('Life cajasullana PERU (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

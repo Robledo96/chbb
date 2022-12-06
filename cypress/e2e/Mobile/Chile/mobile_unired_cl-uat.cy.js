@@ -3,7 +3,7 @@ import { Random, dob, randomRUT } from '../../../support/utils'
 import { person, payment, mobile, address } from '../../../support/objects_mobile'
 
 
-describe('Mobile unired CHILE (uat)', () => {
+describe('Mobile unired CHILE (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/unired/mobile/launchstage/es-CL')

@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
-describe('AH elcomercio ECUADOR (prod)', () => {
+describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
@@ -19,7 +19,7 @@ describe('AH elcomercio ECUADOR (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -82,7 +82,7 @@ describe('AH elcomercio ECUADOR (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

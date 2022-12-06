@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
-describe('Life betterfly MEXICO (prod)', () => {
+describe('Life betterfly MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/betterfly/life/launchstage/es-MX')
@@ -22,7 +22,7 @@ describe('Life betterfly MEXICO (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -93,7 +93,7 @@ describe('Life betterfly MEXICO (prod)', () => {
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
-       //
+        //
         cy.Captcha()
     })
 

@@ -4,7 +4,7 @@ import { dob_1 } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel firstbank PUERTO RICO (uat)', () => {
+describe('Travel firstbank PUERTO RICO (uat)', { testIsolation: false }, () => {
     beforeEach(function () {
         const suite = cy.state('test').parent
         if (suite.tests.some(test => test.state === 'failed')) {

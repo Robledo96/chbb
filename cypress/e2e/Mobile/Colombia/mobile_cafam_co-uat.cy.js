@@ -3,7 +3,7 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, mobile, address, address_co } from '../../../support/objects_mobile'
 let date = dob()
 
-describe('Mobile cafam COLOMBIA (uat)', () => {
+describe('Mobile cafam COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/cafam/mobile/COAS600001/es-CO')

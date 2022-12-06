@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
-describe('Mobile amex ARGENTINA (uat)', () => {
+describe('Mobile amex ARGENTINA (uat)', { testIsolation: false }, () => {
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ar/amex/mobile/launchstage/es-AR')
         cy.Not_Found()

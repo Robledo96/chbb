@@ -5,7 +5,7 @@ import { Random, dob_1, dob } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel coomeva COLOMBIA (prod)', () => {
+describe('Travel coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/coomeva/travel/launchstage/es-CO')
@@ -67,7 +67,7 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
                     cy.get(x.select_option).eq(num).click()
                     cy.get(x.companions_button).click()
 
-                   //
+                    //
                     cy.Captcha()
                 })
         })
@@ -159,7 +159,7 @@ describe('Travel coomeva COLOMBIA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

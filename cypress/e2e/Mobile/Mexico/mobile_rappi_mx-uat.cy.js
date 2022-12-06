@@ -4,7 +4,7 @@ import { Random, dob, randomRFC } from '../../../support/utils'
 import { person, payment, mobile, address, address_mx } from '../../../support/objects_mobile'
 
 
-describe('Mobile rappi MEXICO (uat)', () => {
+describe('Mobile rappi MEXICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/rappi/mobile/launchstage/es-MX')

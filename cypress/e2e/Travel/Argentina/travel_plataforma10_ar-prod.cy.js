@@ -5,7 +5,7 @@ let num = 0
 let radio = 0
 let n = 0
 
-describe('Travel plataforma10 ARGENTINA (prod)', () => {
+describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () => {
     //Page 1
     it(' Visit', () => {
         cy.visit('https://la.studio.chubb.com/ar/plataforma10/travel/launchstage/es-AR')
@@ -90,7 +90,7 @@ describe('Travel plataforma10 ARGENTINA (prod)', () => {
 
                     cy.get(x.companions_button).click()
 
-                   //
+                    //
                     cy.Captcha()
                 })
         })
@@ -183,7 +183,7 @@ describe('Travel plataforma10 ARGENTINA (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

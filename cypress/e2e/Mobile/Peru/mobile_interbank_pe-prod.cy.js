@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
-describe('Mobile interbank PERU (prod)', () => {
+describe('Mobile interbank PERU (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pe/interbank/mobile/launchstage/es-PE')
@@ -21,7 +21,7 @@ describe('Mobile interbank PERU (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -85,7 +85,7 @@ describe('Mobile interbank PERU (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

@@ -4,7 +4,7 @@ import { dob_1 } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel aon PUERTO RICO (prod)', () => {
+describe('Travel aon PUERTO RICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/aon/travel/launchstage/es-PR')
@@ -71,7 +71,7 @@ describe('Travel aon PUERTO RICO (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -136,7 +136,7 @@ describe('Travel aon PUERTO RICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

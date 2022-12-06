@@ -4,7 +4,7 @@ import { Random, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('Life cajasullana PERU (uat)', () => {
+describe('Life cajasullana PERU (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pe/cajasullana/life/launchstage/es-PE')

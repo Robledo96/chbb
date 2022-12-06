@@ -4,7 +4,7 @@ import { Random, dob, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('ESB aon PUERTO RICO (prod)', () => {
+describe('ESB aon PUERTO RICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/aon/esb/launchstage/es-PR')
@@ -41,7 +41,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
-       //
+        //
         cy.Captcha()
     })
 
@@ -150,7 +150,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button()
-       //
+        //
         cy.Captcha()
     })
 

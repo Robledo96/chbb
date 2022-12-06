@@ -5,7 +5,7 @@ import { person, payment, mobile, address, address_mx } from '../../../support/o
 
 
 
-describe('Mobile heybanco MEXICO (uat)', () => {
+describe('Mobile heybanco MEXICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/heybanco/mobile/MXE4400001/es-MX')

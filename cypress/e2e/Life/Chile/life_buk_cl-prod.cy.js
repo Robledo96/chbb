@@ -4,7 +4,7 @@ import { dob, dob_2, randomRUT } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('Life Buk Chile (prod)', () => {
+describe('Life Buk Chile (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cl/buk/life/launchstage/es-CL')
@@ -56,7 +56,7 @@ describe('Life Buk Chile (prod)', () => {
                     cy.get(x.plans_select_button).eq(Cypress._.random($length - 1)).click()
                 })
         })
-       //
+        //
         cy.Captcha()
 
     })
@@ -166,7 +166,7 @@ describe('Life Buk Chile (prod)', () => {
 
     it('Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomRUT } from '../../../support/utils'
 import { person, payment, address } from '../../../support/objects_mobile'
 
-describe('Residential automovilclub CHILE (prod)', () => {
+describe('Residential automovilclub CHILE (prod)', { testIsolation: false }, () => {
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cl/automovilclub/residential/launchstage/es-CL')
         cy.Not_Found()
@@ -16,7 +16,7 @@ describe('Residential automovilclub CHILE (prod)', () => {
 
     it('Select Plan', () => {
         cy.Plan()
-       //
+        //
         cy.Captcha()
     })
 
@@ -82,7 +82,7 @@ describe('Residential automovilclub CHILE (prod)', () => {
 
     it(' Payment Page Edit button click', () => {
         cy.Edit_button() //Commands.js
-       //
+        //
         cy.Captcha()
     })
 

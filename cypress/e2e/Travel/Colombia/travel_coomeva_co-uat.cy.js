@@ -5,7 +5,7 @@ import { Random, dob_1, dob } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel coomeva COLOMBIA (uat)', () => {
+describe('Travel coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/coomeva/travel/launchstage/es-CO')

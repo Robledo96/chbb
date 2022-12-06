@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx } from '../../../support/objects_mobile'
 
-describe('Compra Protegida rappi MEXICO (uat)', () => {
+describe('Compra Protegida rappi MEXICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/rappi/compraprotegida/launchstage/es-MX')
