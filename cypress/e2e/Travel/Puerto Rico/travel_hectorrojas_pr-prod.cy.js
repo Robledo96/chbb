@@ -77,7 +77,6 @@ describe('Travel hectorrojas PUERTO RICO (prod)', () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait(1000)
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
             cy.log('////// Gender /////')
