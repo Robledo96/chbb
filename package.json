@@ -1,15 +1,18 @@
 {
-  "name": "autamation_chuub",
+  "name": "Chuub Studio",
   "version": "1.0.0",
   "description": "e2e Framework Testing Cypress ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
-    "cy:run-PROD": "cypress run --spec cypress/e2e/all_spec-PROD.cy.js",
-    "cy:run-UAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js",
-    "cy:run": "cypress run --spec cypress/e2e/HC/Colombia/hc_coomeva_co-prod.cy.js"
-
+    "cy_all:runPROD": "cypress run --spec cypress/e2e/all_spec-PROD.cy.js",
+    "cy_all:runChromePROD": "cypress run --browser chrome --spec cypress/e2e/all_spec-PROD.cy.js",
+    "cy_all:runEdgePROD": "cypress run --browser edge --spec cypress/e2e/all_spec-PROD.cy.js",
+    "cy_all:runFirefoxPROD": "cypress run --browser firefox --spec cypress/e2e/all_spec-PROD.cy.js",
+    "cy_all:runChromiumPROD": "cypress run --browser chromium --spec cypress/e2e/all_spec-PROD.cy.js",
+    "cy_all:runUAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js",
+    "cy:runSpec": "cypress run --spec cypress/e2e/HC/Colombia/hc_coomeva_co-prod.cy.js"
   },
   "keywords": [
     "qa",

@@ -133,7 +133,7 @@ describe('ESB aon PUERTO RICO (prod)', () => {
     })
 
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.log('/////// Checking Insured Details //////')
             cy.get(x.review_items, { timeout: 30000 })

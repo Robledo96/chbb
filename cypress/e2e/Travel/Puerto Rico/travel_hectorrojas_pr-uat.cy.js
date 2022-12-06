@@ -121,7 +121,7 @@ describe('Travel hectorrojas PUERTO RICO (uat)', () => {
     })
 
 
-    it('Pyment page - Checking personal details information', () => {
+    it('payment page - Checking personal details information', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)

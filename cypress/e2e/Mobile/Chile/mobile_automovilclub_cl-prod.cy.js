@@ -75,7 +75,7 @@ describe('Mobile automovilclub CHILE (prod)', () => {
 
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)

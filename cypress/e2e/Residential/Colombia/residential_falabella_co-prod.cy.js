@@ -88,7 +88,7 @@ describe('Residential falabella COLOMBIA (prod)', () => {
 
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()

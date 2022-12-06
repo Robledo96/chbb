@@ -83,7 +83,7 @@ describe('Mobile OLX ECUADOR (prod)', () => {
         })
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)

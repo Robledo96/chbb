@@ -158,7 +158,7 @@ describe('Travel plataforma10 ARGENTINA (uat)', () => {
         })
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.fixture('locators').then((x) => {
                 //checking insured details

@@ -150,7 +150,7 @@ describe('Life Buk Chile (uat)', () => {
         })
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.wait(1000)
             cy.get(x.review_items, { timeout: 30000 })

@@ -74,7 +74,7 @@ describe('Mobile cafam COLOMBIA (uat)', () => {
         })
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)

@@ -77,7 +77,7 @@ describe('HC coomeva COLOMBIA (uat)', () => {
         })
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items, { timeout: 30000 })

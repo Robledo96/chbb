@@ -79,7 +79,7 @@ describe('Mobile diners ECUADOR (uat)', () => {
         })
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.review_items)
                 .should('contain.text', person.name)

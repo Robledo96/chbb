@@ -115,7 +115,7 @@ describe('Residential hartb  BRASIL (uat)', () => {
         })
     })
 
-    it('Pyment page Checking', () => {
+    it('payment page Checking', () => {
         cy.get('.review__item--applicant-details', { timeout: 30000 })
             .should('contain.text', person.name)
             .and('contain.text', person.last_name)
