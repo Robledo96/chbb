@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, Random } from '../../../support/utils'
 import { person, address, address_cr } from '../../../support/objects_mobile'
 
-describe('CP credix Costa Rica (prod)', () => {
+describe('Compra Protegida credix Costa Rica (prod)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cr/credix/compraprotegida/launchstage/es-CR')

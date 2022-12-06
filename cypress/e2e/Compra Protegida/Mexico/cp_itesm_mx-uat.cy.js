@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx } from '../../../support/objects_mobile'
 
-describe('CP itesm MEXICO (uat)', () => {
+describe('Compra Protegida itesm MEXICO (uat)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/itesm/compraprotegida/launchstage/es-MX/details')

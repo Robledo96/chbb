@@ -2,7 +2,7 @@ import 'cypress-iframe'
 import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx } from '../../../support/objects_mobile'
 
-describe('CP rappi MEXICO (prod)', () => {
+describe('Compra Protegida rappi MEXICO (prod)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/compraprotegida/launchstage/es-MX')

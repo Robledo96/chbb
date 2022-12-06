@@ -7,6 +7,10 @@ module.exports = defineConfig({
 
   waitForAnimations: true,
   chromeWebSecurity: false,
+  animationDistanceThreshold: 5,
+  requestTimeout: 5000,
+  responseTimeout: 30000,
+
 
   defaultCommandTimeout: 10000,
   pageLoadTimeout: 10000,
