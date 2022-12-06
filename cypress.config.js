@@ -9,11 +9,11 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
 
   defaultCommandTimeout: 10000,
-
+  pageLoadTimeout: 10000,
   viewportWidth: 1900,
   viewportHeight: 1500,
   screenshotOnRunFailure: true,
-  //videoCompression: false,
+  //videoCompression: 15,
   video: false,
 
 
