@@ -12,7 +12,7 @@ describe('Residential diners EC (uat)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/diners/residential/launchstage/es-EC')
-        cy.Not_Found()
+        //
 
     })
 

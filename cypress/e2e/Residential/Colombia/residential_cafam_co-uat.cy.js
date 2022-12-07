@@ -7,7 +7,7 @@ describe('Residential cafam COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/cafam/residential/COAS600002/es-CO')
-        cy.Not_Found()
+        //
 
     })
 

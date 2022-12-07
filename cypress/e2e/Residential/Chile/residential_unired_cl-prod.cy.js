@@ -5,7 +5,7 @@ import { person, payment, address } from '../../../support/objects_mobile'
 describe('Residential unired CHILE (prod)', { testIsolation: false }, () => {
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cl/unired/residential/launchstage/es-CL')
-        cy.Not_Found()
+        //
 
     })
 

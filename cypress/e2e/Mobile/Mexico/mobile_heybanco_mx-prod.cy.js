@@ -9,7 +9,7 @@ describe('Mobile heybanco MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/heybanco/mobile/MXE4400001/es-MX')
-        cy.Not_Found()
+        //
 
     })
 

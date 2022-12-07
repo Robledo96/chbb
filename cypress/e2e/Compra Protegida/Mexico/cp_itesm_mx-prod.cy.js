@@ -6,7 +6,7 @@ describe('Compra Protegida itesm MEXICO (prod)', { testIsolation: false }, () =>
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/itesm/compraprotegida/launchstage/es-MX/details')
-        cy.Not_Found()
+        //
 
     })
 

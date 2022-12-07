@@ -7,7 +7,7 @@ describe('Mobile unired CHILE (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/unired/mobile/launchstage/es-CL')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

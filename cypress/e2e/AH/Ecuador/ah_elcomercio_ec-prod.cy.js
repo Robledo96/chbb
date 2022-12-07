@@ -6,7 +6,7 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
-        cy.Not_Found()
+        //
 
     })
 

@@ -8,7 +8,7 @@ describe('Residential hartb  BRASIL (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/br/hartb/residential/launchstage/pt-BR')
-        cy.Not_Found()
+        //
 
     })
 

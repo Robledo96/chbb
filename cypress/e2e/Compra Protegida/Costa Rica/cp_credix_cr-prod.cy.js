@@ -6,7 +6,7 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cr/credix/compraprotegida/launchstage/es-CR')
-        cy.Not_Found()
+        //
 
     })
 

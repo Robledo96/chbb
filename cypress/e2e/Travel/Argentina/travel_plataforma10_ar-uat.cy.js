@@ -9,7 +9,7 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
     //Page 1
     it(' Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ar/plataforma10/travel/launchstage/es-AR')
-        cy.Not_Found()
+        //
 
     })
 

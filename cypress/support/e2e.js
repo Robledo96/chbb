@@ -35,3 +35,10 @@ beforeEach(function () {
         this.skip()
     }
 })
+beforeEach(function () {
+    cy.url().then(($url) => {
+        if ($url.includes('https://la.studio.chubb.com/404')) {
+            throw new Error('//// NOT FOUND ////')
+        }
+    })
+})

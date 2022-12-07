@@ -6,7 +6,7 @@ describe('Compra Protegida credix Costa Rica (uat)', { testIsolation: false }, (
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cr/credix/compraprotegida/launchstage/es-CR')
-        cy.Not_Found()
+        //
 
     })
 

@@ -8,7 +8,7 @@ describe('Travel firstbank PUERTO RICO (prod)', { testIsolation: false }, () => 
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/firstbank/travel/launchstage/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

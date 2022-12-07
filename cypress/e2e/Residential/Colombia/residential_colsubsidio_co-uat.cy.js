@@ -7,7 +7,7 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/colsubsidio/residential/launchstage/es-CO')
-        cy.Not_Found()
+        //
 
     })
 

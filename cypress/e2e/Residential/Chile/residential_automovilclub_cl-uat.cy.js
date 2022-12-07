@@ -5,7 +5,7 @@ import { person, payment, address } from '../../../support/objects_mobile'
 describe('Residential automovilclub CHILE (uat)', { testIsolation: false }, () => {
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/automovilclub/residential/launchstage/es-CL')
-        cy.Not_Found()
+        //
 
     })
 

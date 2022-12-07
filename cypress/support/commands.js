@@ -63,12 +63,3 @@ Cypress.Commands.add('Plan', () => {
             })
     })
 })
-//Not Found
-Cypress.Commands.add('Not_Found', () => {
-    cy.wait(2000)
-    cy.url().then(($url) => {
-        if ($url.includes('https://la.studio.chubb.com/404')) {
-            throw new Error('//// NOT FOUND ////')
-        }
-    })
-})

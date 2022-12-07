@@ -7,7 +7,7 @@ let n = 0
 describe('Travel nubank BRASIL (uat)', { testIsolation: false }, () => {
     it('Visit ', () => {
         cy.visit('https://la.studio-uat.chubb.com/br/nubank/travel/launchstage/pt-BR')
-        cy.Not_Found()
+        //
 
     })
 
@@ -71,7 +71,7 @@ describe('Travel nubank BRASIL (uat)', { testIsolation: false }, () => {
                 .get(x.input_birth_date).type(dob())
                 .get(x.input_mobile).type(person.phone_2)
                 .get(x.input_email).type(person.email)
-                .get(x.input_id).type('randomCPF()')
+                .get(x.input_id).type(randomCPF())
                 .get(x.input_zipcode).type(address_br.zipcode)
             cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
 

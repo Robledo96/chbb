@@ -9,7 +9,7 @@ describe('Travel coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/coomeva/travel/launchstage/es-CO')
-        cy.Not_Found()
+        //
 
     })
 

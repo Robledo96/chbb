@@ -6,7 +6,7 @@ describe('Compra Protegida itesm MEXICO (uat)', { testIsolation: false }, () => 
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/itesm/compraprotegida/launchstage/es-MX/details')
-        cy.Not_Found()
+        //
 
     })
 

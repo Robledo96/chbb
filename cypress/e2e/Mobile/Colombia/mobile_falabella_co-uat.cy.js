@@ -7,7 +7,7 @@ describe('Mobile falabella COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/falabella/mobile/launchstage/es-CO')
-        cy.Not_Found()
+        //
 
     })
 

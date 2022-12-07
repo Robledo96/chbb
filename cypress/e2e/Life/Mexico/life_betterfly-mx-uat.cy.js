@@ -6,7 +6,7 @@ describe('Life betterfly MEXICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/betterfly/life/launchstage/es-MX')
-        cy.Not_Found()
+        //
 
     })
 

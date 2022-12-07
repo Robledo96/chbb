@@ -7,7 +7,7 @@ describe('Mobile colsubsidio COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/colsubsidio/mobile/launchstage/es-CO')
-        cy.Not_Found()
+        //
 
     })
 

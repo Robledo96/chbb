@@ -9,7 +9,7 @@ describe('Travel mochileando PUERTO RICO (uat)', { testIsolation: false }, () =>
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/mochileando/travel/launchstage/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

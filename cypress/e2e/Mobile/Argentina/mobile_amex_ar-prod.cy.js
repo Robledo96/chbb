@@ -5,7 +5,7 @@ import { person, payment, mobile, address, address_ar } from '../../../support/o
 describe('Mobile amex ARGENTINA (prod)', { testIsolation: false }, () => {
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ar/amex/mobile/launchstage/es-AR')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

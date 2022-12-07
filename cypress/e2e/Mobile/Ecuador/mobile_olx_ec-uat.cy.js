@@ -13,7 +13,7 @@ describe('Mobile OLX ECUADOR (uat)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/olx/mobile/ECE5200001/es-EC')
-        cy.Not_Found()
+        //
 
     })
 

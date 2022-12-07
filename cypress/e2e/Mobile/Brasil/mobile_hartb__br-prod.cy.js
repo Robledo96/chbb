@@ -6,7 +6,7 @@ describe('Mobile hartb BRASIL (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/br/hartb/mobile/launchstage/pt-BR')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

@@ -6,7 +6,7 @@ describe('Residential rappi MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/residential/launchstage/es-MX')
-        cy.Not_Found()
+        //
 
     })
 

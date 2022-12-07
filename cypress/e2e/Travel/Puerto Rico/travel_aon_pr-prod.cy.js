@@ -8,7 +8,7 @@ describe('Travel aon PUERTO RICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/aon/travel/launchstage/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

@@ -14,7 +14,7 @@ describe('Travel firstbank PUERTO RICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/firstbank/travel/launchstage/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

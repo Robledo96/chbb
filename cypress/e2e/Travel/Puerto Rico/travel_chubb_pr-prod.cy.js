@@ -8,7 +8,7 @@ describe('Travel chubb PUERTO RICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/chubb/travel/campaign/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

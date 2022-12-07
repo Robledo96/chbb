@@ -8,7 +8,7 @@ describe('Life marsh Panama (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pa/marsh/life/launchstage/es-PA')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

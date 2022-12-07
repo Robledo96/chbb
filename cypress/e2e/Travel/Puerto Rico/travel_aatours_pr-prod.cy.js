@@ -8,7 +8,7 @@ describe('Travel aatours PUERTO RICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/aatours/travel/launchstage/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

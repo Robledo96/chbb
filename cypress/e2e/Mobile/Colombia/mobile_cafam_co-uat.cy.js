@@ -7,7 +7,7 @@ describe('Mobile cafam COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/cafam/mobile/COAS600001/es-CO')
-        cy.Not_Found()
+        //
 
     })
 

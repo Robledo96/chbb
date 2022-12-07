@@ -8,7 +8,7 @@ describe('Life cajasullana PERU (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pe/cajasullana/life/launchstage/es-PE')
-        cy.Not_Found()
+        //
 
     })
 

@@ -9,7 +9,7 @@ describe('Mobile marsh MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/marsh/mobile/launchstage/es-MX')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

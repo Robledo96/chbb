@@ -6,7 +6,7 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
-        cy.Not_Found()
+        //
 
     })
 

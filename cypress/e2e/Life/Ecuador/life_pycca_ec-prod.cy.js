@@ -14,7 +14,7 @@ describe('Life pycca Ecuador (prod)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ec/pycca/life/launchstage/es-EC')
-        cy.Not_Found()
+        //
 
     })
 

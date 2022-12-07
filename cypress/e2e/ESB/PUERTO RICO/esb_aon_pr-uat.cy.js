@@ -8,7 +8,7 @@ describe('ESB aon PUERTO RICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/aon/esb/launchstage/es-PR')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

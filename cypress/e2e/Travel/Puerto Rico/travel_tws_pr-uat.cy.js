@@ -8,7 +8,7 @@ describe('Travel tws PUERTO RICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/tws/travel/launchstage/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

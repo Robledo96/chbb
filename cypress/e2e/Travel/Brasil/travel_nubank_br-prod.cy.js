@@ -7,7 +7,7 @@ let n = 0
 describe('Travel nubank BRASIL (prod)', { testIsolation: false }, () => {
     it('Visit ', () => {
         cy.visit('https://la.studio.chubb.com/br/nubank/travel/launchstage/pt-BR')
-        cy.Not_Found()
+        //
 
     })
 

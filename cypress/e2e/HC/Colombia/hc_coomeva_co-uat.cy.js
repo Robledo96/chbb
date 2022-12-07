@@ -8,7 +8,7 @@ describe('HC coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/coomeva/hc/launchstage/es-CO')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

@@ -8,7 +8,7 @@ describe('Travel orientalbank PUERTO RICO (uat)', { testIsolation: false }, () =
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/orientalbank/travel/launchstage/es-PR')
-        cy.Not_Found()
+        //
 
     })
 

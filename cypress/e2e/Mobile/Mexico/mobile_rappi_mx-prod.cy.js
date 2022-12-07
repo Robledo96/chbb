@@ -8,7 +8,7 @@ describe('Mobile rappi MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/rappi/mobile/launchstage/es-MX')
-        cy.Not_Found()
+        //
 
     })
 

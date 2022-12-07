@@ -8,7 +8,7 @@ describe('HC coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/coomeva/hc/launchstage/es-CO')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

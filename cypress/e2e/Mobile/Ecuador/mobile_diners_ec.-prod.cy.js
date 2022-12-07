@@ -13,7 +13,7 @@ describe('Mobile diners ECUADOR (uat)', () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/diners/mobile/ECBK200001/es-EC')
-        cy.Not_Found()
+        //
 
     })
 

@@ -8,7 +8,7 @@ describe('Life Buk Chile (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/buk/life/launchstage/es-CL')
-        cy.Not_Found()
+        //
 
     })
 

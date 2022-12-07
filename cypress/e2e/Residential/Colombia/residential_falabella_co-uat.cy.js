@@ -8,7 +8,7 @@ describe('Residential falabella COLOMBIA (uat)', { testIsolation: false }, () =>
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/falabella/residential/launchstage/es-CO')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

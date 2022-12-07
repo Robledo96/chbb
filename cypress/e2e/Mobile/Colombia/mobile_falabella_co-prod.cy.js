@@ -7,7 +7,7 @@ describe('Mobile falabella COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/falabella/mobile/launchstage/es-CO')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

@@ -7,7 +7,7 @@ describe('Mobile cafam COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/cafam/mobile/COAS600001/es-CO')
-        cy.Not_Found()
+        //
 
     })
 

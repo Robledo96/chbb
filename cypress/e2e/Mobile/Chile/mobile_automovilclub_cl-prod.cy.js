@@ -8,7 +8,7 @@ describe('Mobile automovilclub CHILE (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cl/automovilclub/mobile/launchstage/es-CL')
-        cy.Not_Found()
+        //
     })
 
     it('Quote', () => {

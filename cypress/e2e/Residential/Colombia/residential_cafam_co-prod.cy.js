@@ -7,7 +7,7 @@ describe('Residential cafam COLOMBIA (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/cafam/residential/COAS600002/es-CO')
-        cy.Not_Found()
+        //
 
     })
 
