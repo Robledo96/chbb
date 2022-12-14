@@ -18,6 +18,7 @@ module.exports = defineConfig({
   screenshotOnRunFailure: true,
   videoCompression: 15,
   video: false,
+  //experimentalStudio: true,
 
 
   e2e: {
