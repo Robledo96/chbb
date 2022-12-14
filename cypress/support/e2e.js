@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 import 'cypress-mochawesome-reporter/register';
+import 'cypress-v10-preserve-cookie';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 beforeEach(function () {
@@ -38,6 +39,7 @@ beforeEach(function () {
         this.skip()
     }
 })
+
 beforeEach(function () {
     cy.url().then(($url) => {
         if ($url.includes('https://la.studio.chubb.com/404')) {
@@ -45,4 +47,6 @@ beforeEach(function () {
         }
     })
 })
-
+beforeEach(function () {
+    cy.preserveCookieOnce
+})

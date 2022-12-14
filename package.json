@@ -12,7 +12,7 @@
     "cy_all:runFirefoxPROD": "cypress run --browser firefox --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runChromiumPROD": "cypress run --browser chromium --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runUAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js",
-    "cy:runSpec": "cypress run --spec cypress/e2e/AH/Ecuador/ah_elcomercio_ec-uat.cy.js"
+    "cy:runSpec": "cypress run --spec cypress/e2e/HC/Colombia/hc_coomeva_co-uat.cy.js"
   },
   "keywords": [
     "qa",
@@ -21,9 +21,10 @@
   "author": "Lidibet Escobar",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^12.0.0",
+    "cypress": "^12.1.0",
     "cypress-mochawesome-reporter": "^3.2.3",
     "cypress-slow-down": "^1.2.1",
+    "cypress-v10-preserve-cookie": "^1.2.1",
     "del": "^7.0.0",
     "lodash": "^4.17.21"
   },

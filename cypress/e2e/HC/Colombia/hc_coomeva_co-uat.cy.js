@@ -140,14 +140,14 @@ describe('HC coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card).click()
-                    .type(payment.amex_card_num)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date)
+                    .type(payment.amex_card_num, { delay: 100 }).click()
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 100 }).click()
+                    .get(x.input_expiry_date).type(payment.expiration_date, { delay: 100 }).click()
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_2)
+                    .type(payment.cvv_2, { delay: 100 }).click()
                 cy.get(x.checkboxes).check({ force: true }).should('be.checked')
                 cy.get(x.forward_button).should('be.enabled')
                     .click()

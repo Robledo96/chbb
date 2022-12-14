@@ -1,12 +1,13 @@
 import 'cypress-iframe'
 import { dob, dob_1, randomDNI } from '../../../support/utils'
 import { person, address, address_ar, payment } from '../../../support/objects_mobile';
+import 'cypress-v10-preserve-cookie'
+
 let num = 0
 let radio = 0
 let n = 0
 
 describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => {
-    //Page 1
     it(' Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ar/plataforma10/travel/launchstage/es-AR')
     })
@@ -224,14 +225,14 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
             cy.iframe(x.card_iframe).then($ => {
                 cy.wrap($[0])
                     .find(x.input_card)
-                    .type(payment.visa_card_num_1)
-                    .get(x.input_card_name).type(payment.card_holder)
-                    .get(x.input_expiry_date).type(payment.expiration_date_2)
+                    .type(payment.visa_card_num_1, { delay: 80 })
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 80 })
+                    .get(x.input_expiry_date).type(payment.expiration_date_2, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv)
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 80 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
                     .click()

@@ -1,6 +1,7 @@
 import 'cypress-iframe'
 import { person, address, address_br, payment } from '../../../support/objects_mobile';
 import { dob, randomCPF } from '../../../support/utils'
+
 let num = 0
 let n = 0
 
