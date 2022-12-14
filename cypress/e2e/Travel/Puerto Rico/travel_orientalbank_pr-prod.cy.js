@@ -8,8 +8,6 @@ describe('Travel orientalbank PUERTO RICO (prod)', { testIsolation: false }, () 
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/orientalbank/travel/launchstage/es-PR')
-        //
-
     })
 
     it('Travel Date ', () => {
@@ -47,6 +45,9 @@ describe('Travel orientalbank PUERTO RICO (prod)', { testIsolation: false }, () 
                 })
             cy.get(x.quote_button).click()
             cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
         })
     })
 
@@ -109,8 +110,10 @@ describe('Travel orientalbank PUERTO RICO (prod)', { testIsolation: false }, () 
             }
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-
             cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
@@ -122,7 +125,7 @@ describe('Travel orientalbank PUERTO RICO (prod)', { testIsolation: false }, () 
     })
 
 
-    it('payment page - Checking personal details information', () => {
+    it('Payment page - Checking personal details information', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
@@ -136,7 +139,7 @@ describe('Travel orientalbank PUERTO RICO (prod)', { testIsolation: false }, () 
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
         //
         cy.Captcha()

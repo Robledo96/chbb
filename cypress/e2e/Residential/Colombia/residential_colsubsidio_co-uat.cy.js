@@ -7,13 +7,14 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/co/colsubsidio/residential/launchstage/es-CO')
-        //
-
     })
 
     it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).click()
         cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+        cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
     })
 
     it('Select Plan', () => {
@@ -31,7 +32,7 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
                 .its('length').then(($length) => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
-                .get(x.input_id).type(Random(1000000000, 1999999999))
+                .get(x.input_id).type('1372436417')
                 .get(x.input_birth_date).eq(1).type(date)
                 .get(x.input_mobile).type(person.phone_3)
                 .get(x.input_email).type(person.email)
@@ -49,17 +50,39 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 })
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
                     if ($body.find('mat-error').is(':visible')) {
-                        cy.log('///// Bug Found /////')
-                        cy.log('////// Changing ID /////')
-                        cy.get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
-                        cy.get(x.forward_button).should('be.enabled').click()
-                        cy.wait('@validate', { timeout: 40000 })
+                        var counter = 0
+                        const repeatID = () => {
+                            counter++
+                            cy.log(counter)
+                            cy.log('///// Duplicate ID /////')
+                            cy.log('////// Changing ID /////')
+                            cy.get(x.input_id).clear().type(Random(1000000000, 1999999999), { delay: 80 })
+                            cy.get(x.forward_button).should('be.enabled').click()
+                            cy.wait('@validate', { timeout: 40000 })
+                            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                                expect($loading).not.to.exist
+                            })
+                            if (counter < 3) {
+                                cy.wait(1000)
+                                cy.url().then(($url) => {
+                                    if ($url.includes('/payment')) {
+                                        cy.log('//// ID Found ////')
+                                        return
+                                    }
+                                    repeatID()
+                                })
+                            } else { return }
 
+                        }
+                        repeatID()
                     }
                 }
             })
@@ -73,7 +96,7 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
 
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items, { timeout: 30000 })
@@ -88,7 +111,7 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
     })
 
@@ -120,12 +143,26 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
                     .type(payment.cvv_2, { delay: 60 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
+                    .click()
 
+                cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+                cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                    expect($loading).not.to.exist
+                })
             })
         })
-
     })
 
+    it('Thankyou', () => {
+        cy.url().then(($url) => {
+            expect($url).to.contain('/thankyou')
+        })
+
+        cy.get('.thank-you__policy-content__code').invoke('text').then(text => {
+            let code = text + '\n'
+            cy.writeFile('cypress/e2e/Residential/policy_code-Residential.txt', code, { flag: 'a+' })
+        })
+    })
 })
 
 

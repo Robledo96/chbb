@@ -8,8 +8,6 @@ describe('Travel aon PUERTO RICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/aon/travel/launchstage/es-PR')
-        //
-
     })
 
     it('Travel Date ', () => {
@@ -46,6 +44,9 @@ describe('Travel aon PUERTO RICO (uat)', { testIsolation: false }, () => {
                 })
             cy.get(x.quote_button).click()
             cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
         })
     })
 
@@ -76,7 +77,7 @@ describe('Travel aon PUERTO RICO (uat)', { testIsolation: false }, () => {
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
-            cy.wait(1000)
+            cy.wait(2000)
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
             cy.log('////// Gender /////')
@@ -106,9 +107,12 @@ describe('Travel aon PUERTO RICO (uat)', { testIsolation: false }, () => {
                         })
                 })
             }
-            cy.wait(1000)
+            cy.wait(3000)
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
@@ -120,7 +124,7 @@ describe('Travel aon PUERTO RICO (uat)', { testIsolation: false }, () => {
     })
 
 
-    it('payment page - Checking personal details information', () => {
+    it('Payment page - Checking personal details information', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
@@ -134,7 +138,7 @@ describe('Travel aon PUERTO RICO (uat)', { testIsolation: false }, () => {
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
     })
 
@@ -167,11 +171,24 @@ describe('Travel aon PUERTO RICO (uat)', { testIsolation: false }, () => {
                     .type(payment.cvv_1)
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
-
+                    .click()
+                cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+                cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                    expect($loading).not.to.exist
+                })
             })
+        })
+    })
 
+    it('Thankyou', () => {
+        cy.url().then(($url) => {
+            expect($url).to.contain('/thankyou')
         })
 
+        cy.get('.thank-you__policy-content__code').invoke('text').then(text => {
+            let code = text + '\n'
+            cy.writeFile('cypress/e2e/Travel/policy_code-Travel.txt', code, { flag: 'a+' })
+        })
     })
 
 })

@@ -26,6 +26,7 @@
 //Captcha
 Cypress.Commands.add('Captcha', () => {
     //Captcha
+    cy.log('Wait for Captcha to be visible or not')
     cy.wait(9000)
     cy.get('body', { timeout: 10000 }).then($body => {
         if ($body.find('.captcha-modal').length > 0) {
@@ -63,3 +64,4 @@ Cypress.Commands.add('Plan', () => {
             })
     })
 })
+

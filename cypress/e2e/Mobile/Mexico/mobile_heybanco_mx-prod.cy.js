@@ -9,8 +9,6 @@ describe('Mobile heybanco MEXICO (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/heybanco/mobile/MXE4400001/es-MX')
-        //
-
     })
 
     it('Quote', () => {
@@ -19,7 +17,9 @@ describe('Mobile heybanco MEXICO (prod)', { testIsolation: false }, () => {
                 .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
             cy.wait('@mobile', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
         })
     })
 
@@ -49,28 +49,44 @@ describe('Mobile heybanco MEXICO (prod)', { testIsolation: false }, () => {
 
                 .get(x.input_colonia).type(address_mx.colonia)
                 .get(x.input_address_1).type(address.line1)
-
-            cy.url().then((url) => {
-                if (url.includes('/marsh/')) {
-                    cy.log('////// URL contains " marsh " ///////')
-                    cy.get(x.input_company).type('América Móvil')
-                }
-            })
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 })
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
                     if ($body.find('mat-error').is(':visible')) {
-                        cy.log('///// Bug Found /////')
-                        cy.log('////// Changing ID /////')
-                            .get(x.input_birth_date).clear().type(dob())
-                        cy.get(x.input_id).type(randomRFC()).wait(1000)
-                        cy.get(x.forward_button).should('be.enabled').click()
-                        cy.wait('@validate', { timeout: 40000 })
+                        var counter = 0
+                        const repeatID = () => {
+                            counter++
+                            cy.log(counter)
+                            cy.log('///// Duplicate ID /////')
+                            cy.log('////// Changing ID /////')
+                                .get(x.input_birth_date).clear().type(dob())
+                            cy.get(x.input_id).clear().type(randomRFC()).wait(1000)
+                            cy.get(x.forward_button).should('be.enabled').click()
 
+                            cy.wait('@validate', { timeout: 40000 })
+                            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                                expect($loading).not.to.exist
+                            })
+                            if (counter < 3) {
+                                cy.wait(1000)
+                                cy.url().then(($url) => {
+                                    if ($url.includes('/payment')) {
+                                        cy.log('//// ID Found ////')
+                                        counter = 0
+                                        return
+                                    }
+                                    repeatID()
+                                })
+                            } else { return }
+                        }
+                        repeatID()
                     }
                 }
             })
@@ -83,7 +99,7 @@ describe('Mobile heybanco MEXICO (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
             cy.get(x.review_items)
@@ -97,7 +113,7 @@ describe('Mobile heybanco MEXICO (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
         //

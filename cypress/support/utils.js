@@ -3,12 +3,11 @@ var day = 0;
 var year = 0;
 // Function generates random
 function Random(min, max) {
-
     min = Math.ceil(min);
     max = Math.floor(max);
-
     return Math.floor(Math.random() * (max - min) + min)
 }
+
 // Function generates date of birth random day/month/year
 function dob() {
     month = Random(10, 12);
@@ -16,6 +15,24 @@ function dob() {
     year = Random(1990, 2000);
     return day + '/' + month + '/' + year
 }
+
+function randomExpression() {
+    // Generamos una letra mayúscula aleatoria usando el código ASCII
+    // Los códigos ASCII para las letras mayúsculas van desde 65 hasta 90
+    var letra = String.fromCharCode(Math.floor(Math.random() * (90 - 65 + 1)) + 65);
+    // Generamos dos números aleatorios
+    var num1 = Math.floor(Math.random() * 10);
+    var num2 = Math.floor(Math.random() * 10);
+    var resultado = letra + num1 + num2;
+    // Devolvemos el resultado como una cadena de texto
+    return resultado;
+}
+//Function generate random RFC
+function randomRFC() {
+    var year2 = (year.toString()).substr(-2);
+    return "AUCT" + year2 + month + day + randomExpression()
+}
+
 // Function generates date of birth random month/day/year
 function dob_1() {
     month = Random(10, 12);
@@ -23,6 +40,7 @@ function dob_1() {
     year = Random(1990, 2000);
     return month + '/' + day + '/' + year
 }
+
 // Function generates date of birth random day/month/year / minor age range
 function dob_2() {
     month = Random(10, 12);
@@ -30,6 +48,7 @@ function dob_2() {
     year = Random(2001, 2002);
     return day + '/' + month + '/' + year
 }
+
 //Function generate random RUT
 function randomRUT() {
 
@@ -69,11 +88,6 @@ function randomRUT() {
 
 }
 
-//Function generate random RFC
-function randomRFC() {
-    var year2 = (year.toString()).substr(-2);
-    return "AUCT" + year2 + month + day + "J47"
-}
 //Function generate random DNI
 var num = 0;
 var sNum = 0

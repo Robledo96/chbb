@@ -9,8 +9,6 @@ describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () =>
     //Page 1
     it(' Visit', () => {
         cy.visit('https://la.studio.chubb.com/ar/plataforma10/travel/launchstage/es-AR')
-        //
-
     })
 
     it('Travel Date ', () => {
@@ -69,7 +67,9 @@ describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () =>
                     }
                     cy.get(x.quote_button).click()
                     cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-
+                    cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                        expect($loading).not.to.exist
+                    })
                 })
         })
     })
@@ -140,17 +140,40 @@ describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () =>
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 })
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    if ($body.find('mat-error').is(':visible')) {
-                        cy.log('///// Bug Found /////')
+                    var counter = 0
+                    const repeatID = () => {
+                        counter++
+                        cy.log(counter)
+                        cy.log('///// Duplicate ID /////')
                         cy.log('////// Changing ID /////')
-                        cy.get(x.input_id).type(randomDNI()).wait(1000)
+                        cy.get(x.input_id).clear().type(randomDNI())
                         cy.get(x.forward_button).should('be.enabled').click()
-                        cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+
+                        cy.wait('@validate', { timeout: 40000 })
+                        cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                        if (counter < 3) {
+                            cy.wait(1000)
+                            cy.url().then(($url) => {
+                                if ($url.includes('/payment')) {
+                                    cy.log('//// ID Found ////')
+                                    counter = 0
+                                    return
+                                }
+                                repeatID()
+                            })
+                        } else { return }
                     }
+                    repeatID()
+
                 }
             })
             cy.wait(1000)
@@ -162,7 +185,7 @@ describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () =>
         })
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.fixture('locators').then((x) => {
                 //checking insured details
@@ -181,7 +204,7 @@ describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () =>
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
         //
         cy.Captcha()

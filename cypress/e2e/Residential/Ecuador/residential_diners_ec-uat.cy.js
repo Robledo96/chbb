@@ -80,7 +80,7 @@ describe('Residential diners EC (uat)', () => {
 
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items, { timeout: 30000 })
@@ -95,7 +95,7 @@ describe('Residential diners EC (uat)', () => {
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
     })
 

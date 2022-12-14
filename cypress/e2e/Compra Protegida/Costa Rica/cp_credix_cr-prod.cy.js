@@ -6,18 +6,18 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cr/credix/compraprotegida/launchstage/es-CR')
-        //
-
     })
 
     it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).should('be.enabled').click()
         cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+        cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
     })
 
     it('Select Plan', () => {
         cy.Plan()
-        //
         cy.Captcha()
     })
 
@@ -49,10 +49,13 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
                     if ($body.find('mat-error').is(':visible')) {
                         cy.log('///// Bug Found /////')
                         cy.log('////// Changing ID /////')
-                            .get(x.input_id).type(Random(1000000000, 1999999999)).wait(1000)
+                            .get(x.input_id).clear().type(Random(1000000000, 1999999999)).wait(1000)
                         cy.get(x.forward_button).should('be.enabled').click()
 
                         cy.wait('@validate', { timeout: 40000 })
+                        cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
                     }
                 }
             })
@@ -65,7 +68,7 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
         })
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items, { timeout: 30000 })
@@ -79,9 +82,8 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
-        //
         cy.Captcha()
     })
 

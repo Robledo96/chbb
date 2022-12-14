@@ -9,8 +9,6 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
     //Page 1
     it(' Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ar/plataforma10/travel/launchstage/es-AR')
-        //
-
     })
 
     it('Travel Date ', () => {
@@ -69,6 +67,9 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
                     }
                     cy.get(x.quote_button).click()
                     cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+                    cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                        expect($loading).not.to.exist
+                    })
                 })
         })
     })
@@ -94,6 +95,7 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
 
     it('Personal Details', () => {
         cy.fixture('locators').then((x) => {
+            cy.wait(2000)
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
                 .get(x.input_birth_date).type(dob())
@@ -132,21 +134,43 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
                         })
                 })
             }
-            cy.wait(1000)
-            cy.get(x.forward_button).should('be.enabled').click()
+            cy.get(x.forward_button, { timeout: 5000 }).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 })
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
-                    if ($body.find('mat-error').is(':visible')) {
-                        cy.log('///// Bug Found /////')
+                    var counter = 0
+                    const repeatID = () => {
+                        counter++
+                        cy.log(counter)
+                        cy.log('///// Duplicate ID /////')
                         cy.log('////// Changing ID /////')
-                        cy.get(x.input_id).type(randomDNI()).wait(1000)
+                        cy.get(x.input_id).clear().type(randomDNI())
                         cy.get(x.forward_button).should('be.enabled').click()
-                        cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
+                        cy.wait('@validate', { timeout: 40000 })
+                        cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                            expect($loading).not.to.exist
+                        })
+                        if (counter < 3) {
+                            cy.wait(1000)
+                            cy.url().then(($url) => {
+                                if ($url.includes('/payment')) {
+                                    cy.log('//// ID Found ////')
+                                    counter = 0
+                                    return
+                                }
+                                repeatID()
+                            })
+                        } else { return }
                     }
+                    repeatID()
+
                 }
             })
             cy.wait(1000)
@@ -158,7 +182,7 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
         })
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.fixture('locators').then((x) => {
                 //checking insured details
@@ -177,7 +201,7 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
     })
 
@@ -210,12 +234,30 @@ describe('Travel plataforma10 ARGENTINA (uat)', { testIsolation: false }, () => 
                     .type(payment.cvv_1)
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.forward_button).should('be.enabled')
-
+                    .click()
+                cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+                cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                    expect($loading).not.to.exist
+                })
             })
         })
-
     })
 
+    it('Thankyou', () => {
+        cy.url().then(($url) => {
+            expect($url).to.contain('/thankyou')
+        })
+        cy.get('.thank-you__policy-content__code').then(els => {
+            [...els]
+                .forEach(el =>
+                    cy.wrap(el).invoke('text').then(text => {
+                        let code = text + '\n'
+                        cy.log(code)
+                        cy.writeFile('cypress/e2e/Travel/policy_code-Travel.txt', code, { flag: 'a+' })
+                    }
+                    ))
+        })
+    })
 })
 
 

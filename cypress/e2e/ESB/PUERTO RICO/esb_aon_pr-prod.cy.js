@@ -31,6 +31,9 @@ describe('ESB aon PUERTO RICO (prod)', { testIsolation: false }, () => {
                     cy.get(x.quote_button).click()
                 })
             cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
         })
     })
 
@@ -109,17 +112,40 @@ describe('ESB aon PUERTO RICO (prod)', { testIsolation: false }, () => {
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 })
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
                     if ($body.find('#mat-error-10').is(':visible')) {
-                        cy.log('///// Bug Found /////')
-                        cy.log('////// Changing ID /////')
-                        cy.get(x.input_id).type(Random(1000, 9999)).wait(1000)
-                        cy.get(x.forward_button).should('be.enabled').click()
+                        var counter = 0
+                        const repeatID = () => {
+                            counter++
+                            cy.log(counter)
+                            cy.log('///// Duplicate ID /////')
+                            cy.log('////// Changing ID /////')
+                            cy.get(x.input_id).clear().type(Random(1000, 9999)).wait(1000)
+                            cy.get(x.forward_button).should('be.enabled').click()
 
-                        cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+                            cy.wait('@validate', { timeout: 40000 })
+                            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                                expect($loading).not.to.exist
+                            })
+                            if (counter < 3) {
+                                cy.wait(1000)
+                                cy.url().then(($url) => {
+                                    if ($url.includes('/payment')) {
+                                        cy.log('//// ID Found ////')
+                                        counter = 0
+                                        return
+                                    }
+                                    repeatID()
+                                })
+                            } else { return }
+                        }
+                        repeatID()
                     }
                 }
             })
@@ -133,7 +159,7 @@ describe('ESB aon PUERTO RICO (prod)', { testIsolation: false }, () => {
     })
 
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.log('/////// Checking Insured Details //////')
             cy.get(x.review_items, { timeout: 30000 })
@@ -148,7 +174,7 @@ describe('ESB aon PUERTO RICO (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button()
         //
         cy.Captcha()
@@ -202,17 +228,17 @@ describe('ESB aon PUERTO RICO (prod)', { testIsolation: false }, () => {
             cy.iframe(' .payment-field-iframe > .tokenex-iframe > iframe:first').then(($) => {
                 cy.wrap($[0])
                     .find(x.input_card, { timeout: 40000 }).click()
-                    .type(payment.visa_card_num_1)
+                    .type(payment.visa_card_num_1, { delay: 80 })
                     .wait(500)
-                    .get(x.input_card_name).type(payment.card_holder)
+                    .get(x.input_card_name).type(payment.card_holder, { delay: 80 })
                     .get(x.input_expiry_date).click()
-                    .type(payment.expiration_date_2)
+                    .type(payment.expiration_date_2, { delay: 80 })
             })
 
             cy.iframe('#cvv > iframe:first').then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv_1)
+                    .type(payment.cvv_1, { delay: 80 })
                     .get(x.checkboxes).check({ force: true }).should('be.checked')
                     .get(x.input_expiry_date).click()
                     .wait(1000)

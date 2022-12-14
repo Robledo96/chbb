@@ -79,7 +79,7 @@ describe('Mobile OLX ECUADOR (uat)', () => {
         })
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.collapsable_bar).click()
             cy.get(x.review_items)
@@ -93,7 +93,7 @@ describe('Mobile OLX ECUADOR (uat)', () => {
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
     })
 

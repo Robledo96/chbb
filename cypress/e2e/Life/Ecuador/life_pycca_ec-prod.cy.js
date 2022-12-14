@@ -153,7 +153,7 @@ describe('Life pycca Ecuador (prod)', () => {
         })
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             cy.log('/////// Checking Insured Details //////')
             cy.get(x.review_items, { timeout: 30000 })
@@ -167,7 +167,7 @@ describe('Life pycca Ecuador (prod)', () => {
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
     })
 

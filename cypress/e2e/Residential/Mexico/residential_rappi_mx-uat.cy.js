@@ -6,13 +6,14 @@ describe('Residential rappi MEXICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/mx/rappi/residential/launchstage/es-MX')
-        //
-
     })
 
     it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).click()
         cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+        cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+            expect($loading).not.to.exist
+        })
     })
 
     it('Select Plan', () => {
@@ -24,7 +25,7 @@ describe('Residential rappi MEXICO (uat)', { testIsolation: false }, () => {
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
                 .get(x.input_birth_date).type(dob())
-                .get(x.input_id).type(randomRFC())//'ANML891018J47'
+                .get(x.input_id).type('AUCT961018V14')
             cy.log('///// Gener /////')
             cy.get(x.select_value_1).click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
@@ -43,19 +44,41 @@ describe('Residential rappi MEXICO (uat)', { testIsolation: false }, () => {
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 })
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                expect($loading).not.to.exist
+            })
 
             cy.wait(1000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
                     if ($body.find('mat-error').is(':visible')) {
-                        cy.log('///// Bug Found /////')
-                        cy.log('////// Changing ID /////')
-                        cy.get(x.input_birth_date).clear()
-                            .get(x.input_birth_date).type(dob())
-                            .get(x.input_id).type(randomRFC()).wait(1000)
-                        cy.get(x.forward_button).should('be.enabled').click()
-                        cy.wait('@validate', { timeout: 40000 })
+                        var counter = 0
+                        const repeatID = () => {
+                            counter++
+                            cy.log(counter)
+                            cy.log('///// Duplicate ID /////')
+                            cy.log('////// Changing ID /////')
+                                .get(x.input_birth_date).clear().type(dob())
+                            cy.get(x.input_id).clear().type(randomRFC()).wait(1000)
+                            cy.get(x.forward_button).should('be.enabled').click()
 
+                            cy.wait('@validate', { timeout: 40000 })
+                            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                                expect($loading).not.to.exist
+                            })
+                            if (counter < 3) {
+                                cy.wait(1000)
+                                cy.url().then(($url) => {
+                                    if ($url.includes('/payment')) {
+                                        cy.log('//// ID Found ////')
+                                        counter = 0
+                                        return
+                                    }
+                                    repeatID()
+                                })
+                            } else { return }
+                        }
+                        repeatID()
                     }
                 }
             })
@@ -69,7 +92,7 @@ describe('Residential rappi MEXICO (uat)', { testIsolation: false }, () => {
 
     })
 
-    it('payment page Checking', () => {
+    it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
             //checking insured details
             cy.get(x.review_items, { timeout: 30000 })
@@ -83,7 +106,7 @@ describe('Residential rappi MEXICO (uat)', { testIsolation: false }, () => {
         })
     })
 
-    it(' Payment Page Edit button click', () => {
+    it('Payment page Edit button click', () => {
         cy.Edit_button() //Commands.js
         cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
     })
@@ -126,11 +149,24 @@ describe('Residential rappi MEXICO (uat)', { testIsolation: false }, () => {
                     .find(x.input_cvv).click()
                     .type(payment.cvv_1)
                 cy.get(x.checkboxes).check({ force: true }).should('be.checked')
-
                     .get(x.forward_button).should('be.enabled')
-
+                    .click()
+                cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+                cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                    expect($loading).not.to.exist
+                })
             })
+        })
+    })
 
+    it('Thankyou', () => {
+        cy.url().then(($url) => {
+            expect($url).to.contain('/thankyou')
+        })
+
+        cy.get('.thank-you__policy-content__code').invoke('text').then(text => {
+            let code = text + '\n'
+            cy.writeFile('cypress/e2e/Residential/policy_code-Residential.txt', code, { flag: 'a+' })
         })
     })
 })
