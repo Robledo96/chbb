@@ -12,6 +12,10 @@
     "cy_all:runFirefoxPROD": "cypress run --browser firefox --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runChromiumPROD": "cypress run --browser chromium --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runUAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js",
+    "cy_all:runChromeUAT": "cypress run --browser chrome --spec cypress/e2e/all_spec-UAT.cy.js",
+    "cy_all:runEdgeUAT": "cypress run --browser edge --spec cypress/e2e/all_spec-UAT.cy.js",
+    "cy_all:runFirefoxUAT": "cypress run --browser firefox --spec cypress/e2e/all_spec-UAT.cy.js",
+    "cy_all:runChromiumUAT": "cypress run --browser chromium --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy:runSpec": "cypress run --spec cypress/e2e/HC/Colombia/hc_coomeva_co-uat.cy.js"
   },
   "keywords": [
