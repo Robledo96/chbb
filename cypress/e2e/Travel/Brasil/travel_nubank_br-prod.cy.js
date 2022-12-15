@@ -211,7 +211,7 @@ describe('Travel nubank BRASIL (prod)', { testIsolation: false }, () => {
             }
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
             cy.get(x.collapsable_bar, { timeout: 30000 }).click()
