@@ -135,7 +135,7 @@ describe('Life cajasullana PERU (uat)', { testIsolation: false }, () => {
                             cy.log(counter)
                             cy.log('///// Duplicate ID /////')
                             cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).clear().type(Random(1000000000, 1999999999), { delay: 80 })
+                            cy.get(x.input_id).first().clear().type(Random(1000000000, 1999999999), { delay: 80 })
                             cy.get(x.forward_button).should('be.enabled').click()
                             cy.wait('@validate', { timeout: 40000 })
                             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {

@@ -14,6 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+
+
 import './commands'
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-v10-preserve-cookie';
@@ -48,5 +50,5 @@ beforeEach(function () {
     })
 })
 beforeEach(function () {
-    cy.preserveCookieOnce
+    cy.preserveCookieOnce('pmcookie', '_gid', '_ga', '_gat_UA-156618384-4', '_gcl_au', 'ln_or', 'crux.api.sessionId', '_gat_UA-156618384-7', '_fbp')
 })

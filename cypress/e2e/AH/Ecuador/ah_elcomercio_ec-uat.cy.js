@@ -3,7 +3,7 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
 describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
-    //Page 1
+
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
     })
