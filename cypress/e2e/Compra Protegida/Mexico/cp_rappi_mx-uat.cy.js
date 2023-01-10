@@ -5,7 +5,7 @@ import { person, payment, address, address_mx } from '../../../support/objects_m
 describe('Compra Protegida rappi MEXICO (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/mx/rappi/compraprotegida/launchstage/es-MX')
+        cy.visit('https://la.studio-uat.chubb.com/mx/rappi/Compra Protegida/launchstage/es-MX')
     })
 
     it('Quote', () => {

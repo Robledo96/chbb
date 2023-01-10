@@ -4,7 +4,7 @@ import { Random, dob, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('ESB aon PUERTO RICO (prod)', { testIsolation: false }, () => {
+describe('ESB aon Puerto Rico (prod)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/aon/esb/launchstage/es-PR')

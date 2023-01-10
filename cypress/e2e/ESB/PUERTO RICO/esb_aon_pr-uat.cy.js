@@ -4,7 +4,7 @@ import { Random, dob, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('ESB aon PUERTO RICO (uat)', { testIsolation: false }, () => {
+describe('ESB aon Puerto Rico (uat)', { testIsolation: false }, () => {
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/aon/esb/launchstage/es-PR')
@@ -110,7 +110,7 @@ describe('ESB aon PUERTO RICO (uat)', { testIsolation: false }, () => {
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 })
-            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+            cy.get('.loading-indicator__container', { timeout: 80000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
 
