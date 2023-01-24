@@ -42,13 +42,7 @@ beforeEach(function () {
     }
 })
 
-beforeEach(function () {
-    cy.url().then(($url) => {
-        if ($url.includes('https://la.studio.chubb.com/404')) {
-            throw new Error('//// NOT FOUND ////')
-        }
-    })
-})
-// beforeEach(function () {
-//     cy.preserveCookieOnce('pmcookie', '_gid', '_ga', '_gat_UA-156618384-4', '_gcl_au', 'ln_or', 'crux.api.sessionId', '_gat_UA-156618384-7', '_fbp')
-// })
+
+
+
+

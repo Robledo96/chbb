@@ -5,6 +5,13 @@ let date = dob()
 
 
 describe('HC coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
+    beforeEach(function () {
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
+    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/coomeva/hc/launchstage/es-CO')

@@ -6,6 +6,13 @@ let num = 0
 let n = 0
 
 describe('Travel coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
+    beforeEach(function () {
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
+    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/coomeva/travel/launchstage/es-CO')

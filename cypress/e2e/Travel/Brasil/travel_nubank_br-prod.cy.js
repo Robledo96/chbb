@@ -5,6 +5,13 @@ let num = 0
 let n = 0
 
 describe('Travel nubank BRASIL (prod)', { testIsolation: false }, () => {
+    beforeEach(function () {
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
+    })
     it('Visit ', () => {
         cy.visit('https://la.studio.chubb.com/br/nubank/travel/launchstage/pt-BR')
     })

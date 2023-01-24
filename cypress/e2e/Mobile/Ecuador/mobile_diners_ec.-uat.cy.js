@@ -4,12 +4,7 @@ import { person, payment, mobile, address, address_ec } from '../../../support/o
 
 
 describe('Mobile diners ECUADOR (uat)', () => {
-    beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
-    })
+   
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/diners/mobile/ECBK200001/es-EC')

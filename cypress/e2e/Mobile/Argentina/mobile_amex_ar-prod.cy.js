@@ -3,6 +3,13 @@ import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
 describe('Mobile amex ARGENTINA (prod)', { testIsolation: false }, () => {
+    beforeEach(function () {
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
+    })
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ar/amex/mobile/launchstage/es-AR')
     })

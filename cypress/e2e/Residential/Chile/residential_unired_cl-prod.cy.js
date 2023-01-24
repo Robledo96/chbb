@@ -3,6 +3,13 @@ import { dob, randomRUT } from '../../../support/utils'
 import { person, payment, address } from '../../../support/objects_mobile'
 
 describe('Residential unired CHILE (prod)', { testIsolation: false }, () => {
+    beforeEach(function () {
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
+    })
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cl/unired/residential/launchstage/es-CL')
     })

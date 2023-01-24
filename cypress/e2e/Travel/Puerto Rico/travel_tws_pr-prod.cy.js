@@ -5,6 +5,13 @@ let num = 0
 let n = 0
 
 describe('Travel tws Puerto Rico (prod)', { testIsolation: false }, () => {
+    beforeEach(function () {
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
+    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/tws/travel/launchstage/es-PR')

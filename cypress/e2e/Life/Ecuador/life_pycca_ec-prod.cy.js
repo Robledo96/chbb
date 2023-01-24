@@ -4,12 +4,13 @@ import { Random, dob_2 } from '../../../support/utils'
 let num = 0
 let env = 0
 
-describe('Life pycca Ecuador (prod)', () => {
+describe('Life pycca Ecuador (prod)', { testIsolation: false }, () => {
     beforeEach(function () {
-        const suite = cy.state('test').parent
-        if (suite.tests.some(test => test.state === 'failed')) {
-            this.skip()
-        }
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
     })
     //Page 1
     it('Visit', () => {

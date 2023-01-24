@@ -4,6 +4,13 @@ import { Random, dob, randomRFC } from '../../../support/utils'
 import { person, payment, mobile, address, address_mx } from '../../../support/objects_mobile'
 
 describe('Mobile scotia MEXICO (prod)', { testIsolation: false }, () => {
+    beforeEach(function () {
+        cy.url().then(($url) => {
+            if ($url.includes('https://la.studio.chubb.com/404')) {
+                throw new Error('//// PAGE NOT FOUND ////')
+            }
+        })
+    })
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/mx/scotia/mobile/launchstage/es-MX')
