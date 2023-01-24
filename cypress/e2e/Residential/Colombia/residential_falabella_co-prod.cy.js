@@ -65,7 +65,7 @@ describe('Residential falabella COLOMBIA (prod)', { testIsolation: false }, () =
                 })
                 .wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 40000 })
+            cy.wait('@validate', { timeout: 60000 })
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

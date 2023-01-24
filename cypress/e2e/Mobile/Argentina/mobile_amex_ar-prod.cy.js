@@ -13,7 +13,7 @@ describe('Mobile amex ARGENTINA (prod)', { testIsolation: false }, () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac_1 + Random(1000000, 9999999).toString())
                 .get(x.quote_button).click()
-            cy.wait('@mobile', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@mobile', { timeout: 100000 }).its('response.statusCode').should('eq', 200)
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

@@ -105,6 +105,8 @@ describe('Travel chubb Puerto Rico (prod)', { testIsolation: false }, () => {
                         .find(x.input_last_name).then(els => {
                             [...els].forEach(el => cy.wrap(el).type(person.last_name))
                         })
+                    cy.get(x.checkboxes).check({ force: true }).should('be.checked')
+
                 })
             }
             cy.wait(3000)
@@ -148,6 +150,8 @@ describe('Travel chubb Puerto Rico (prod)', { testIsolation: false }, () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
+
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
