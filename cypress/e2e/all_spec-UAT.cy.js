@@ -66,9 +66,9 @@ import './Mobile/Mexico/mobile_heybanco_mx-uat.cy'
 
 import './Mobile/Mexico/mobile_marsh_mx-uat.cy'
 
-import './Mobile/Mexico/mobile_rappi_mx-uat.cy'
+//import './Mobile/Mexico/mobile_rappi_mx-uat.cy'
 
-import './Mobile/Mexico/mobile_scotia_mx-uat.cy'
+//import './Mobile/Mexico/mobile_scotia_mx-uat.cy'
 
 import './Mobile/Colombia/mobile_cafam_co-uat.cy'
 
@@ -76,11 +76,11 @@ import './Mobile/Colombia/mobile_colsubsidio_co-uat.cy'
 
 import './Mobile/Colombia/mobile_falabella_co-uat.cy'
 
-import './Mobile/Brasil/mobile_hartb__br-uat.cy'
+//import './Mobile/Brasil/mobile_hartb__br-uat.cy'
 
 import './Mobile/Chile/mobile_automovilclub_cl-uat.cy'
 
-import './Mobile/Chile/mobile_unired_cl-uat.cy'
+//import './Mobile/Chile/mobile_unired_cl-uat.cy'
 
 import './Mobile/Peru/mobile_interbank_pe-uat.cy'
 
