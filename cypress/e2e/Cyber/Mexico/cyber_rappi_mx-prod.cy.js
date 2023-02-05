@@ -4,16 +4,16 @@ import { person, payment, address, address_mx, } from '../../../support/objects_
 
 
 describe('Cyber rappi MEXICO (prod)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio.chubb.com/mx/rappi/cyber/launchstage/es-MX')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/mx/rappi/cyber/launchstage/es-MX')
       
     })
 

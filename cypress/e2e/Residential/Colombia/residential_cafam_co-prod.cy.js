@@ -4,16 +4,16 @@ import { person, payment, address, address_co } from '../../../support/objects_m
 let date = dob()
 
 describe('Residential cafam COLOMBIA (prod)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio.chubb.com/co/cafam/residential/COAS600002/es-CO')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/co/cafam/residential/COAS600002/es-CO')
     })
 
     it('Quote', () => {

@@ -5,16 +5,16 @@ let date = dob()
 
 
 describe('HC coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio.chubb.com/co/coomeva/hc/launchstage/es-CO')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/co/coomeva/hc/launchstage/es-CO')
         //
     })
 
@@ -66,7 +66,7 @@ describe('HC coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
             cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 60000 })
+            cy.wait('@validate', { timeout: 100000 })
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

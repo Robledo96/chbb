@@ -3,16 +3,16 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
 describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+
+    it('Visit', () => {
+        cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-
-    it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
       
     })
 

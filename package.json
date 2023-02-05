@@ -16,8 +16,8 @@
     "cy_all:runEdgeUAT": "cypress run --browser edge --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runFirefoxUAT": "cypress run --browser firefox --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runChromiumUAT": "cypress run --browser chromium --spec cypress/e2e/all_spec-UAT.cy.js",
-    "cy:runSpec": "cypress run --spec cypress/e2e/Travel/Puerto Rico/travel_aon_pr-prod.cy.js",
-    "cy:runS": "cypress run --spec cypress/e2e/prod.cy.js"
+    "cy_group:runPROD": "cypress run --spec cypress/e2e/prod.cy.js",
+    "cy_group:runUAT": "cypress run --spec cypress/e2e/uat.cy.js"
   },
   "keywords": [
     "qa",
@@ -26,7 +26,7 @@
   "author": "Lidibet Escobar",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^12.3.0",
+    "cypress": "^12.4.0",
     "cypress-mochawesome-reporter": "^3.2.3",
     "cypress-slow-down": "^1.2.1",
     "cypress-v10-preserve-cookie": "^1.2.1",

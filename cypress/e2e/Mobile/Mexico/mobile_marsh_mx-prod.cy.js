@@ -6,19 +6,20 @@ import { person, payment, mobile, address, address_mx } from '../../../support/o
 
 
 describe('Mobile marsh MEXICO (prod)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio.chubb.com/mx/marsh/mobile/launchstage/es-MX')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
     })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/mx/marsh/mobile/launchstage/es-MX')
-    })
 
     it('Quote', () => {
+        //
         cy.fixture('locators').then((x) => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .get(x.input_imei).type(mobile.tac + Random(1000000, 9999999).toString())

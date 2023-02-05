@@ -3,16 +3,16 @@ import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
 describe('Mobile interbank PERU (uat)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio-uat.chubb.com/pe/interbank/mobile/launchstage/es-PE')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/pe/interbank/mobile/launchstage/es-PE')
     })
 
     it('Quote', () => {

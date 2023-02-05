@@ -5,16 +5,16 @@ let num = 0
 let env = 0
 
 describe('Life Buk Chile (uat)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio-uat.chubb.com/cl/buk/life/launchstage/es-CL')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/cl/buk/life/launchstage/es-CL')
     })
 
     it('Quote', () => {

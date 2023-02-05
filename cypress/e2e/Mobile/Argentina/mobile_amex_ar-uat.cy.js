@@ -3,15 +3,15 @@ import { Random, dob, randomDNI } from '../../../support/utils'
 import { person, payment, mobile, address, address_ar } from '../../../support/objects_mobile'
 
 describe('Mobile amex ARGENTINA (uat)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    it('Visit', () => {
+        cy.visit('https://la.studio-uat.chubb.com/ar/amex/mobile/launchstage/es-AR')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/ar/amex/mobile/launchstage/es-AR')
     })
 
     it('Quote', () => {

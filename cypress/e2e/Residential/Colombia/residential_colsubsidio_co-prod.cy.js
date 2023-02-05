@@ -4,16 +4,16 @@ import { person, payment, address, address_co } from '../../../support/objects_m
 let date = dob()
 
 describe('Residential colsubsidio COLOMBIA (prod)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio.chubb.com/co/colsubsidio/residential/launchstage/es-CO')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/co/colsubsidio/residential/launchstage/es-CO')
     })
 
     it('Quote', () => {

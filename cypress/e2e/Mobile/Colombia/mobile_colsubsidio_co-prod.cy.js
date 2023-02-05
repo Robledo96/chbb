@@ -4,16 +4,16 @@ import { person, payment, mobile, address, address_co } from '../../../support/o
 let date = dob()
 
 describe('Mobile colsubsidio COLOMBIA (prod)', { testIsolation: false }, () => {
-    beforeEach(function () {
+   //
+    //Page 1
+    it('Visit', () => {
+        cy.visit('https://la.studio.chubb.com/co/colsubsidio/mobile/launchstage/es-CO')
+        cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-    })
-    //Page 1
-    it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/co/colsubsidio/mobile/launchstage/es-CO')
     })
 
     it('Quote', () => {
