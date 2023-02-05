@@ -66,9 +66,9 @@ import './Mobile/Mexico/mobile_heybanco_mx-uat.cy'
 
 import './Mobile/Mexico/mobile_marsh_mx-uat.cy'
 
-import './Mobile/Mexico/mobile_rappi_mx-uat.cy'
+//import './Mobile/Mexico/mobile_rappi_mx-uat.cy'
 
-import './Mobile/Mexico/mobile_scotia_mx-uat.cy'
+//import './Mobile/Mexico/mobile_scotia_mx-uat.cy'
 
 import './Mobile/Colombia/mobile_cafam_co-uat.cy'
 

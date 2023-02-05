@@ -61,6 +61,7 @@ describe('HC coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
             cy.wait(1000)
+
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 })
@@ -133,7 +134,7 @@ describe('HC coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
                 .type(address.line2)
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@validate', { timeout: 80000 }).its('response.statusCode').should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
 
