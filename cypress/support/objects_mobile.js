@@ -28,10 +28,12 @@ var payment = {
     cvv: 484,
     cvv_1: 777,
     cvv_2: 7777,
+    cvv_3: "001",
 
     expiration_date: "0525",
     expiration_date_1: "0723",
     expiration_date_2: "0126",
+    expiration_date_3: "1240",
 
 }
 

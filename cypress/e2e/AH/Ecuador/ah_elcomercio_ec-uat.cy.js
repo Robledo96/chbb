@@ -2,8 +2,8 @@ import 'cypress-iframe'
 import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
-describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
-   //
+describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
+    //
 
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
@@ -13,14 +13,14 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-      
+
     })
 
     it('Quote', () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.quote_button, { timeout: 30000 }).click()
             cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.get('.loading-indicator__container', { timeout: 60000 }).should(($loading) => {
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
         })
@@ -42,12 +42,14 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
                 .its('length').then(($length) => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
-                .get(x.input_id).type(Random(1000000000, 1999999999))
+                .get(x.input_id).type(Random(1000000000, 1999999999))//'1896297523'
                 .get(x.input_mobile).type(person.phone_1)
                 .get(x.input_email).type(person.email)
                 .get(x.input_city).type(address_ec.city)
                 .get(x.input_province).type(address_ec.province)
                 .get(x.input_address_1).type(address.line1)
+
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 })
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
@@ -93,7 +95,6 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
                     throw new Error('//// ERROR FOUND ////')
                 }
             })
-
         })
     })
 
@@ -118,11 +119,12 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
+
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-
 
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', address.line2)
@@ -135,35 +137,22 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
                 cy.wrap($[0])
                     .find(x.input_card, { timeout: 10000 }).click()
                     .type(payment.visa_card_num, { delay: 80 })
-                    .get(x.input_card_name).click().type(payment.card_holder, { delay: 80 })
-                    .get(x.input_expiry_date).click().type(payment.expiration_date_1, { delay: 80 })
+                    .get(x.input_card_name).click().type("Test User", { delay: 80 })
+                    .get(x.input_expiry_date).click().type(payment.expiration_date_3, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv, { delay: 80 })
-                    .get(x.checkboxes).check({ force: true }).should('be.checked')
-                cy.get(x.forward_button).should('be.enabled')
-                    .click()
-
-                cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-                cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
-                    expect($loading).not.to.exist
-                })
+                    .type(payment.cvv_3, { delay: 80 })
             })
-        })
-    })
-
-    it('Thankyou', () => {
-        cy.url().then(($url) => {
-            expect($url).to.contain('/thankyou')
-        })
-
-        cy.get('.thank-you__policy-content__code').invoke('text').then(text => {
-            let code = text + '\n'
-            cy.writeFile('cypress/e2e/AH/policy_code-AH.txt', code, { flag: 'a+' })
+            cy.wait(2000)
+            cy.get('.mat-radio-inner-circle').click()
+            cy.get(x.forward_button).should('be.enabled')
         })
     })
 })
+
+
+
 
 

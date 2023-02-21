@@ -3,7 +3,7 @@ import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
 describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
-   //
+    //
 
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
@@ -49,6 +49,8 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                 .get(x.input_city).type(address_ec.city)
                 .get(x.input_province).type(address_ec.province)
                 .get(x.input_address_1).type(address.line1)
+
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 })
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
@@ -119,6 +121,8 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
+                .get(x.checkboxes).check({ force: true }).should('be.checked')
+
             cy.get(x.forward_button).should('be.enabled').click()
 
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
@@ -136,15 +140,16 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                     .find(x.input_card, { timeout: 10000 }).click()
                     .type(payment.visa_card_num, { delay: 80 })
                     .get(x.input_card_name).click().type(payment.card_holder, { delay: 80 })
-                    .get(x.input_expiry_date).click().type(payment.expiration_date_1, { delay: 80 })
+                    .get(x.input_expiry_date).click().type(payment.expiration_date_3, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
                 cy.wrap($iframes[0])
                     .find(x.input_cvv).click()
-                    .type(payment.cvv, { delay: 80 })
-                    .get(x.checkboxes).check({ force: true }).should('be.checked')
-                    .get(x.forward_button).should('be.enabled')
+                    .type(payment.cvv_3, { delay: 80 })
             })
+            cy.wait(2000)
+            cy.get('.mat-radio-inner-circle').click()
+            cy.get(x.forward_button).should('be.enabled')
         })
     })
 })

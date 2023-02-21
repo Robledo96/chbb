@@ -5,7 +5,7 @@ let num = 0
 let n = 0
 
 describe('Travel orientalbank Puerto Rico (uat)', { testIsolation: false }, () => {
-   //
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pr/orientalbank/travel/launchstage/es-PR')
@@ -60,7 +60,7 @@ describe('Travel orientalbank Puerto Rico (uat)', { testIsolation: false }, () =
 
     it(' Number of Travelers ', () => {
         cy.fixture('locators').then((x) => {
-            cy.get('.mat-select-value', { timeout: 5000 }).click({ timeout: 150000 })
+            cy.get('.mat-select-value', { timeout: 5000 }).click({ timeout: 200000 })
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.log($length)

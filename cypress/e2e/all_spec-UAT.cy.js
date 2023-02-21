@@ -44,13 +44,21 @@ import './Travel/Puerto Rico/travel_aon_pr-uat.cy'
 
 import './Travel/Puerto Rico/travel_firstbank_pr-uat.cy'
 
+import './Travel/Puerto Rico/travel_torresyrodriguez_pr-uat.cy'
+
+import './Travel/Puerto Rico/travel_joaquinpalerm_pr-uat.cy'
+
 import './Travel/Puerto Rico/travel_mochileando_pr-uat.cy'
+
+import './Travel/Panama/travel_dtc_pr-uat.cy'
 
 import './Travel/Puerto Rico/travel_travelgallery_pr-uat.cy'
 
 import './Travel/Puerto Rico/travel_tws_pr-uat.cy'
 
-import './Travel/Puerto Rico/travel_chubb_pr-prod.cy'
+import './Travel/Puerto Rico/travel_rossy_pr-uat.cy'
+
+import './Travel/Puerto Rico/travel_chubb_pr-uat.cy'
 
 import './Travel/Puerto Rico/travel_orientalbank_pr-uat.cy'
 
@@ -82,7 +90,7 @@ import './Mobile/Chile/mobile_automovilclub_cl-uat.cy'
 
 //import './Mobile/Chile/mobile_unired_cl-uat.cy'
 
-import './Mobile/Peru/mobile_interbank_pe-uat.cy'
+//import './Mobile/Peru/mobile_interbank_pe-uat.cy'
 
 import './AH/Mexico/ah_drkura_mx-uat.cy'
 

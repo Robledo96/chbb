@@ -1,6 +1,6 @@
 import 'cypress-iframe'
 import { person, address, address_pe, payment } from '../../../support/objects_mobile';
-import { Random, dob_2 } from '../../../support/utils'
+import { Random, dob_2, dob } from '../../../support/utils'
 let num = 0
 let env = 0
 
@@ -22,23 +22,8 @@ describe('Life cajasullana PERU (prod)', { testIsolation: false }, () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .wait(500)
             cy.log('//////// Date of Birth /////////')
-            cy.get(x.datepicker_icon).click()
-                .get(x.calendar_previous_button).click()
-            cy.get(x.calendar_body).should('have.length.greaterThan', 0)
-                .its('length').then(($year) => {
-                    cy.get(x.calendar_body).eq(Cypress._.random($year - 1)).click()
-                        .wait(500)
-                    cy.get(x.calendar_body).should('have.length.greaterThan', 0)
-                        .its('length').then(($month) => {
-                            cy.get(x.calendar_body).eq(Cypress._.random($month - 1)).click()
-                                .wait(500)
-                            cy.get(x.calendar_body).should('have.length.greaterThan', 0)
-                                .its('length').then(($day) => {
-                                    cy.get(x.calendar_body).eq(Cypress._.random($day - 1)).click()
-                                        .wait(500)
-                                })
-                        })
-                })
+            cy.get('input').type(dob())
+
             cy.log('////// Coverage for Whom? //////')
             cy.get(x.select_placeholder).click()
                 .get(x.select_option).should('have.length.greaterThan', 0)

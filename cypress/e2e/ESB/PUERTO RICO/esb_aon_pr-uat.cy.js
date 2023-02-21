@@ -24,7 +24,7 @@ describe('ESB aon Puerto Rico (uat)', { testIsolation: false }, () => {
             cy.get(x.button_1, { timeout: 30000 }).click()
                 .wait(500)
             cy.log('//////// Date of Birth /////////')
-            cy.get('[formcontrolname="dateOfBirth"]').type(dob())
+            cy.get('[placeholder="Indica tu fecha de nacimiento"]').type(dob())
 
             cy.log('////// Coverage for Whom? //////')
             cy.get(x.select_placeholder).click()
