@@ -6,11 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open",
+    "": "",
     "cy_all:runPROD": "cypress run --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runChromePROD": "cypress run --browser chrome --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runEdgePROD": "cypress run --browser edge --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runFirefoxPROD": "cypress run --browser firefox --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runChromiumPROD": "cypress run --browser chromium --spec cypress/e2e/all_spec-PROD.cy.js",
+    "": "",
     "cy_all:runUAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runChromeUAT": "cypress run --browser chrome --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runEdgeUAT": "cypress run --browser edge --spec cypress/e2e/all_spec-UAT.cy.js",
