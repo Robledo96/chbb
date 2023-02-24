@@ -6,7 +6,7 @@ let num = 0
 let n = 0
 
 describe('Travel coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
-   //
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/co/coomeva/travel/launchstage/es-CO')
@@ -113,6 +113,10 @@ describe('Travel coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
                     expect($body.find('app-companion-details').is(':visible'))
 
                     cy.get('app-companion-details')
+                        .find("[name='identityName']").then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999)))
+                        })
+                    cy.get('app-companion-details')
                         .find(x.input_name).then(els => {
                             [...els].forEach(el => cy.wrap(el).type(person.name))
                         })
@@ -199,6 +203,16 @@ describe('Travel coomeva COLOMBIA (prod)', { testIsolation: false }, () => {
             cy.get(x.input_birth_date).eq(1).type('1/1/2025')
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
+            if (num > 0) {
+                cy.get('body').then(($body) => {
+                    expect($body.find('app-companion-details').is(':visible'))
+
+                    cy.get('app-companion-details')
+                        .find("[name='identityName']").then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999)))
+                        })
+                })
+            }
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)

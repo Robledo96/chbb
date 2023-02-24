@@ -5,7 +5,7 @@ let num = 0
 let env = 0
 
 describe('Life marsh Panama (uat)', { testIsolation: false }, () => {
-   //
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/pa/marsh/life/launchstage/es-PA')
@@ -23,7 +23,7 @@ describe('Life marsh Panama (uat)', { testIsolation: false }, () => {
                 .wait(500)
             cy.log('//////// Date of Birth /////////')
             cy.get('input').type(dob())
-            
+
             cy.log('////// Coverage for Whom? //////')
             cy.get(x.select_placeholder).click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
@@ -110,6 +110,10 @@ describe('Life marsh Panama (uat)', { testIsolation: false }, () => {
                                             }))
                                     })
                                 cy.get('app-beneficiaries')
+                                    .find("[name='identityCard']").then(els => {
+                                        [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999)))
+                                    })
+                                cy.get('app-beneficiaries')
                                     .find(x.input_dobFormControl).then(els => {
                                         [...els].forEach(el => cy.wrap(el).type(dob()))
                                     })
@@ -188,6 +192,16 @@ describe('Life marsh Panama (uat)', { testIsolation: false }, () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
+            if (env >= 0) {
+                cy.log('/////// True ////////')
+                cy.get('body').then(($body) => {
+                    expect($body.find('app-beneficiaries').is(':visible'))
+                    cy.get('app-beneficiaries')
+                        .find("[name='identityCard']").then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999)))
+                        })
+                })
+            }
 
             cy.log('////// Conditional - 3 ///////')
             if (num == 1) {

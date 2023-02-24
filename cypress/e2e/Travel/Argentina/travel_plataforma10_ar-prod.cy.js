@@ -6,7 +6,7 @@ let radio = 0
 let n = 0
 
 describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () => {
-   //
+    //
     //Page 1
     it(' Visit', () => {
         cy.visit('https://la.studio.chubb.com/ar/plataforma10/travel/launchstage/es-AR')
@@ -130,6 +130,10 @@ describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () =>
                     expect($body.find('app-companion-details').is(':visible'))
 
                     cy.get('app-companion-details')
+                        .find("[name='identityName']").then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(randomDNI()))
+                        })
+                    cy.get('app-companion-details')
                         .find(x.input_name).then(els => {
                             [...els].forEach(el => cy.wrap(el).type(person.name))
                         })
@@ -221,6 +225,16 @@ describe('Travel plataforma10 ARGENTINA (prod)', { testIsolation: false }, () =>
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
+            if (num > 0) {
+                cy.get('body').then(($body) => {
+                    expect($body.find('app-companion-details').is(':visible'))
+
+                    cy.get('app-companion-details')
+                        .find("[name='identityName']").then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(randomDNI()))
+                        })
+                })
+            }
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)

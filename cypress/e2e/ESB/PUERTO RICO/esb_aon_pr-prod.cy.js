@@ -118,7 +118,7 @@ describe('ESB aon Puerto Rico (prod)', { testIsolation: false }, () => {
             }
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 100000 })
+            cy.wait('@validate', { timeout: 50000 })
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

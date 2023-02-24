@@ -116,8 +116,8 @@ describe('ESB aon Puerto Rico (uat)', { testIsolation: false }, () => {
             }
             cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 })
-            cy.get('.loading-indicator__container', { timeout: 80000 }).should(($loading) => {
+            cy.wait('@validate', { timeout: 80000 })
+            cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
 
