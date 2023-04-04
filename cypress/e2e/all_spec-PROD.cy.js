@@ -42,7 +42,7 @@ import './Travel/Puerto Rico/travel_aatours_pr-prod.cy'
 
 import './Travel/Puerto Rico/travel_torresyrodriguez_pr-prod.cy'
 
-import './Travel/Panama/travel_dtc_pr-prod.cy'
+import './Travel/Panama/travel_dtc_pa-prod.cy'
 
 import './Travel/Puerto Rico/travel_aon_pr-prod.cy'
 

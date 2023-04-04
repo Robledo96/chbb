@@ -50,7 +50,7 @@ import './Travel/Puerto Rico/travel_joaquinpalerm_pr-uat.cy'
 
 import './Travel/Puerto Rico/travel_mochileando_pr-uat.cy'
 
-import './Travel/Panama/travel_dtc_pr-uat.cy'
+import './Travel/Panama/travel_dtc_pa-prod.cy'
 
 import './Travel/Puerto Rico/travel_travelgallery_pr-uat.cy'
 
