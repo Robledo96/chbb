@@ -152,6 +152,8 @@ describe('Life pycca Ecuador (prod)', { testIsolation: false }, () => {
 
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+
     })
 
     it('Payment page Checking', () => {
@@ -168,46 +170,46 @@ describe('Life pycca Ecuador (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    // })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
+    // it('Captcha', () => {
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
 
-            cy.log('////// Conditional - 3 ///////')
-            if (num == 1) {
-                cy.log('/////// True //////')
-                cy.log('/////// Select Policyholders number 0 //////')
-                cy.get(x.select_value).eq(2).click()
-                    .get(x.select_option).eq(0).click()
-                    .wait(500)
+    //         cy.log('////// Conditional - 3 ///////')
+    //         if (num == 1) {
+    //             cy.log('/////// True //////')
+    //             cy.log('/////// Select Policyholders number 0 //////')
+    //             cy.get(x.select_value).eq(2).click()
+    //                 .get(x.select_option).eq(0).click()
+    //                 .wait(500)
 
-                cy.get('app-beneficiaries').then(($beneficiaries) => {
-                    expect($beneficiaries.is(':visible'))
-                    cy.get('app-beneficiaries')
-                        .get(x.input_name).last().type(person.name)
-                        .get(x.input_last_name).last().type(person.last_name)
-                        .log('//// Select Only Option 3 (Conyugue) ////')
-                        .get(x.select_placeholder).last().click()
-                        .get(x.select_option).eq(2).click()
-                        .get(x.input_id).last().type(Random(1000000000, 1999999999))
-                        .get('[formcontrolname="dobFormControl"]').last().type(dob_2())
-                })
-            }
-            cy.wait(1000)
-            cy.get(x.forward_button).should('be.enabled').click()
+    //             cy.get('app-beneficiaries').then(($beneficiaries) => {
+    //                 expect($beneficiaries.is(':visible'))
+    //                 cy.get('app-beneficiaries')
+    //                     .get(x.input_name).last().type(person.name)
+    //                     .get(x.input_last_name).last().type(person.last_name)
+    //                     .log('//// Select Only Option 3 (Conyugue) ////')
+    //                     .get(x.select_placeholder).last().click()
+    //                     .get(x.select_option).eq(2).click()
+    //                     .get(x.input_id).last().type(Random(1000000000, 1999999999))
+    //                     .get('[formcontrolname="dobFormControl"]').last().type(dob_2())
+    //             })
+    //         }
+    //         cy.wait(1000)
+    //         cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

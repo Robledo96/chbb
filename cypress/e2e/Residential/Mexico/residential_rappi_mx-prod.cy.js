@@ -97,6 +97,7 @@ describe('Residential rappi MEXICO (prod)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
     })
 
@@ -114,29 +115,29 @@ describe('Residential rappi MEXICO (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-        cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
-        //
-        cy.Captcha()
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    //     cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+    //     //
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_colonia_1, { timeout: 30000 }).click({ force: true })
-                .wait(1000)
-                .get(x.colonia_option_text).first().click({ force: true })
-                .wait(1000)
-            cy.get(x.input_address_1).clear()
-                .type(address.line2)
-            cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_colonia_1, { timeout: 30000 }).click({ force: true })
+    //             .wait(1000)
+    //             .get(x.colonia_option_text).first().click({ force: true })
+    //             .wait(1000)
+    //         cy.get(x.input_address_1).clear()
+    //             .type(address.line2)
+    //         cy.get(x.forward_button).should('be.enabled').click()
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

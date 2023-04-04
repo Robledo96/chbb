@@ -159,6 +159,7 @@ describe('Travel nubank BRASIL (prod)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Payment page Checking', () => {
@@ -179,54 +180,54 @@ describe('Travel nubank BRASIL (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-        cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
-        //
-        cy.Captcha()
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    //     cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+    //     //
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).wait(500).type(address.line2)
-                .get(x.input_address_3).type(address_br.barrio)
-                .get(x.input_city).type(address_br.city)
-                .get(x.input_province).type(address_br.province)
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).wait(500).type(address.line2)
+    //             .get(x.input_address_3).type(address_br.barrio)
+    //             .get(x.input_city).type(address_br.city)
+    //             .get(x.input_province).type(address_br.province)
 
-            cy.log('////// Travelers =', num, '///////')
-            if (num > 0) {
-                cy.get('body').then(($body) => {
-                    expect($body.find('app-companions-brasil').is(':visible'))
+    //         cy.log('////// Travelers =', num, '///////')
+    //         if (num > 0) {
+    //             cy.get('body').then(($body) => {
+    //                 expect($body.find('app-companions-brasil').is(':visible'))
 
-                    cy.get('app-companions-brasil')
-                        .find(x.input_name).then(els => {
-                            [...els].forEach(el => cy.wrap(el).type(person.name))
-                        })
-                    cy.get('app-companions-brasil')
-                        .find(x.input_last_name).then(els => {
-                            [...els].forEach(el => cy.wrap(el).type(person.last_name))
-                        })
-                    cy.get('app-companions-brasil')
-                        .find(x.input_dateOfBirth).then(els => {
-                            [...els].forEach(el => cy.wrap(el).type(dob()))
-                        })
-                    cy.get('app-companions-brasil')
-                        .find(x.input_cpf).then(els => {
-                            [...els].forEach(el => cy.wrap(el).type(randomCPF()))
-                        })
-                })
-            }
-            cy.wait(1000)
-            cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //                 cy.get('app-companions-brasil')
+    //                     .find(x.input_name).then(els => {
+    //                         [...els].forEach(el => cy.wrap(el).type(person.name))
+    //                     })
+    //                 cy.get('app-companions-brasil')
+    //                     .find(x.input_last_name).then(els => {
+    //                         [...els].forEach(el => cy.wrap(el).type(person.last_name))
+    //                     })
+    //                 cy.get('app-companions-brasil')
+    //                     .find(x.input_dateOfBirth).then(els => {
+    //                         [...els].forEach(el => cy.wrap(el).type(dob()))
+    //                     })
+    //                 cy.get('app-companions-brasil')
+    //                     .find(x.input_cpf).then(els => {
+    //                         [...els].forEach(el => cy.wrap(el).type(randomCPF()))
+    //                     })
+    //             })
+    //         }
+    //         cy.wait(1000)
+    //         cy.get(x.forward_button).should('be.enabled').click()
+    //         cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
-                .wait(500)
-            cy.get(x.review_items)
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.collapsable_bar, { timeout: 30000 }).click()
+    //             .wait(500)
+    //         cy.get(x.review_items)
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

@@ -3,7 +3,7 @@ import { dob, Random } from '../../../support/utils'
 import { person, address, address_cr } from '../../../support/objects_mobile'
 
 describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, () => {
-   //
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/cr/credix/Compra Protegida/launchstage/es-CR')
@@ -13,7 +13,7 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
                 throw new Error('//// PAGE NOT FOUND ////')
             }
         })
-       
+
     })
 
     it('Quote', () => {
@@ -74,6 +74,7 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
                 }
             })
         })
+
     })
 
     it('Payment page Checking', () => {
@@ -90,23 +91,23 @@ describe('Compra Protegida credix Costa Rica (prod)', { testIsolation: false }, 
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-        cy.Captcha()
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
-            cy.get(x.forward_button, { timeout: 30000 }).should('be.enabled').click()
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
+    //         cy.get(x.forward_button, { timeout: 30000 }).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

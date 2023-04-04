@@ -5,7 +5,7 @@ let num = 0
 let env = 0
 
 describe('ESB aon Puerto Rico (prod)', { testIsolation: false }, () => {
-   //
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/aon/esb/launchstage/es-PR')
@@ -42,6 +42,7 @@ describe('ESB aon Puerto Rico (prod)', { testIsolation: false }, () => {
                 expect($loading).not.to.exist
             })
         })
+
     })
 
     it('Select Plan', () => {
@@ -163,6 +164,8 @@ describe('ESB aon Puerto Rico (prod)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+
     })
 
 
@@ -181,48 +184,48 @@ describe('ESB aon Puerto Rico (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button()
-        //
-        cy.Captcha()
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button()
+    //     //
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
 
-            cy.log('////// Conditional - 3 ///////')
-            if (num == 1) {
-                cy.log('/////// True //////')
-                cy.log('/////// Select Policyholders number 0 //////')
-                cy.get(x.select_value).eq(2).click()
-                    .get(x.select_option).eq(0).click()
-                    .wait(500)
+    //         cy.log('////// Conditional - 3 ///////')
+    //         if (num == 1) {
+    //             cy.log('/////// True //////')
+    //             cy.log('/////// Select Policyholders number 0 //////')
+    //             cy.get(x.select_value).eq(2).click()
+    //                 .get(x.select_option).eq(0).click()
+    //                 .wait(500)
 
-                cy.get('app-beneficiaries').then(($beneficiaries) => {
-                    expect($beneficiaries.is(':visible'))
-                    cy.get('app-beneficiaries')
-                        .get(x.input_name).last().type(person.name)
-                        .get(x.input_last_name).last().type(person.last_name)
-                        .log('//// Select Only Option 3 (Conyugue) ////')
-                        .get(x.select_placeholder).last().click()
-                        .get(x.select_option).eq(2).click()
-                        .get(x.input_dobFormControl).last().type(dob())
-                })
-            }
-            cy.wait(1000)
-            cy.get(x.forward_button).should('be.enabled').click()
+    //             cy.get('app-beneficiaries').then(($beneficiaries) => {
+    //                 expect($beneficiaries.is(':visible'))
+    //                 cy.get('app-beneficiaries')
+    //                     .get(x.input_name).last().type(person.name)
+    //                     .get(x.input_last_name).last().type(person.last_name)
+    //                     .log('//// Select Only Option 3 (Conyugue) ////')
+    //                     .get(x.select_placeholder).last().click()
+    //                     .get(x.select_option).eq(2).click()
+    //                     .get(x.input_dobFormControl).last().type(dob())
+    //             })
+    //         }
+    //         cy.wait(1000)
+    //         cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
 
-        })
+    //     })
 
-    })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

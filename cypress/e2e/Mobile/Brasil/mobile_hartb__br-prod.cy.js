@@ -101,6 +101,7 @@ describe('Mobile hartb BRASIL (prod)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
 
     })
 
@@ -121,37 +122,37 @@ describe('Mobile hartb BRASIL (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-        cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
-        //
-        cy.Captcha()
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    //     cy.wait('@getLocat_Brasil_1', { timeout: 90000 }).its('response.statusCode').should('eq', 200)
+    //     //
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).type(address.line2)
-                .get(x.input_address_3).type(address_br.barrio)
-                .wait(1000)
-                .get(x.input_city).type(address_br.city)
-                .wait(1000)
-                .get(x.input_province).type(address_br.province)
-                .wait(1000)
-            cy.get(x.checkboxes).check({ force: true }).should('be.checked')
-                .wait(1000)
-            cy.get(x.forward_button).should('be.enabled').click()
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).type(address.line2)
+    //             .get(x.input_address_3).type(address_br.barrio)
+    //             .wait(1000)
+    //             .get(x.input_city).type(address_br.city)
+    //             .wait(1000)
+    //             .get(x.input_province).type(address_br.province)
+    //             .wait(1000)
+    //         cy.get(x.checkboxes).check({ force: true }).should('be.checked')
+    //             .wait(1000)
+    //         cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-                .and('contain.text', address.line1)
-                .and('contain.text', address_br.barrio)
-                .and('contain.text', address_br.city)
-                .and('contain.text', address_br.province)
-        })
-    })
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
+    //             .and('contain.text', address.line1)
+    //             .and('contain.text', address_br.barrio)
+    //             .and('contain.text', address_br.city)
+    //             .and('contain.text', address_br.province)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

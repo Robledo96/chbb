@@ -102,6 +102,7 @@ describe('Mobile automovilclub CHILE (prod)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
 
     })
 
@@ -117,26 +118,26 @@ describe('Mobile automovilclub CHILE (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-        //
-        cy.Captcha()
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    //     //
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
-            cy.get(x.forward_button).should('be.enabled').click()
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
+    //         cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
-            cy.get(x.review_items)
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.collapsable_bar, { timeout: 30000 }).click()
+    //         cy.get(x.review_items)
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

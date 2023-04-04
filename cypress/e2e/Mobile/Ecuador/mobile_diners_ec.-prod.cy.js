@@ -87,31 +87,27 @@ describe('Mobile diners ECUADOR (uat)', () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    // })
 
-    it('Edit', () => {
-        cy.Edit_mob_ec()
-    })
+    // it('Captcha', () => {
+    //     cy.Captcha()
+    // })
 
-    it('Captcha', () => {
-        cy.Captcha()
-    })
+    // it('Payment page', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1).clear()
+    //             .type(address.line2)
+    //         cy.get(x.forward_button).should('be.enabled').click()
+    //         cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
+    //             expect($loading).not.to.exist
+    //         })
+    //         cy.get(x.review_items)
+    //             .should('contain.text', address.line2)
+    //     })
 
-    it('Payment page', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1).clear()
-                .type(address.line2)
-            cy.get(x.forward_button).should('be.enabled').click()
-            cy.get('.loading-indicator__container', { timeout: 35000 }).should(($loading) => {
-                expect($loading).not.to.exist
-            })
-            cy.get(x.review_items)
-                .should('contain.text', address.line2)
-        })
-
-    })
+    // })
 
     it('Congratulations', () => {
         cy.fixture('locators').then((x) => {

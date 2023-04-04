@@ -100,7 +100,24 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
                 }
             })
         })
-
+        it('Payment page Edit button click', () => {
+            cy.Edit_button() //Commands.js
+        })
+    
+        it('Edit', () => {
+            cy.fixture('locators').then((x) => {
+                cy.get(x.input_address_1, { timeout: 30000 }).clear()
+                    .type(address.line2)
+                cy.get(x.forward_button).should('be.enabled').click()
+    
+                cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+                cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    
+    
+                cy.get(x.review_items, { timeout: 30000 })
+                    .should('contain.text', address.line2)
+            })
+        })
     })
 
     it('Payment page Checking', () => {
@@ -118,22 +135,22 @@ describe('Residential colsubsidio COLOMBIA (uat)', { testIsolation: false }, () 
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
-            cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
+    //         cy.get(x.forward_button).should('be.enabled').click()
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

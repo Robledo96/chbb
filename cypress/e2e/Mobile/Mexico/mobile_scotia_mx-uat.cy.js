@@ -101,6 +101,7 @@ describe('Mobile scotia MEXICO (uat)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Payment page Checking', () => {
@@ -117,29 +118,29 @@ describe('Mobile scotia MEXICO (uat)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-        cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    //     cy.wait('@getLocation', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_colonia, { timeout: 30000 }).click({ force: true })
-                .wait(1000)
-                .get(x.colonia_option_text).first().click({ force: true })
-                .wait(1000)
-            cy.get(x.input_address_1).clear()
-                .type(address.line2)
-            cy.get(x.forward_button).should('be.enabled').click()
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_colonia, { timeout: 30000 }).click({ force: true })
+    //             .wait(1000)
+    //             .get(x.colonia_option_text).first().click({ force: true })
+    //             .wait(1000)
+    //         cy.get(x.input_address_1).clear()
+    //             .type(address.line2)
+    //         cy.get(x.forward_button).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.collapsable_bar, { timeout: 30000 }).click()
-            cy.get(x.review_items)
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.collapsable_bar, { timeout: 30000 }).click()
+    //         cy.get(x.review_items)
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

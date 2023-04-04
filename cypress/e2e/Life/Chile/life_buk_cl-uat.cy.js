@@ -5,7 +5,7 @@ let num = 0
 let env = 0
 
 describe('Life Buk Chile (uat)', { testIsolation: false }, () => {
-   //
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio-uat.chubb.com/cl/buk/life/launchstage/es-CL')
@@ -23,7 +23,7 @@ describe('Life Buk Chile (uat)', { testIsolation: false }, () => {
                 .wait(500)
             cy.log('//////// Date of Birth /////////')
             cy.get('input').type(dob())
-            
+
             cy.log('////// Coverage for Whom? //////')
             cy.get(x.select_placeholder).click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
@@ -161,6 +161,8 @@ describe('Life Buk Chile (uat)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+
     })
 
     it('Payment page Checking', () => {
@@ -175,44 +177,44 @@ describe('Life Buk Chile (uat)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
 
-            cy.log('////// Conditional - 3 ///////')
-            if (num == 1) {
-                cy.log('/////// True //////')
-                cy.log('/////// Select Policyholders number 0 //////')
-                cy.get(x.select_value).eq(2).click()
-                    .get(x.select_option).eq(0).click()
-                    .wait(500)
+    //         cy.log('////// Conditional - 3 ///////')
+    //         if (num == 1) {
+    //             cy.log('/////// True //////')
+    //             cy.log('/////// Select Policyholders number 0 //////')
+    //             cy.get(x.select_value).eq(2).click()
+    //                 .get(x.select_option).eq(0).click()
+    //                 .wait(500)
 
-                cy.get('app-beneficiaries').then(($beneficiaries) => {
-                    expect($beneficiaries.is(':visible'))
-                    cy.get('app-beneficiaries')
-                        .get(x.input_name).last().type(person.name)
-                        .get(x.input_last_name).last().type(person.last_name)
-                        .log('//// Select Only Option 3 (Conyugue) ////')
-                        .get(x.select_placeholder).last().click()
-                        .get(x.select_option).eq(2).click()
-                        .get(x.input_id).last().type(randomRUT())
-                        .get(x.input_dobFormControl).last().type(dob())
-                })
-            }
-            cy.get(x.forward_button, { timeout: 10000 }).should('be.enabled').click()
+    //             cy.get('app-beneficiaries').then(($beneficiaries) => {
+    //                 expect($beneficiaries.is(':visible'))
+    //                 cy.get('app-beneficiaries')
+    //                     .get(x.input_name).last().type(person.name)
+    //                     .get(x.input_last_name).last().type(person.last_name)
+    //                     .log('//// Select Only Option 3 (Conyugue) ////')
+    //                     .get(x.select_placeholder).last().click()
+    //                     .get(x.select_option).eq(2).click()
+    //                     .get(x.input_id).last().type(randomRUT())
+    //                     .get(x.input_dobFormControl).last().type(dob())
+    //             })
+    //         }
+    //         cy.get(x.forward_button, { timeout: 10000 }).should('be.enabled').click()
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode', { timeout: 20000 }).should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {

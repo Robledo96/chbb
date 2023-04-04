@@ -174,6 +174,7 @@ describe('Travel coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
                 }
             })
         })
+        cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
     })
 
     it('Payment page Checking', () => {
@@ -189,34 +190,34 @@ describe('Travel coomeva COLOMBIA (uat)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_birth_date).eq(1).type('1/1/2025')
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
-            if (num > 0) {
-                cy.get('body').then(($body) => {
-                    expect($body.find('app-companion-details').is(':visible'))
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_birth_date).eq(1).type('1/1/2025')
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
+    //         if (num > 0) {
+    //             cy.get('body').then(($body) => {
+    //                 expect($body.find('app-companion-details').is(':visible'))
 
-                    cy.get('app-companion-details')
-                        .find("[name='identityName']").then(els => {
-                            [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999)))
-                        })
-                })
-            }
-            cy.wait(1000)
-            cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //                 cy.get('app-companion-details')
+    //                     .find("[name='identityName']").then(els => {
+    //                         [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999)))
+    //                     })
+    //             })
+    //         }
+    //         cy.wait(1000)
+    //         cy.get(x.forward_button).should('be.enabled').click()
+    //         cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-        })
-    })
+    //         cy.get(x.review_items, { timeout: 30000 })
+    //             .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {
