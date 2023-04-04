@@ -12,13 +12,11 @@
     "cy_all:runEdgePROD": "cypress run --browser edge --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runFirefoxPROD": "cypress run --browser firefox --spec cypress/e2e/all_spec-PROD.cy.js",
     "cy_all:runChromiumPROD": "cypress run --browser chromium --spec cypress/e2e/all_spec-PROD.cy.js",
-    "": "",
     "cy_all:runUAT": "cypress run --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runChromeUAT": "cypress run --browser chrome --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runEdgeUAT": "cypress run --browser edge --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runFirefoxUAT": "cypress run --browser firefox --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runChromiumUAT": "cypress run --browser chromium --spec cypress/e2e/all_spec-UAT.cy.js",
-    "": "",
     "cy:runSPEC": "cypress run --spec cypress/e2e/spec.cy.js"
   },
   "keywords": [
@@ -28,7 +26,7 @@
   "author": "Lidibet Escobar",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^12.7.0",
+    "cypress": "^12.9.0",
     "cypress-mochawesome-reporter": "^3.2.3",
     "cypress-slow-down": "^1.2.1",
     "cypress-v10-preserve-cookie": "^1.2.1",
