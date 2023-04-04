@@ -56,7 +56,8 @@ var address_cr = {
 var panama = {
     nationality: "Panama",
     company: 'Copa Airlines',
-    place_of_income: "Panama" 
+    place_of_income: "Panama",
+    profession: 'Mecanico '
 }
 
 var address_ec = {

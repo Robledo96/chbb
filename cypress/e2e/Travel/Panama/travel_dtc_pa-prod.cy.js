@@ -1,11 +1,11 @@
 import 'cypress-iframe'
-import { person, address, address_pr, payment } from '../../../support/objects_mobile';
-import { dob_1 } from '../../../support/utils'
+import { person, address, panama, payment } from '../../../support/objects_mobile';
+import { Random, dob_1 } from '../../../support/utils'
 let num = 0
 let n = 0
 
-describe('Travel aatours Puerto Rico (prod)', { testIsolation: false }, () => {
-   //
+describe('Travel dtc Panama (prod)', { testIsolation: false }, () => {
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pa/dtc/travel/launchstage/es-PA')
@@ -88,23 +88,34 @@ describe('Travel aatours Puerto Rico (prod)', { testIsolation: false }, () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_name, { timeout: 30000 }).first().type(person.name)
                 .get(x.input_last_name).first().type(person.last_name)
+            cy.get(x.input_id).click().type(Random(1000000000, 1999999999))
+                .get('[name="nationality"]').type(panama.nationality)
+                .get(x.input_email).type(person.email)
+                .get('[name="mobileNumber"]').type(person.phone_1)
             cy.log('////// Gender /////')
                 .get(x.select_value).first().click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
-                .get(x.input_mobile).type(person.phone_1)
-                .get(x.input_email).type(person.email)
                 .get(x.input_address_1).type(address.line1)
-                .get(x.input_city).type(address_pr.city)
-                .get(x.input_zipcode).type(address_pr.zipcode)
+                .get('[name="profession"]').type(panama.profession)
+            cy.log('/////// Financial Profile ///////')
+            cy.get(x.select_placeholder).first().click()
+                .get(x.select_option).should('have.length.greaterThan', 0)
+                .its('length').then(($length) => {
+                    cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
+                })
+            cy.get('[name="countryIncomeTaxed"]').type(panama.place_of_income)
 
             cy.log('////// Travelers =', num, '///////')
             if (num > 0) {
                 cy.get('body').then(($body) => {
                     expect($body.find('app-companion-details').is(':visible'))
-
+                    cy.get('app-companion-details')
+                        .find('[name="identityName"]').then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999), { delay: 80 }))
+                        })
                     cy.get('app-companion-details')
                         .find(x.input_name).then(els => {
                             [...els].forEach(el => cy.wrap(el).type(person.name))
@@ -141,8 +152,6 @@ describe('Travel aatours Puerto Rico (prod)', { testIsolation: false }, () => {
                 .and('contain.text', person.phone_1)
                 .and('contain.text', person.email)
                 .and('contain.text', address.line1)
-                .and('contain.text', address_pr.city)
-                .and('contain.text', address_pr.zipcode)
         })
     })
 
@@ -156,6 +165,15 @@ describe('Travel aatours Puerto Rico (prod)', { testIsolation: false }, () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_address_1, { timeout: 30000 }).clear()
                 .type(address.line2)
+            if (num > 0) {
+                cy.get('body').then(($body) => {
+                    expect($body.find('app-companion-details').is(':visible'))
+                    cy.get('app-companion-details')
+                        .find('[name="identityName"]').then(els => {
+                            [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999), { delay: 80 }))
+                        })
+                })
+            }
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
             cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)

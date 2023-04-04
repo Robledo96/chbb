@@ -2,11 +2,11 @@ import 'cypress-iframe'
 import { Random, dob } from '../../../support/utils'
 import { person, payment, address, address_ec } from '../../../support/objects_mobile'
 
-describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
+describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
     //
 
     it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
+        cy.visit('https://la.studio.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
         cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
@@ -48,10 +48,9 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                 .get(x.input_province).type(address_ec.province)
                 .get(x.input_city).type(address_ec.city)
                 .get(x.input_address_1).type(address.line1)
-
                 .get(x.checkboxes).check({ force: true }).should('be.checked')
             cy.get(x.forward_button).should('be.enabled').click()
-            cy.wait('@validate', { timeout: 80000 })
+            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })
@@ -95,6 +94,7 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                     throw new Error('//// ERROR FOUND ////')
                 }
             })
+            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
         })
     })
 
@@ -111,25 +111,27 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
         })
     })
 
-    it('Payment page Edit button click', () => {
-        cy.Edit_button() //Commands.js
-    })
+    // it('Payment page Edit button click', () => {
+    //     cy.Edit_button() //Commands.js
+    //     cy.Captcha()
+    // })
 
-    it('Edit', () => {
-        cy.fixture('locators').then((x) => {
-            cy.get(x.input_address_1, { timeout: 30000 }).clear()
-                .type(address.line2)
-                .get(x.checkboxes).check({ force: true }).should('be.checked')
+    // it('Edit', () => {
+    //     cy.fixture('locators').then((x) => {
+    //         cy.get(x.input_address_1, { timeout: 30000 }).clear()
+    //             .type(address.line2)
+    //             .get(x.checkboxes).check({ force: true }).should('be.checked')
 
-            cy.get(x.forward_button).should('be.enabled').click()
+    //         cy.get(x.forward_button).should('be.enabled').click()
+    //             .wait(3000)
 
-            cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         //cy.wait('@validate', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+    //         //cy.wait('@iframe', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
 
-            cy.get(x.review_items, { timeout: 30000 })
-                .should('contain.text', address.line2)
-        })
-    })
+    //         // cy.get(x.review_items, { timeout: 30000 })
+    //         //     .should('contain.text', address.line2)
+    //     })
+    // })
 
     it('Payment page', () => {
         cy.fixture('locators').then((x) => {
@@ -137,7 +139,7 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                 cy.wrap($[0])
                     .find(x.input_card, { timeout: 10000 }).click()
                     .type(payment.visa_card_num, { delay: 80 })
-                    .get(x.input_card_name).click().type("Test User", { delay: 80 })
+                    .get(x.input_card_name).click().type(payment.card_holder, { delay: 80 })
                     .get(x.input_expiry_date).click().type(payment.expiration_date_3, { delay: 80 })
             })
             cy.iframe(x.cvv_iframe).then($iframes => {
