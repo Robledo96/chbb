@@ -70,7 +70,7 @@ import './Mobile/Argentina/mobile_amex_ar-prod.cy'
 
 //import './Mobile/Ecuador/mobile_olx_ec-prod.cy'
 
-import './Mobile/Mexico/mobile_heybanco_mx-prod.cy'
+//import './Mobile/Mexico/mobile_heybanco_mx-prod.cy'
 
 import './Mobile/Mexico/mobile_marsh_mx-prod.cy'
 
@@ -78,9 +78,9 @@ import './Mobile/Mexico/mobile_marsh_mx-prod.cy'
 
 //import './Mobile/Mexico/mobile_scotia_mx-prod.cy'
 
-import './Mobile/Colombia/mobile_cafam_co-prod.cy'
+//import './Mobile/Colombia/mobile_cafam_co-prod.cy'
 
-import './Mobile/Colombia/mobile_colsubsidio_co-prod.cy'
+//import './Mobile/Colombia/mobile_colsubsidio_co-prod.cy'
 
 import './Mobile/Colombia/mobile_falabella_co-prod.cy'
 
