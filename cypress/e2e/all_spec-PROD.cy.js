@@ -2,7 +2,7 @@ import './Cyber/Mexico/cyber_rappi_mx-prod.cy'
 
 import './ESB/Puerto Rico/esb_aon_pr-prod.cy'
 
-import './HC/Colombia/hc_coomeva_co-prod.cy'
+//import './HC/Colombia/hc_coomeva_co-prod.cy'
 
 import './HC/Mexico/hc_rappi_mx-prod.cy'
 
