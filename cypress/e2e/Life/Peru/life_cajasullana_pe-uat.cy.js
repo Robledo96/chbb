@@ -103,6 +103,10 @@ describe('Life cajasullana PERU (uat)', { testIsolation: false }, () => {
                                             }))
                                     })
                                 cy.get('app-beneficiaries')
+                                    .find('[name = "identityCard"]').then(els => {
+                                        [...els].forEach(el => cy.wrap(el).type(Random(1000000000, 1999999999)))
+                                    })
+                                cy.get('app-beneficiaries')
                                     .find(x.input_dobFormControl).then(els => {
                                         [...els].forEach(el => cy.wrap(el).type(dob_2()))
                                     })

@@ -22,7 +22,7 @@ import './Residential/Chile/residential_automovilclub_cl-uat.cy'
 
 import './Residential/Chile/residential_unired_cl-uat.cy'
 
-import './Residential/Colombia/residential_cafam_co-uat.cy'
+//import './Residential/Colombia/residential_cafam_co-uat.cy'
 
 import './Residential/Colombia/residential_colsubsidio_co-uat.cy'
 

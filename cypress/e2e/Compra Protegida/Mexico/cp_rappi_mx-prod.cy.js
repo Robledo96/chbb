@@ -6,7 +6,7 @@ describe('Compra Protegida rappi MEXICO (prod)', { testIsolation: false }, () =>
     //
     //Page 1
     it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/mx/rappi/Compra Protegida/launchstage/es-MX')
+        cy.visit('https://la.studio.chubb.com/mx/rappi/compraprotegida/launchstage/es-MX')
         cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
@@ -18,6 +18,8 @@ describe('Compra Protegida rappi MEXICO (prod)', { testIsolation: false }, () =>
 
     it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).should('be.enabled').click()
+        cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+
         cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
             expect($loading).not.to.exist
         })

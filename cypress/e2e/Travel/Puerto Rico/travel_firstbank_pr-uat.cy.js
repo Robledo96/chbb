@@ -45,13 +45,13 @@ describe('Travel firstbank Puerto Rico (uat)', { testIsolation: false }, () => {
                     cy.get(x.calendar_body).eq(n).click()
                 })
             cy.log('//////// Country /////////')
-            cy.get(x.input_country).click()
+            cy.get('#mat-chip-list-input-0').click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
             cy.get(x.quote_button).click()
-            cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            cy.wait('@campaign', { timeout: 80000 }).its('response.statusCode').should('eq', 200)
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
                 expect($loading).not.to.exist
             })

@@ -6,7 +6,7 @@ describe('Compra Protegida itesm MEXICO (uat)', { testIsolation: false }, () => 
     //
     //Page 1
     it('Visit', () => {
-        cy.visit('https://la.studio-uat.chubb.com/mx/itesm/Compra Protegida/launchstage/es-MX/details')
+        cy.visit('https://la.studio-uat.chubb.com/mx/itesm/compraprotegida/launchstage/es-MX/details')
         cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
@@ -18,6 +18,7 @@ describe('Compra Protegida itesm MEXICO (uat)', { testIsolation: false }, () => 
 
     it('Quote', () => {
         cy.get('.hero-banner__button', { timeout: 30000 }).should('be.enabled').click()
+        cy.wait('@campaign', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
         cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
             expect($loading).not.to.exist
         })

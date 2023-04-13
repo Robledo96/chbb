@@ -1,5 +1,6 @@
 var month = 0;
 var day = 0;
+var day1 = 0;
 var year = 0;
 // Function generates random
 function Random(min, max) {
@@ -11,9 +12,9 @@ function Random(min, max) {
 // Function generates date of birth random day/month/year
 function dob() {
     month = Random(10, 12);
-    day = month === 11 ? Random(10, 30) : Random(10, 31);
+    day1 = month === 11 ? Random(11, 30) : Random(11, 31);
     year = Random(1990, 2000);
-    return day + '/' + month + '/' + year
+    return day1 + '/' + month + '/' + year
 }
 
 function randomExpression() {
@@ -28,9 +29,13 @@ function randomExpression() {
     return resultado;
 }
 //Function generate random RFC
+function randomRFC1() {
+    var year2 = (year.toString()).substr(-2);
+    return "AUCT" + year2 + month + (day1 - 1) + randomExpression()
+}
 function randomRFC() {
     var year2 = (year.toString()).substr(-2);
-    return "AUCT" + year2 + month + day + randomExpression()
+    return "AUCT" + year2 + month + day1 + randomExpression()
 }
 
 // Function generates date of birth random month/day/year
@@ -148,6 +153,7 @@ export {
     dob_2,
     Random,
     randomRFC,
+    randomRFC1,
     randomRUT,
     randomDNI,
     randomCPF
