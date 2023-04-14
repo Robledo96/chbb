@@ -1,4 +1,5 @@
 import 'cypress-iframe'
+import { Random } from '../../../support/utils';
 import { person, address, address_pr, payment } from '../../../support/objects_mobile';
 import { dob_1 } from '../../../support/utils'
 let num = 0
@@ -99,6 +100,7 @@ describe('Travel torresyrodriguez Puerto Rico (prod)', { testIsolation: false },
                 .get(x.input_address_1).type(address.line1)
                 .get(x.input_city).type(address_pr.city)
                 .get(x.input_zipcode).type(address_pr.zipcode)
+                .get('[name="SellerId"]').type(Random(100000, 999999))
 
             cy.log('////// Travelers =', num, '///////')
             if (num > 0) {
@@ -115,7 +117,7 @@ describe('Travel torresyrodriguez Puerto Rico (prod)', { testIsolation: false },
                         })
                 })
             }
-            cy.wait(3000)
+            cy.wait(1000)
             cy.get(x.forward_button).should('be.enabled').click()
             cy.wait('@validate', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
