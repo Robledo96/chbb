@@ -1,5 +1,5 @@
 import 'cypress-iframe'
-import { dob, randomRFC1 } from '../../../support/utils'
+import { dob, randomRFC } from '../../../support/utils'
 import { person, payment, address, address_mx, } from '../../../support/objects_mobile'
 
 describe('Life betterfly MEXICO (uat)', { testIsolation: false }, () => {
@@ -36,7 +36,7 @@ describe('Life betterfly MEXICO (uat)', { testIsolation: false }, () => {
         cy.fixture('locators').then((x) => {
             cy.get(x.input_name, { timeout: 30000 }).type(person.name)
                 .get(x.input_last_name).type(person.last_name)
-                .get(x.input_id).click().type(randomRFC1()).wait(500)//'ANML891018J47'
+                .get(x.input_id).click().type(randomRFC()).wait(500)//'ANML891018J47'
             cy.get(x.select_value_1).click()
                 .get(x.select_option).should('have.length.greaterThan', 0)
                 .its('length').then(($length) => {
@@ -73,7 +73,7 @@ describe('Life betterfly MEXICO (uat)', { testIsolation: false }, () => {
                             cy.log(counter)
                             cy.log('///// Duplicate ID /////')
                             cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).clear().type(randomRFC1()).wait(1000)
+                            cy.get(x.input_id).clear().type(randomRFC()).wait(1000)
                             cy.get(x.forward_button).should('be.enabled').click()
 
                             cy.wait('@validate', { timeout: 40000 })
