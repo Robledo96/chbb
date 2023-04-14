@@ -150,24 +150,24 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
             })
             cy.wait(2000)
             cy.get('.mat-radio-inner-circle').click()
-            // cy.get(x.forward_button).should('be.enabled').click()
+            cy.get(x.forward_button).should('be.enabled').click()
 
-            // cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
-            //     cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
-            //         expect($loading).not.to.exist
-            //     })
+            cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+                cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+                    expect($loading).not.to.exist
+                })
         })
     })
-    // it('Thankyou', () => {
-    //     cy.url().then(($url) => {
-    //         expect($url).to.contain('/thankyou')
-    //     })
+    it('Thankyou', () => {
+        cy.url().then(($url) => {
+            expect($url).to.contain('/thankyou')
+        })
 
-    //     cy.get('.thank-you__policy-content__code').invoke('text').then(text => {
-    //         let code = text + '\n'
-    //         cy.writeFile('cypress/e2e/AH/policy_code-AH.txt', code, { flag: 'a+' })
-    //     })
-    // })
+        cy.get('.thank-you__policy-content__code').invoke('text').then(text => {
+            let code = text + '\n'
+            cy.writeFile('cypress/e2e/AH/policy_code-AH.txt', code, { flag: 'a+' })
+        })
+    })
 
 })
 
