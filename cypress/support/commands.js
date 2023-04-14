@@ -50,11 +50,11 @@ Cypress.Commands.add('Captcha', () => {
     })
 })
 //Edit button click
-Cypress.Commands.add('Edit_button', () => {
-    cy.fixture('locators').then((x) => {
-        cy.get(x.edit_button).click() //edit button
-    })
-})
+// Cypress.Commands.add('Edit_button', () => {
+//     cy.fixture('locators').then((x) => {
+//         cy.get(x.edit_button).click() //edit button
+//     })
+// })
 //Select PLan
 Cypress.Commands.add('Plan', () => {
     cy.fixture('locators').then((x) => {

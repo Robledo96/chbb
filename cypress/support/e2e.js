@@ -41,6 +41,13 @@ beforeEach(function () {
         this.skip()
     }
 })
+//     Cypress.on('uncaught:exception', (err, runnable) => {
+//         if (err.message.includes('replace')) {
+//             return false;
+//         }
+//     });
+
+
 
 
 

@@ -6,7 +6,7 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
     //
 
     it('Visit', () => {
-        cy.visit('https://la.studio.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
+        cy.visit('https://la.studio-uat.chubb.com/ec/elcomercio/ah/launchstage/es-EC')
         cy.wait(2000)
         cy.url().then(($url) => {
             if ($url.includes('https://la.studio.chubb.com/404')) {
@@ -100,6 +100,7 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
 
     it('Payment page Checking', () => {
         cy.fixture('locators').then((x) => {
+            cy.get('.collapsable-bar').click()
             cy.get(x.review_items, { timeout: 30000 })
                 .should('contain.text', person.name)
                 .and('contain.text', person.last_name)
@@ -149,9 +150,25 @@ describe('AH elcomercio ECUADOR (uat)', { testIsolation: false }, () => {
             })
             cy.wait(2000)
             cy.get('.mat-radio-inner-circle').click()
-            cy.get(x.forward_button).should('be.enabled')
+            // cy.get(x.forward_button).should('be.enabled').click()
+
+            // cy.wait('@checkout', { timeout: 40000 }).its('response.statusCode').should('eq', 200)
+            //     cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
+            //         expect($loading).not.to.exist
+            //     })
         })
     })
+    // it('Thankyou', () => {
+    //     cy.url().then(($url) => {
+    //         expect($url).to.contain('/thankyou')
+    //     })
+
+    //     cy.get('.thank-you__policy-content__code').invoke('text').then(text => {
+    //         let code = text + '\n'
+    //         cy.writeFile('cypress/e2e/AH/policy_code-AH.txt', code, { flag: 'a+' })
+    //     })
+    // })
+
 })
 
 

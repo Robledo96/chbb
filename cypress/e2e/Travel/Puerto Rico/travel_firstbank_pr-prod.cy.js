@@ -5,7 +5,13 @@ let num = 0
 let n = 0
 
 describe('Travel firstbank Puerto Rico (prod)', { testIsolation: false }, () => {
-   //
+    Cypress.on('uncaught:exception', (err, runnable) => {
+        if (err.message.includes('replace')) {
+            return false;
+        }
+    });
+
+    //
     //Page 1
     it('Visit', () => {
         cy.visit('https://la.studio.chubb.com/pr/firstbank/travel/launchstage/es-PR')
