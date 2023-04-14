@@ -43,7 +43,7 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                 .its('length').then(($length) => {
                     cy.get(x.select_option).eq(Cypress._.random($length - 1)).click()
                 })
-                .get(x.input_id).type(Random(1000000000, 1999999999))//'1896297523'
+                .get(x.input_id).type(Random(1000000000, 1999999999), { delay: 80 })
                 .get(x.input_mobile).type(person.phone_1)
                 .get(x.input_email).type(person.email)
                 .get(x.input_province).type(address_ec.province)
@@ -56,7 +56,7 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                 expect($loading).not.to.exist
             })
 
-            cy.wait(1000)
+            cy.wait(2000)
             cy.get('body').then(($body) => {
                 if ($body.find('app-applicant-details').is(':visible')) {
                     if ($body.find('mat-error').is(':visible')) {
@@ -66,7 +66,7 @@ describe('AH elcomercio ECUADOR (prod)', { testIsolation: false }, () => {
                             cy.log(counter)
                             cy.log('///// Duplicate ID /////')
                             cy.log('////// Changing ID /////')
-                            cy.get(x.input_id).clear().type(Random(1000000000, 1999999999)).wait(1000)
+                            cy.get(x.input_id).clear().type(Random(1000000000, 1999999999), { delay: 80 }).wait(1000)
                             cy.get(x.forward_button).should('be.enabled').click()
                             cy.wait('@validate', { timeout: 80000 })
                             cy.get('.loading-indicator__container', { timeout: 40000 }).should(($loading) => {
