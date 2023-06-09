@@ -17,7 +17,7 @@
     "cy_all:runEdgeUAT": "cypress run --browser edge --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runFirefoxUAT": "cypress run --browser firefox --spec cypress/e2e/all_spec-UAT.cy.js",
     "cy_all:runChromiumUAT": "cypress run --browser chromium --spec cypress/e2e/all_spec-UAT.cy.js",
-    "cy:runSPEC": "cypress run --spec cypress/e2e/spec.cy.js"
+    "cy:runSPEC": "cypress run --spec cypress/e2e/AH/Ecuador/ah_elcomercio_ec-prod.cy.js"
   },
   "keywords": [
     "qa",
